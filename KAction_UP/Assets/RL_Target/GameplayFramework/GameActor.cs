@@ -20,6 +20,7 @@ namespace GameplayFramework
         }
 
         protected virtual void AwakeActor() { }
+        protected virtual IEnumerator StartActorAsync() { yield return null; }
         protected virtual void UpdateActor(float dt, float fixedDt) { }
         protected virtual void UpdateActorPhysics(float dt, float fixedDt) { }
         protected virtual void OnEditorUpdate() { ReloadComponents(); }
@@ -208,6 +209,11 @@ namespace GameplayFramework
             }
 
             gameMan_Core = FindObjectOfType<GameManager>();
+        }
+
+        private void Start()
+        {
+            StartCoroutine(StartActorAsync());
         }
 
         private void OnEnable()
