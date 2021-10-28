@@ -14,16 +14,19 @@ namespace GameplayFramework
     {
         [SerializeField] List<GameSystem> allSystems = new List<GameSystem>();
         [SerializeField] bool asyncWaitForInit = false;
-        protected virtual void OnGameStart() { }
-        protected abstract bool WhenGameStarts();
-        protected abstract bool WhenGameEnds();
-        bool gameStarted = false, gameEnded = false;
-        public bool HasGameBeenStarted { get { return gameStarted; } }
-        public bool HasGameBeenEnded { get { return gameEnded; } }
+        protected virtual void OnGameplayStart() { }
+        protected abstract bool WhenGameplayStarts();
+        protected abstract bool WhenGameplayEnds();
+        bool gameStarted = false, gameplayEnded = false;
+        public bool HasGameplayBeenStarted { get { return gameStarted; } }
+        public bool HasGameplayBeenEnded { get { return gameplayEnded; } }
         protected virtual void AwakeGameManager() { }
         protected virtual void InitAllGameSystems() { }
         protected virtual void UpdateGameManager() { }
-        public UnityEvent OnAwakeGameManager, OnInitAllGameSystems, OnStartGameplay, OnEndGame;
+        protected virtual IEnumerator OnStartCutScene() { yield return null; }
+        protected virtual IEnumerator OnEndCutScene() { yield return null; }
+        [SerializeField] UnityEvent onAwakeGameManager, onInitAllGameSystems, onStartGameplay, onEndGameplay;
+        public OnDoAnything OnAwakeGameManager, OnInitAllGameSystems, OnStartGameplay, OnEndGameplay;
 
         void ReloadSysData()
         {
@@ -76,6 +79,7 @@ namespace GameplayFramework
         {
             ReloadSysData();
             AwakeGameManager();
+            onAwakeGameManager?.Invoke();
             OnAwakeGameManager?.Invoke();
             if (allSystems.Count > 0)
             {
@@ -102,32 +106,37 @@ namespace GameplayFramework
             }
 
             InitAllGameSystems();
+            onInitAllGameSystems?.Invoke();
             OnInitAllGameSystems?.Invoke();
 
             while (true)
             {
-                if (WhenGameStarts())
+                if (WhenGameplayStarts())
                 {
                     break;
                 }
-
                 yield return null;
             }
 
-            OnGameStart();
+            yield return StartCoroutine(OnStartCutScene());
+
+            OnGameplayStart();
+            onStartGameplay?.Invoke();
             OnStartGameplay?.Invoke();
             gameStarted = true;
 
             while (true)
             {
-                if (WhenGameEnds())
+                if (WhenGameplayEnds())
                 {
                     break;
                 }
                 yield return null;
             }
-            OnEndGame?.Invoke();
-            gameEnded = true;
+            onEndGameplay?.Invoke();
+            OnEndGameplay?.Invoke();
+            gameplayEnded = true;
+            StartCoroutine(OnEndCutScene());
         }
 
         // Update is called once per frame

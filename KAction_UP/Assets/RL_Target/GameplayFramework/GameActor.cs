@@ -12,15 +12,18 @@ namespace GameplayFramework
 {
     public abstract class GameActor : MonoBehaviour
     {
-        protected virtual void StartOrSpawnActor() 
+        protected virtual void OnStartOrSpawnActor() 
         { 
             life = initialLife; 
             isDead = false;
+            beganDeath = false;
+            onStartOrSpawn?.Invoke();
             OnStartOrSpawn?.Invoke();
         }
 
         protected virtual void AwakeActor() { }
         protected virtual IEnumerator StartActorAsync() { yield return null; }
+        protected virtual IEnumerator OnBeginDeathAsync() { yield return null; }
         protected virtual void UpdateActor(float dt, float fixedDt) { }
         protected virtual void UpdateActorPhysics(float dt, float fixedDt) { }
         protected virtual void OnEditorUpdate() { ReloadComponents(); }
@@ -30,21 +33,25 @@ namespace GameplayFramework
         public GameObject _GameObject { get { return _gameObject; } }
 
         [SerializeField] List<GameplayComponent> gameplayComponents;
-        bool componentListDirty = false;
+        [SerializeField] float life = 100f;
+        [SerializeField] float timeScale = 1.0f;
+        [SerializeField] UnityEvent onStartOrSpawn, onStartDeath, onDeath;
+        [SerializeField] UnityEvent<float> onDamage, onGainHealth;
+        public OnDoAnything OnStartOrSpawn, OnStartDeath, OnDeath;
+        public UnityEvent<float> OnDamage, OnGainHealth;
+
+        bool componentListDirty = false, isDead = false, beganDeath = false, gameplayRun = false;
         Transform _transform;
         GameObject _gameObject;
-        [SerializeField] float life = 100f;
-        bool isDead = false;
-        [SerializeField] float timeScale = 1.0f;
         float initialLife;
         GameManager gameMan_Core;
-
-        public UnityEvent OnStartOrSpawn, OnDeath;
-        public UnityEvent<float> OnDamage, OnGainHealth;
+        GameActor owner = null;
+        
         public float FullLife { get { return initialLife; } }
         public float CurrentLife { get { return life; } }
         public float NormalizedLifeValue { get { return life / initialLife; } }
         public bool IsDead { get { return isDead; } }
+        public bool DeathHasBegan { get { return beganDeath; } }
         public float TimeScale { get { return timeScale; } set { timeScale = value; } }
 
         public T GetGameplayComponent<T>() where T : GameplayComponent
@@ -129,34 +136,47 @@ namespace GameplayFramework
             }
         }
 
-        public void DoDamage(float damage)
+        public void Damage(float damage)
         {
+            if (isDead || beganDeath) { return; }
             var dm = Mathf.Abs(damage);
-            if (isDead) { return; }
             this.life -= dm;
+            onDamage?.Invoke(dm);
             OnDamage?.Invoke(dm);
             if (this.life <= 0f)
             {
-                isDead = true;
-                OnDeath?.Invoke();
-                _gameObject.SetActive(false);
+                beganDeath = true;
+                OnStartDeath?.Invoke();
+
+                StartCoroutine(BeginDeathCOR());
             }
         }
 
-        public void OneHitKill()
+        IEnumerator BeginDeathCOR()
         {
-            this.life = 0.0f;
-            OnDamage?.Invoke(life);
-            isDead = true;
-            OnDeath?.Invoke();
+            yield return StartCoroutine(OnBeginDeathAsync());
+            onDeath?.Invoke();
             _gameObject.SetActive(false);
+        }
+
+        public void Murder()
+        {
+            if (isDead || beganDeath) { return; }
+            this.life = 0.0f;
+            onDamage?.Invoke(life);
+            OnDamage?.Invoke(life);
+            beganDeath = true;
+            OnStartDeath?.Invoke();
+
+            StartCoroutine(BeginDeathCOR());
         }
 
         public void AddLife(float life)
         {
+            if (isDead || beganDeath) { return; }
             var lf = Mathf.Abs(life);
-            if (isDead) { return; }
             this.life += lf;
+            onGainHealth?.Invoke(lf);
             OnGainHealth?.Invoke(lf);
         }
 
@@ -185,12 +205,12 @@ namespace GameplayFramework
             componentListDirty = false;
         }
 
-        private void OnValidate()
+        void OnValidate()
         {
             OnEditorUpdate();
         }
 
-        private void Awake()
+        void Awake()
         {
             initialLife = life;
             _transform = transform;
@@ -203,40 +223,42 @@ namespace GameplayFramework
                 gameplayComponents[i].AwakeComponent();
             }
 
-            if (isDead)
-            {
-                OnDeath?.Invoke();
-            }
-
             gameMan_Core = FindObjectOfType<GameManager>();
+            gameMan_Core.OnStartGameplay += StartGameplay;
+            gameMan_Core.OnEndGameplay += EndGameplay;
         }
 
-        private void Start()
+        void StartGameplay() { gameplayRun = true; }
+        void EndGameplay() { gameplayRun = false; }
+
+        void Start()
         {
             StartCoroutine(StartActorAsync());
         }
 
-        private void OnEnable()
+        void OnEnable()
         {
-            StartOrSpawnActor();
+            OnStartOrSpawnActor();
             for (int i = 0; i < gameplayComponents.Count; i++)
             {
                 gameplayComponents[i].OnStartOrSpawnActor();
             }
         }
 
-        private void OnDisable()
+        void OnDisable()
         {
-            OnCleanupActor();
+            gameMan_Core.OnStartGameplay -= StartGameplay;
+            gameMan_Core.OnEndGameplay -= EndGameplay;
             for (int i = 0; i < gameplayComponents.Count; i++)
             {
                 gameplayComponents[i].OnCleanupComponent();
             }
+            OnCleanupActor();
         }
 
         void Update()
         {
-            if (gameMan_Core.HasGameBeenStarted == false || gameMan_Core.HasGameBeenEnded) { return; }
+            if (!gameplayRun) { return; }
 
             var dt = Time.deltaTime * timeScale;
             var fixedDt = Time.fixedDeltaTime;
@@ -249,10 +271,9 @@ namespace GameplayFramework
             }
         }
 
-        private void FixedUpdate()
+        void FixedUpdate()
         {
-            if (gameMan_Core.HasGameBeenStarted == false || gameMan_Core.HasGameBeenEnded) { return; }
-
+            if (!gameplayRun) { return; }
             var dt = Time.deltaTime * timeScale;
             var fixedDt = Time.fixedDeltaTime;
             UpdateActorPhysics(dt, fixedDt);

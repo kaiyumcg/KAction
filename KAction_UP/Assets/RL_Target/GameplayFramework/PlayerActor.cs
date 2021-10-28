@@ -14,11 +14,12 @@ namespace GameplayFramework
     public abstract class PlayerActor : GameActor
     {
         [Header("Player Actor Setting")]
-        public UnityEvent<int> OnUpdateScore;
         [SerializeField] bool useDeviceStorageForScore = false;
         [SerializeField] int initialScore;
         [SerializeField] int currentScore;
-        
+        [SerializeField] UnityEvent<int> onUpdateScore;
+        public OnDoAnything<int> OnUpdateScore;
+
         public abstract IPlayerController PlayerController { get; set; }
         public int Score { get { return currentScore; } }
         const string lastScoreIdentifier = "_Player_Last_Score_";
@@ -27,21 +28,39 @@ namespace GameplayFramework
         //todo we can actually save a set of commonly used data, playerDataAPI?
 
         GameManager gameMan;
+        bool addedController = false;
 
         protected override void OnEditorUpdate()
         {
             base.OnEditorUpdate();
         }
 
-        protected virtual void OnDisableActor() { }
-
-        private void OnDisable()
+        protected override void OnCleanupActor()
         {
-            if (gameMan.HasGameBeenStarted == false || gameMan.HasGameBeenEnded) { return; }
-            OnDisableActor();
+            if (gameMan.HasGameplayBeenStarted == false || gameMan.HasGameplayBeenEnded)
+            {
+                base.OnCleanupActor();
+            }
+            else
+            {
+                if (PlayerController != null)
+                {
+                    PlayerController.OnEndController(this);
+                }
+
+                if (addedController)
+                {
+                    gameMan.OnStartGameplay -= StartController;
+                }
+                base.OnCleanupActor();
+            }
+        }
+
+        void StartController()
+        {
             if (PlayerController != null)
             {
-                PlayerController.OnEndController(this);
+                PlayerController.OnStartController(this);
             }
         }
 
@@ -67,19 +86,15 @@ namespace GameplayFramework
             }
 
             gameMan = FindObjectOfType<GameManager>();
-            gameMan.OnStartGameplay.AddListener(() =>
-            {
-                if (PlayerController != null)
-                {
-                    PlayerController.OnStartController(this);
-                }
-            });
+            gameMan.OnStartGameplay += StartController;
+            addedController = true;
         }
 
         public void AddScore(int score)
         {
             var sc = Mathf.Abs(score);
             this.currentScore += sc;
+            onUpdateScore?.Invoke(score);
             OnUpdateScore?.Invoke(score);
 
             if (useDeviceStorageForScore)

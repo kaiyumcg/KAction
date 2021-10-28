@@ -13,17 +13,34 @@ namespace GameplayFramework
     public abstract class AIActor : GameActor
     {
         public abstract IAIController AI_Controller { get; set; }
-        protected virtual void OnDisableActor() { }
         GameManager gameMan;
+        bool addedController = false;
 
-        private void OnDisable()
+        protected override void OnCleanupActor()
         {
-            if (gameMan.HasGameBeenStarted == false || gameMan.HasGameBeenEnded) { return; }
+            if (gameMan.HasGameplayBeenStarted == false || gameMan.HasGameplayBeenEnded)
+            {
+                base.OnCleanupActor();
+            }
+            else
+            {
+                if (AI_Controller != null)
+                {
+                    AI_Controller.OnEndController(this);
+                }
+                if (addedController)
+                {
+                    gameMan.OnStartGameplay -= StartController;
+                }
+                base.OnCleanupActor();
+            }
+        }
 
-            OnDisableActor();
+        void StartController()
+        {
             if (AI_Controller != null)
             {
-                AI_Controller.OnEndController(this);
+                AI_Controller.OnStartController(this);
             }
         }
 
@@ -31,13 +48,8 @@ namespace GameplayFramework
         {
             base.AwakeActor();
             gameMan = FindObjectOfType<GameManager>();
-            gameMan.OnStartGameplay.AddListener(() =>
-            {
-                if (AI_Controller != null)
-                {
-                    AI_Controller.OnStartController(this);
-                }
-            });
+            gameMan.OnStartGameplay += StartController;
+            addedController = true;
         }
 
         protected override void UpdateActor(float dt, float fixedDt)
