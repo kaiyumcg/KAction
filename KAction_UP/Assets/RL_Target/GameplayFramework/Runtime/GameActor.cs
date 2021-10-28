@@ -20,25 +20,24 @@ namespace GameplayFramework
             onStartOrSpawn?.Invoke();
             OnStartOrSpawn?.Invoke();
         }
-
         protected virtual void AwakeActor() { }
         protected virtual IEnumerator StartActorAsync() { yield return null; }
         protected virtual IEnumerator OnBeginDeathAsync() { yield return null; }
         protected virtual void UpdateActor(float dt, float fixedDt) { }
         protected virtual void UpdateActorPhysics(float dt, float fixedDt) { }
-        protected virtual void OnEditorUpdate() { ReloadComponents(); }
+        internal virtual void OnEditorUpdate() { }
         protected virtual void OnCleanupActor() { }
 
         public Transform _Transform { get { return _transform; } }
         public GameObject _GameObject { get { return _gameObject; } }
 
-        [SerializeField] List<GameplayComponent> gameplayComponents;
-        [SerializeField] float life = 100f;
-        [SerializeField] float timeScale = 1.0f;
-        [SerializeField] UnityEvent onStartOrSpawn, onStartDeath, onDeath;
-        [SerializeField] UnityEvent<float> onDamage, onGainHealth;
+        [SerializeField] [HideInInspector] List<GameplayComponent> gameplayComponents;
+        [SerializeField] [HideInInspector] float life = 100f;
+        [SerializeField] [HideInInspector] float timeScale = 1.0f;
+        [SerializeField] [HideInInspector] UnityEvent onStartOrSpawn, onStartDeath, onDeath;
+        [SerializeField] [HideInInspector] UnityEvent<float> onDamage, onGainHealth;
         public OnDoAnything OnStartOrSpawn, OnStartDeath, OnDeath;
-        public UnityEvent<float> OnDamage, OnGainHealth;
+        public OnDoAnything<float> OnDamage, OnGainHealth;
 
         bool componentListDirty = false, isDead = false, beganDeath = false, gameplayRun = false;
         Transform _transform;
@@ -93,12 +92,22 @@ namespace GameplayFramework
             return result;
         }
 
-        void ReloadComponents()
+        internal void ReloadComponents()
         {
             if (gameplayComponents == null) { gameplayComponents = new List<GameplayComponent>(); }
             GatherGameplayComponents(transform, ref gameplayComponents);
             gameplayComponents.RemoveAll((comp) => { return comp == null; });
             if (gameplayComponents == null) { gameplayComponents = new List<GameplayComponent>(); }
+            var lst = new List<GameplayComponent>();
+            if (gameplayComponents.Count > 0)
+            {
+                for (int i = 0; i < gameplayComponents.Count; i++)
+                {
+                    var comp = gameplayComponents[i];
+                    if (lst.Contains(comp) == false) { lst.Add(comp); }
+                }
+            }
+            gameplayComponents = lst;
 
             void GatherGameplayComponents(Transform tr, ref List<GameplayComponent> compList)
             {
@@ -146,6 +155,7 @@ namespace GameplayFramework
             if (this.life <= 0f)
             {
                 beganDeath = true;
+                onStartDeath?.Invoke();
                 OnStartDeath?.Invoke();
 
                 StartCoroutine(BeginDeathCOR());
@@ -156,6 +166,7 @@ namespace GameplayFramework
         {
             yield return StartCoroutine(OnBeginDeathAsync());
             onDeath?.Invoke();
+            OnDeath?.Invoke();
             _gameObject.SetActive(false);
         }
 
@@ -166,6 +177,7 @@ namespace GameplayFramework
             onDamage?.Invoke(life);
             OnDamage?.Invoke(life);
             beganDeath = true;
+            onStartDeath?.Invoke();
             OnStartDeath?.Invoke();
 
             StartCoroutine(BeginDeathCOR());

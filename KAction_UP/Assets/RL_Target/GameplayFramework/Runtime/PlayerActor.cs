@@ -13,11 +13,10 @@ namespace GameplayFramework
 {
     public abstract class PlayerActor : GameActor
     {
-        [Header("Player Actor Setting")]
-        [SerializeField] bool useDeviceStorageForScore = false;
-        [SerializeField] int initialScore;
-        [SerializeField] int currentScore;
-        [SerializeField] UnityEvent<int> onUpdateScore;
+        [SerializeField] [HideInInspector] bool useDeviceStorageForScore = false;
+        [SerializeField] [HideInInspector] int initialScore;
+        [SerializeField] [HideInInspector] int currentScore;
+        [SerializeField] [HideInInspector] UnityEvent<int> onUpdateScore;
         public OnDoAnything<int> OnUpdateScore;
 
         public abstract IPlayerController PlayerController { get; set; }
@@ -29,11 +28,6 @@ namespace GameplayFramework
 
         GameManager gameMan;
         bool addedController = false;
-
-        protected override void OnEditorUpdate()
-        {
-            base.OnEditorUpdate();
-        }
 
         protected override void OnCleanupActor()
         {
