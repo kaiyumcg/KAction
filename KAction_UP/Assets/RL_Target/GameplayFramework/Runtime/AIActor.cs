@@ -10,17 +10,17 @@ using UnityEngine.AI;
 /// </summary>
 namespace GameplayFramework
 {
-    public abstract class AIActor : GameActor
+    public abstract class AIActor : Actor
     {
         public abstract IAIController AI_Controller { get; set; }
         GameManager gameMan;
         bool addedController = false;
 
-        protected override void OnCleanupActor()
+        protected override void OnCleanup()
         {
             if (gameMan.HasGameplayBeenStarted == false || gameMan.HasGameplayBeenEnded)
             {
-                base.OnCleanupActor();
+                base.OnCleanup();
             }
             else
             {
@@ -32,7 +32,7 @@ namespace GameplayFramework
                 {
                     gameMan.OnStartGameplay -= StartController;
                 }
-                base.OnCleanupActor();
+                base.OnCleanup();
             }
         }
 
@@ -44,9 +44,9 @@ namespace GameplayFramework
             }
         }
 
-        protected override void AwakeActor()
+        protected override void OnStart()
         {
-            base.AwakeActor();
+            base.OnStart();
             gameMan = FindObjectOfType<GameManager>();
             gameMan.OnStartGameplay += StartController;
             addedController = true;

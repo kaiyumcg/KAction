@@ -7,7 +7,7 @@ namespace GameplayFramework
 {
     [CustomEditor(typeof(PlayerActor), true)]
     [CanEditMultipleObjects]
-    public class PlayerActorEditor : GameActorEd
+    public class PlayerActorEditor : ActorEditor
     {
         SerializedProperty useDeviceStorageForScore_prop, initialScore_prop, currentScore_prop, onUpdateScore_prop;
 

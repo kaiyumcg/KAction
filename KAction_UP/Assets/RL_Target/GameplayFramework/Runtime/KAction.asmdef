@@ -2,7 +2,9 @@
     "name": "KAction",
     "rootNamespace": "",
     "references": [
-        "SaveDataMan"
+        "SaveDataMan",
+        "Textus.SerializeReferenceUI",
+        "DOTween.Modules"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

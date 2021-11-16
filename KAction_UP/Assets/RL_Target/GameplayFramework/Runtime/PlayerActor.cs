@@ -11,7 +11,7 @@ using UnityEngine.Events;
 /// </summary>
 namespace GameplayFramework
 {
-    public abstract class PlayerActor : GameActor
+    public abstract class PlayerActor : Actor
     {
         [SerializeField] [HideInInspector] bool useDeviceStorageForScore = false;
         [SerializeField] [HideInInspector] int initialScore;
@@ -29,11 +29,11 @@ namespace GameplayFramework
         GameManager gameMan;
         bool addedController = false;
 
-        protected override void OnCleanupActor()
+        protected override void OnCleanup()
         {
             if (gameMan.HasGameplayBeenStarted == false || gameMan.HasGameplayBeenEnded)
             {
-                base.OnCleanupActor();
+                base.OnCleanup();
             }
             else
             {
@@ -46,7 +46,7 @@ namespace GameplayFramework
                 {
                     gameMan.OnStartGameplay -= StartController;
                 }
-                base.OnCleanupActor();
+                base.OnCleanup();
             }
         }
 
@@ -58,9 +58,9 @@ namespace GameplayFramework
             }
         }
 
-        protected override void AwakeActor()
+        protected override void OnStart()
         {
-            base.AwakeActor();
+            base.OnStart();
             if (useDeviceStorageForScore)
             {
                 var diskValue_lastScore = SaveDataManager.LoadInt(lastScoreIdentifier, -1);

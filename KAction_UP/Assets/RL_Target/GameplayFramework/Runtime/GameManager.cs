@@ -17,7 +17,7 @@ namespace GameplayFramework
         protected virtual void OnGameplayStart() { }
         protected abstract bool WhenGameplayStarts();
         protected abstract bool WhenGameplayEnds();
-        bool gameStarted = false, gameplayEnded = false;
+        bool gameStarted = false, gameplayEnded = false, isPlayingCutScene = false, isPaused = false;
         public bool HasGameplayBeenStarted { get { return gameStarted; } }
         public bool HasGameplayBeenEnded { get { return gameplayEnded; } }
         protected virtual void AwakeGameManager() { }
@@ -26,7 +26,12 @@ namespace GameplayFramework
         protected virtual IEnumerator OnStartCutScene() { yield return null; }
         protected virtual IEnumerator OnEndCutScene() { yield return null; }
         [SerializeField] UnityEvent onAwakeGameManager, onInitAllGameSystems, onStartGameplay, onEndGameplay;
-        public OnDoAnything OnAwakeGameManager, OnInitAllGameSystems, OnStartGameplay, OnEndGameplay;
+        public event OnDoAnything OnAwakeGameManager, OnInitAllGameSystems, OnStartGameplay, OnEndGameplay;
+
+        //todo handle timeline cutscene
+        //todo handle global pause or resume
+        //todo for that we need actor manager which handles execution of all actors
+        //we should have a default inspector editor UI to create default game systems whenever user adds a game manager or a button to do that!
 
         void ReloadSysData()
         {

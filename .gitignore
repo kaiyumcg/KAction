@@ -42,3 +42,5 @@ KAction_UP/UnityEngine.TestRunner.Player.csproj
 KAction_UP/UnityEngine.TestRunner.csproj
 KAction_UP/UnityEngine.UI.Player.csproj
 KAction_UP/UnityEngine.UI.csproj
+KAction_UP/obj/
+KAction_UP/.vs/

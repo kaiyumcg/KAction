@@ -6,4 +6,5 @@ namespace GameplayFramework
 {
     public delegate void OnDoAnything();
     public delegate void OnDoAnything<T>(T fValue);
+    public delegate void OnDoAnything<T1, T2>(T1 fValue1, T2 fValue2);
 }
