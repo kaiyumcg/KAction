@@ -77,12 +77,12 @@ namespace GameplayFramework
             return null;
         }
 
-        public T GetActorByTag<T>(ActorTag tag) where T : Actor
+        public T GetActorByTag<T>(GameplayTag tag) where T : Actor
         {
             return null;
         }
 
-        public List<T> GetActorsByTag<T>(ActorTag tag) where T : Actor
+        public List<T> GetActorsByTag<T>(GameplayTag tag) where T : Actor
         {
             return null;
         }
@@ -97,12 +97,12 @@ namespace GameplayFramework
             return null;
         }
 
-        public T GetActorByTag<T>(List<ActorTag> a_tags) where T : Actor
+        public T GetActorByTag<T>(List<GameplayTag> a_tags) where T : Actor
         {
             return null;
         }
 
-        public List<T> GetActorsByTag<T>(List<ActorTag> a_tags) where T : Actor
+        public List<T> GetActorsByTag<T>(List<GameplayTag> a_tags) where T : Actor
         {
             return null;
         }

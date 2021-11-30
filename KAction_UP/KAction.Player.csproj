@@ -54,10 +54,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\Editor\ActorEditor.cs" />
-    <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\ActorTag.cs" />
     <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\Data\CData.cs" />
     <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\AIActor.cs" />
+    <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\Tag\GTagAssetDefine.cs" />
     <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\IAIController.cs" />
+    <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\ActorManager.cs" />
     <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\PlayerActor.cs" />
     <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\Platforming\Data\PData.cs" />
     <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\DelegateDef.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\Platforming\Interface\IPlatformObstacleTask.cs" />
     <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\ReactorActor.cs" />
     <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\Ext\ActorExt.cs" />
+    <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\Tag\TestActor.cs" />
     <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\IPlayerController.cs" />
     <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\Actor.cs" />
     <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\Ext\DrawArrow.cs" />
@@ -72,9 +74,10 @@
     <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\Platforming\Actor\Obstacle.cs" />
     <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\Editor\ReactorActorEditor.cs" />
     <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\GameManager.cs" />
+    <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\Tag\GameplayTag.cs" />
     <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\Editor\PlayerActorEditor.cs" />
     <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\GameplayComponent.cs" />
-    <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\ActorManager.cs" />
+    <Compile Include="Assets\RL_Target\GameplayFramework\Runtime\Tag\Editor\GTagAssetDefineEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\RL_Target\GameplayFramework\Runtime\KAction.asmdef" />
@@ -274,6 +277,9 @@
     </Reference>
     <Reference Include="UnityEngine.XRModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.18f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\Variations\mono\Managed\UnityEngine.XRModule.dll</HintPath>
+    </Reference>
+    <Reference Include="XNodeEditor">
+      <HintPath>Library\ScriptAssemblies\XNodeEditor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
@@ -642,6 +648,10 @@
     <ProjectReference Include="DOTween.Modules.csproj">
       <Project>{C16665F1-D8A8-83C7-0367-B292A2E4A690}</Project>
       <Name>DOTween.Modules</Name>
+    </ProjectReference>
+    <ProjectReference Include="XNode.csproj">
+      <Project>{BA2087B4-B1C8-CBCF-23D7-8257BC1C0226}</Project>
+      <Name>XNode</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.UI.csproj">
       <Project>{760F9D3A-4243-62E6-3AD2-2427AE920F6A}</Project>

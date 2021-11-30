@@ -19,7 +19,7 @@ namespace GameplayFramework
         Actor owner = null;
 
         [SerializeField] bool isPlayer = false;
-        [SerializeField] List<ActorTag> tags = null;
+        [SerializeField] List<GameplayTag> tags = null;
         [SerializeField] private protected List<GameplayComponent> gameplayComponents;
         [SerializeField] internal List<Actor> childActors;
         [SerializeField] float life = 100f;
@@ -248,7 +248,7 @@ namespace GameplayFramework
             {
                 tags.RemoveAll((t) => { return t == null; });
             }
-            if (tags == null) { tags = new List<ActorTag>(); }
+            if (tags == null) { tags = new List<GameplayTag>(); }
 
             Born();
             OnStartOnce();
@@ -323,9 +323,9 @@ namespace GameplayFramework
             return found;
         }
 
-        public void AddUniqueTag(ActorTag tag)
+        public void AddUniqueTag(GameplayTag tag)
         {
-            if (tags == null) { tags = new List<ActorTag>(); }
+            if (tags == null) { tags = new List<GameplayTag>(); }
             if (tag == null) { return; }
             if (tags.Contains(tag) == false) { tags.Add(tag); }
         }

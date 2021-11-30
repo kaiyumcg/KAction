@@ -47,26 +47,41 @@
   <PropertyGroup>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <UnityProjectGenerator>Package</UnityProjectGenerator>
-    <UnityProjectGeneratorVersion>2.0.11</UnityProjectGeneratorVersion>
+    <UnityProjectGeneratorVersion>2.0.12</UnityProjectGeneratorVersion>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>2020.3.18f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\RL_Target\TP\DOTween\Modules\DOTweenModulePhysics.cs" />
-    <Compile Include="Assets\RL_Target\TP\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
-    <Compile Include="Assets\RL_Target\TP\DOTween\Modules\DOTweenModuleUI.cs" />
-    <Compile Include="Assets\RL_Target\TP\DOTween\Modules\DOTweenModuleSprite.cs" />
-    <Compile Include="Assets\RL_Target\TP\DOTween\Modules\DOTweenModuleAudio.cs" />
-    <Compile Include="Assets\RL_Target\TP\DOTween\Modules\DOTweenModulePhysics2D.cs" />
-    <Compile Include="Assets\RL_Target\TP\DOTween\Modules\DOTweenModuleEPOOutline.cs" />
-    <Compile Include="Assets\RL_Target\TP\DOTween\Modules\DOTweenModuleUtils.cs" />
+    <Compile Include="Assets\XN\LogicToy\Nodes\LogicNode.cs" />
+    <Compile Include="Assets\XN\RuntimeMathGraph\Scripts\UGUIContextMenu.cs" />
+    <Compile Include="Assets\XN\LogicToy\Nodes\AndNode.cs" />
+    <Compile Include="Assets\XN\RuntimeMathGraph\Scripts\UGUIPort.cs" />
+    <Compile Include="Assets\XN\RuntimeMathGraph\Scripts\RuntimeNodes\UGUIVector.cs" />
+    <Compile Include="Assets\XN\RuntimeMathGraph\Scripts\RuntimeNodes\UGUIMathNode.cs" />
+    <Compile Include="Assets\XN\MathGraph\Nodes\Vector.cs" />
+    <Compile Include="Assets\XN\RuntimeMathGraph\Scripts\RuntimeNodes\UGUIMathBaseNode.cs" />
+    <Compile Include="Assets\XN\StateMachine\StateGraph.cs" />
+    <Compile Include="Assets\XN\RuntimeMathGraph\Scripts\NodeDrag.cs" />
+    <Compile Include="Assets\XN\LogicToy\Nodes\ToggleNode.cs" />
+    <Compile Include="Assets\XN\RuntimeMathGraph\Scripts\RuntimeNodes\UGUIDisplayValue.cs" />
+    <Compile Include="Assets\XN\LogicToy\Nodes\NotNode.cs" />
+    <Compile Include="Assets\XN\LogicToy\ITimerTick.cs" />
+    <Compile Include="Assets\XN\RuntimeMathGraph\Scripts\Connection.cs" />
+    <Compile Include="Assets\XN\StateMachine\Nodes\StateNode.cs" />
+    <Compile Include="Assets\XN\MathGraph\Nodes\MathNode.cs" />
+    <Compile Include="Assets\XN\MathGraph\Nodes\DisplayValue.cs" />
+    <Compile Include="Assets\XN\LogicToy\LogicGraph.cs" />
+    <Compile Include="Assets\XN\RuntimeMathGraph\Scripts\UGUITooltip.cs" />
+    <Compile Include="Assets\XN\LogicToy\Nodes\PulseNode.cs" />
+    <Compile Include="Assets\XN\MathGraph\MathGraph.cs" />
+    <Compile Include="Assets\XN\RuntimeMathGraph\Scripts\RuntimeMathGraph.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\RL_Target\TP\DOTween\readme.txt" />
-    <None Include="Assets\RL_Target\TP\DOTween\DOTween.XML" />
-    <None Include="Assets\RL_Target\TP\Textus\SerializeReferenceUIExample\ExampleFolderCanBeSafelyRemoved.txt" />
-    <None Include="Assets\RL_Target\TP\DOTween\DOTween.dll" />
+    <None Include="Assets\RL_Target\GameplayFramework\ThirdParty\DOTween\readme.txt" />
+    <None Include="Assets\RL_Target\GameplayFramework\ThirdParty\DOTween\DOTween.XML" />
+    <None Include="Assets\RL_Target\GameplayFramework\ThirdParty\Textus\SerializeReferenceUIExample\ExampleFolderCanBeSafelyRemoved.txt" />
+    <None Include="Assets\RL_Target\GameplayFramework\ThirdParty\DOTween\DOTween.dll" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -264,26 +279,14 @@
     <Reference Include="UnityEngine.XRModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.18f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\Variations\mono\Managed\UnityEngine.XRModule.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.ShaderGraph.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.ShaderGraph.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.Universal.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualStudio.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Timeline.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Mathematics.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Searcher.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Searcher.Editor.dll</HintPath>
@@ -297,11 +300,26 @@
     <Reference Include="Unity.Rider.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.ShaderGraph.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.ShaderGraph.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Timeline.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="XNodeEditor">
+      <HintPath>Library\ScriptAssemblies\XNodeEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mathematics.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.dll</HintPath>
     </Reference>
     <Reference Include="DOTween">
-      <HintPath>Assets\RL_Target\TP\DOTween\DOTween.dll</HintPath>
+      <HintPath>Assets\RL_Target\GameplayFramework\ThirdParty\DOTween\DOTween.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.18f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\mscorlib.dll</HintPath>
@@ -653,10 +671,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="SaveDataMan.csproj">
-      <Project>{5C86E78E-BBEC-D843-7C38-BF2BA23E7792}</Project>
-      <Name>SaveDataMan</Name>
-    </ProjectReference>
     <ProjectReference Include="KAction.csproj">
       <Project>{8AE50CD8-06A6-AF49-54BE-97545998ABE1}</Project>
       <Name>KAction</Name>
@@ -669,17 +683,21 @@
       <Project>{47BFA3AF-28A2-3C31-2928-E1AB75E77F30}</Project>
       <Name>Unity.RenderPipelines.Universal.Runtime</Name>
     </ProjectReference>
-    <ProjectReference Include="Unity.RenderPipeline.Universal.ShaderLibrary.csproj">
-      <Project>{610F2F8A-0451-4E44-CF26-55B847D249DC}</Project>
-      <Name>Unity.RenderPipeline.Universal.ShaderLibrary</Name>
+    <ProjectReference Include="DOTween.Modules.csproj">
+      <Project>{C16665F1-D8A8-83C7-0367-B292A2E4A690}</Project>
+      <Name>DOTween.Modules</Name>
+    </ProjectReference>
+    <ProjectReference Include="Textus.SerializeReferenceUI.csproj">
+      <Project>{83498C0F-491B-B6E6-702B-2AB05E529AC9}</Project>
+      <Name>Textus.SerializeReferenceUI</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.Timeline.csproj">
       <Project>{2401E759-C13D-2D7C-4AD3-A2C15B0FF5E5}</Project>
       <Name>Unity.Timeline</Name>
     </ProjectReference>
-    <ProjectReference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.csproj">
-      <Project>{B5F54B7C-19F4-042D-277D-EDA6F33C5803}</Project>
-      <Name>Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary</Name>
+    <ProjectReference Include="SerializedReferenceExample.csproj">
+      <Project>{BE11ACB5-F4B2-71B1-394F-F4EBDCFD5A9C}</Project>
+      <Name>SerializedReferenceExample</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.TextMeshPro.csproj">
       <Project>{E55F757B-EE06-5FC6-6FF5-720D9C99BB01}</Project>
@@ -693,6 +711,10 @@
       <Project>{0F7B571A-1903-61C7-F4D5-1E578877A5F8}</Project>
       <Name>Unity.RenderPipelines.Core.ShaderLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="XNode.csproj">
+      <Project>{BA2087B4-B1C8-CBCF-23D7-8257BC1C0226}</Project>
+      <Name>XNode</Name>
+    </ProjectReference>
     <ProjectReference Include="UnityEngine.UI.csproj">
       <Project>{760F9D3A-4243-62E6-3AD2-2427AE920F6A}</Project>
       <Name>UnityEngine.UI</Name>
@@ -701,13 +723,17 @@
       <Project>{622B2984-C3E0-B2B0-392E-5A2396FE580D}</Project>
       <Name>Unity.Mathematics</Name>
     </ProjectReference>
-    <ProjectReference Include="Textus.SerializeReferenceUI.csproj">
-      <Project>{83498C0F-491B-B6E6-702B-2AB05E529AC9}</Project>
-      <Name>Textus.SerializeReferenceUI</Name>
+    <ProjectReference Include="SaveDataMan.csproj">
+      <Project>{5C86E78E-BBEC-D843-7C38-BF2BA23E7792}</Project>
+      <Name>SaveDataMan</Name>
     </ProjectReference>
-    <ProjectReference Include="SerializedReferenceExample.csproj">
-      <Project>{BE11ACB5-F4B2-71B1-394F-F4EBDCFD5A9C}</Project>
-      <Name>SerializedReferenceExample</Name>
+    <ProjectReference Include="Unity.RenderPipeline.Universal.ShaderLibrary.csproj">
+      <Project>{610F2F8A-0451-4E44-CF26-55B847D249DC}</Project>
+      <Name>Unity.RenderPipeline.Universal.ShaderLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.csproj">
+      <Project>{B5F54B7C-19F4-042D-277D-EDA6F33C5803}</Project>
+      <Name>Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary</Name>
     </ProjectReference>
     <ProjectReference Include="AmimalWorld.csproj">
       <Project>{40D838D0-EB62-FA9F-4048-DAE8885BAC4B}</Project>

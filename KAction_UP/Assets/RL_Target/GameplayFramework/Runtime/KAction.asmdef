@@ -4,7 +4,9 @@
     "references": [
         "SaveDataMan",
         "Textus.SerializeReferenceUI",
-        "DOTween.Modules"
+        "DOTween.Modules",
+        "XNode",
+        "XNodeEditor"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
