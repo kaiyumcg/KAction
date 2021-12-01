@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: wagyuGradeA
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 376, y: -472}
+  position: {x: 440, y: -744}
   ports:
     keys:
     - childNode
@@ -41,9 +41,12 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   tagContent: 
-  parentTag: {fileID: 0}
+  parentTag: {fileID: 4728606201864364346}
   immediateChilds: []
-  parentChain: []
+  parentChain:
+  - {fileID: 4728606201864364346}
+  - {fileID: 5309177318448672761}
+  - {fileID: -603506967213910081}
   childChain: []
 --- !u!114 &-1314052100883832440
 MonoBehaviour:
@@ -58,7 +61,7 @@ MonoBehaviour:
   m_Name: wagyuGradeB
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 376, y: -312}
+  position: {x: 440, y: -456}
   ports:
     keys:
     - childNode
@@ -86,9 +89,12 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   tagContent: 
-  parentTag: {fileID: 0}
+  parentTag: {fileID: 4728606201864364346}
   immediateChilds: []
-  parentChain: []
+  parentChain:
+  - {fileID: 4728606201864364346}
+  - {fileID: 5309177318448672761}
+  - {fileID: -603506967213910081}
   childChain: []
 --- !u!114 &-603506967213910081
 MonoBehaviour:
@@ -115,13 +121,13 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: parentNode
+        node: {fileID: 5309177318448672761}
+        reroutePoints: []
+      - fieldName: parentNode
         node: {fileID: 5888607512851498553}
         reroutePoints: []
       - fieldName: parentNode
         node: {fileID: 6845720754101528973}
-        reroutePoints: []
-      - fieldName: parentNode
-        node: {fileID: 5309177318448672761}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -138,9 +144,21 @@ MonoBehaviour:
       _dynamic: 0
   tagContent: 
   parentTag: {fileID: 0}
-  immediateChilds: []
+  immediateChilds:
+  - {fileID: 5309177318448672761}
+  - {fileID: 5888607512851498553}
+  - {fileID: 6845720754101528973}
   parentChain: []
-  childChain: []
+  childChain:
+  - {fileID: 5309177318448672761}
+  - {fileID: 6233807046616255265}
+  - {fileID: 119463710801634013}
+  - {fileID: 4728606201864364346}
+  - {fileID: -6945564340081400572}
+  - {fileID: -1314052100883832440}
+  - {fileID: 7626113692344641893}
+  - {fileID: 5888607512851498553}
+  - {fileID: 6845720754101528973}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,7 +195,7 @@ MonoBehaviour:
   m_Name: usCow
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 40, y: 88}
+  position: {x: 24, y: 56}
   ports:
     keys:
     - childNode
@@ -205,9 +223,11 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   tagContent: 
-  parentTag: {fileID: 0}
+  parentTag: {fileID: 5309177318448672761}
   immediateChilds: []
-  parentChain: []
+  parentChain:
+  - {fileID: 5309177318448672761}
+  - {fileID: -603506967213910081}
   childChain: []
 --- !u!114 &4728606201864364346
 MonoBehaviour:
@@ -222,7 +242,7 @@ MonoBehaviour:
   m_Name: wagyu
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 24, y: -248}
+  position: {x: 8, y: -488}
   ports:
     keys:
     - childNode
@@ -259,10 +279,18 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   tagContent: 
-  parentTag: {fileID: 0}
-  immediateChilds: []
-  parentChain: []
-  childChain: []
+  parentTag: {fileID: 5309177318448672761}
+  immediateChilds:
+  - {fileID: -6945564340081400572}
+  - {fileID: -1314052100883832440}
+  - {fileID: 7626113692344641893}
+  parentChain:
+  - {fileID: 5309177318448672761}
+  - {fileID: -603506967213910081}
+  childChain:
+  - {fileID: -6945564340081400572}
+  - {fileID: -1314052100883832440}
+  - {fileID: 7626113692344641893}
 --- !u!114 &5309177318448672761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,7 +304,7 @@ MonoBehaviour:
   m_Name: cow
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -376, y: -280}
+  position: {x: -376, y: -360}
   ports:
     keys:
     - childNode
@@ -313,10 +341,20 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   tagContent: 
-  parentTag: {fileID: 0}
-  immediateChilds: []
-  parentChain: []
-  childChain: []
+  parentTag: {fileID: -603506967213910081}
+  immediateChilds:
+  - {fileID: 6233807046616255265}
+  - {fileID: 119463710801634013}
+  - {fileID: 4728606201864364346}
+  parentChain:
+  - {fileID: -603506967213910081}
+  childChain:
+  - {fileID: 6233807046616255265}
+  - {fileID: 119463710801634013}
+  - {fileID: 4728606201864364346}
+  - {fileID: -6945564340081400572}
+  - {fileID: -1314052100883832440}
+  - {fileID: 7626113692344641893}
 --- !u!114 &5888607512851498553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -358,9 +396,10 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   tagContent: 
-  parentTag: {fileID: 0}
+  parentTag: {fileID: -603506967213910081}
   immediateChilds: []
-  parentChain: []
+  parentChain:
+  - {fileID: -603506967213910081}
   childChain: []
 --- !u!114 &6233807046616255265
 MonoBehaviour:
@@ -375,7 +414,7 @@ MonoBehaviour:
   m_Name: sahiwal
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 24, y: -88}
+  position: {x: 24, y: -216}
   ports:
     keys:
     - childNode
@@ -403,9 +442,11 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   tagContent: 
-  parentTag: {fileID: 0}
+  parentTag: {fileID: 5309177318448672761}
   immediateChilds: []
-  parentChain: []
+  parentChain:
+  - {fileID: 5309177318448672761}
+  - {fileID: -603506967213910081}
   childChain: []
 --- !u!114 &6845720754101528973
 MonoBehaviour:
@@ -420,7 +461,7 @@ MonoBehaviour:
   m_Name: snail
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -376, y: 56}
+  position: {x: -376, y: 168}
   ports:
     keys:
     - childNode
@@ -448,9 +489,10 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   tagContent: 
-  parentTag: {fileID: 0}
+  parentTag: {fileID: -603506967213910081}
   immediateChilds: []
-  parentChain: []
+  parentChain:
+  - {fileID: -603506967213910081}
   childChain: []
 --- !u!114 &7626113692344641893
 MonoBehaviour:
@@ -465,7 +507,7 @@ MonoBehaviour:
   m_Name: wagyuGradeC
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 392, y: -152}
+  position: {x: 440, y: -120}
   ports:
     keys:
     - childNode
@@ -493,7 +535,10 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   tagContent: 
-  parentTag: {fileID: 0}
+  parentTag: {fileID: 4728606201864364346}
   immediateChilds: []
-  parentChain: []
+  parentChain:
+  - {fileID: 4728606201864364346}
+  - {fileID: 5309177318448672761}
+  - {fileID: -603506967213910081}
   childChain: []

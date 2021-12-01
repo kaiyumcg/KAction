@@ -13,9 +13,9 @@ namespace GameplayFramework
         [SerializeField] [Input] TagInput parentNode = new TagInput();
         [SerializeField] [Output] TagOutput childNode = new TagOutput();
 
-        [SerializeField, HideInInspector] GameplayTag parentTag;
-        [SerializeField, HideInInspector] List<GameplayTag> immediateChilds;
-        [SerializeField, HideInInspector] List<GameplayTag> parentChain, childChain;
+        [SerializeField] GameplayTag parentTag;
+        [SerializeField] List<GameplayTag> immediateChilds;
+        [SerializeField] List<GameplayTag> parentChain, childChain;
 
         internal GameplayTag ParentTag { get { return parentTag; } set { parentTag = value; } }
         internal List<GameplayTag> ImmediateChilds { get { return immediateChilds; } set { immediateChilds = value; } }
@@ -26,15 +26,14 @@ namespace GameplayFramework
         protected override void Init()
         {
             base.Init();
-            InitTagList(ref immediateChilds);
-            InitTagList(ref parentChain);
-            InitTagList(ref childChain);
-
             parentTag = null;
             immediateChilds = null;
             parentChain = null;
             childChain = null;
 
+            InitTagList(ref immediateChilds);
+            InitTagList(ref parentChain);
+            InitTagList(ref childChain);
             void InitTagList(ref List<GameplayTag> tags)
             {
                 if (tags == null) { tags = new List<GameplayTag>(); }
@@ -55,9 +54,6 @@ namespace GameplayFramework
             var gTag_to = (GameplayTag)to.node;
             var gTag_from = (GameplayTag)from.node;
             if (gTag_from == null || gTag_to == null) { return; }
-
-            //todo 'from' or 'to' nodePort can have many connections! so we need to check for each of them? or currently processing two nodes? 
-            //how to get currently processing nodes?
             if (from.IsOutput && to.IsInput && gTag_from == this)
             {
                 if (gTag_to != null)
@@ -78,22 +74,14 @@ namespace GameplayFramework
                 }
             }
         }
-        
-        //removed port is wagyu and port is wagyu grade A
-        public override void OnRemoveConnection(NodePort to, NodePort from)
-        {
-            base.OnRemoveConnection(to, from);
-            var fromTag = (GameplayTag)from.node;
-            var toTag = (GameplayTag)to.node;
-            if (fromTag == null || toTag == null) { return; }
 
-            if (from.IsOutput && to.IsInput)
+        public override void OnRemoveConnection(NodePort port)
+        {
+            base.OnRemoveConnection(port);
+            var tg = (GTagAssetDefine)this.graph;
+            if (tg != null)
             {
-                var tg = (GTagAssetDefine)this.graph;
-                if (tg != null)
-                {
-                    tg.OnUpdateTagGraph();
-                }
+                tg.OnUpdateTagGraph();
             }
         }
 
