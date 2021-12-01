@@ -16,10 +16,10 @@ MonoBehaviour:
   position: {x: 376, y: -472}
   ports:
     keys:
-    - childNodes
+    - childNode
     - parentNode
     values:
-    - _fieldName: childNodes
+    - _fieldName: childNode
       _node: {fileID: -6945564340081400572}
       _typeQualifiedName: GameplayFramework.TagOutput, KAction, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
@@ -32,12 +32,15 @@ MonoBehaviour:
       _node: {fileID: -6945564340081400572}
       _typeQualifiedName: GameplayFramework.TagInput, KAction, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: childNode
+        node: {fileID: 4728606201864364346}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  tagContent: asd
+  tagContent: 
   parentTag: {fileID: 0}
   immediateChilds: []
   parentChain: []
@@ -55,13 +58,13 @@ MonoBehaviour:
   m_Name: wagyuGradeB
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 376, y: -344}
+  position: {x: 376, y: -312}
   ports:
     keys:
-    - childNodes
+    - childNode
     - parentNode
     values:
-    - _fieldName: childNodes
+    - _fieldName: childNode
       _node: {fileID: -1314052100883832440}
       _typeQualifiedName: GameplayFramework.TagOutput, KAction, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
@@ -74,12 +77,15 @@ MonoBehaviour:
       _node: {fileID: -1314052100883832440}
       _typeQualifiedName: GameplayFramework.TagInput, KAction, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: childNode
+        node: {fileID: 4728606201864364346}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  tagContent: asdasd
+  tagContent: 
   parentTag: {fileID: 0}
   immediateChilds: []
   parentChain: []
@@ -100,14 +106,23 @@ MonoBehaviour:
   position: {x: -744, y: -296}
   ports:
     keys:
-    - childNodes
+    - childNode
     - parentNode
     values:
-    - _fieldName: childNodes
+    - _fieldName: childNode
       _node: {fileID: -603506967213910081}
       _typeQualifiedName: GameplayFramework.TagOutput, KAction, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: parentNode
+        node: {fileID: 5888607512851498553}
+        reroutePoints: []
+      - fieldName: parentNode
+        node: {fileID: 6845720754101528973}
+        reroutePoints: []
+      - fieldName: parentNode
+        node: {fileID: 5309177318448672761}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -162,13 +177,13 @@ MonoBehaviour:
   m_Name: usCow
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 24, y: 56}
+  position: {x: 40, y: 88}
   ports:
     keys:
-    - childNodes
+    - childNode
     - parentNode
     values:
-    - _fieldName: childNodes
+    - _fieldName: childNode
       _node: {fileID: 119463710801634013}
       _typeQualifiedName: GameplayFramework.TagOutput, KAction, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
@@ -182,8 +197,8 @@ MonoBehaviour:
       _typeQualifiedName: GameplayFramework.TagInput, KAction, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: childNodes
-        node: {fileID: 6845720754101528973}
+      - fieldName: childNode
+        node: {fileID: 5309177318448672761}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -207,17 +222,23 @@ MonoBehaviour:
   m_Name: wagyu
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 24, y: -216}
+  position: {x: 24, y: -248}
   ports:
     keys:
-    - childNodes
+    - childNode
     - parentNode
     values:
-    - _fieldName: childNodes
+    - _fieldName: childNode
       _node: {fileID: 4728606201864364346}
       _typeQualifiedName: GameplayFramework.TagOutput, KAction, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
+      - fieldName: parentNode
+        node: {fileID: -6945564340081400572}
+        reroutePoints: []
+      - fieldName: parentNode
+        node: {fileID: -1314052100883832440}
+        reroutePoints: []
       - fieldName: parentNode
         node: {fileID: 7626113692344641893}
         reroutePoints: []
@@ -230,14 +251,14 @@ MonoBehaviour:
       _typeQualifiedName: GameplayFramework.TagInput, KAction, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: childNodes
+      - fieldName: childNode
         node: {fileID: 5309177318448672761}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  tagContent: asd
+  tagContent: 
   parentTag: {fileID: 0}
   immediateChilds: []
   parentChain: []
@@ -255,17 +276,23 @@ MonoBehaviour:
   m_Name: cow
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -376, y: -248}
+  position: {x: -376, y: -280}
   ports:
     keys:
-    - childNodes
+    - childNode
     - parentNode
     values:
-    - _fieldName: childNodes
+    - _fieldName: childNode
       _node: {fileID: 5309177318448672761}
       _typeQualifiedName: GameplayFramework.TagOutput, KAction, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
+      - fieldName: parentNode
+        node: {fileID: 6233807046616255265}
+        reroutePoints: []
+      - fieldName: parentNode
+        node: {fileID: 119463710801634013}
+        reroutePoints: []
       - fieldName: parentNode
         node: {fileID: 4728606201864364346}
         reroutePoints: []
@@ -277,12 +304,15 @@ MonoBehaviour:
       _node: {fileID: 5309177318448672761}
       _typeQualifiedName: GameplayFramework.TagInput, KAction, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: childNode
+        node: {fileID: -603506967213910081}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  tagContent: asd
+  tagContent: 
   parentTag: {fileID: 0}
   immediateChilds: []
   parentChain: []
@@ -303,10 +333,10 @@ MonoBehaviour:
   position: {x: -376, y: -120}
   ports:
     keys:
-    - childNodes
+    - childNode
     - parentNode
     values:
-    - _fieldName: childNodes
+    - _fieldName: childNode
       _node: {fileID: 5888607512851498553}
       _typeQualifiedName: GameplayFramework.TagOutput, KAction, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
@@ -319,7 +349,10 @@ MonoBehaviour:
       _node: {fileID: 5888607512851498553}
       _typeQualifiedName: GameplayFramework.TagInput, KAction, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: childNode
+        node: {fileID: -603506967213910081}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
@@ -345,10 +378,10 @@ MonoBehaviour:
   position: {x: 24, y: -88}
   ports:
     keys:
-    - childNodes
+    - childNode
     - parentNode
     values:
-    - _fieldName: childNodes
+    - _fieldName: childNode
       _node: {fileID: 6233807046616255265}
       _typeQualifiedName: GameplayFramework.TagOutput, KAction, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
@@ -361,7 +394,10 @@ MonoBehaviour:
       _node: {fileID: 6233807046616255265}
       _typeQualifiedName: GameplayFramework.TagInput, KAction, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: childNode
+        node: {fileID: 5309177318448672761}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
@@ -384,20 +420,17 @@ MonoBehaviour:
   m_Name: snail
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -376, y: 8}
+  position: {x: -376, y: 56}
   ports:
     keys:
-    - childNodes
+    - childNode
     - parentNode
     values:
-    - _fieldName: childNodes
+    - _fieldName: childNode
       _node: {fileID: 6845720754101528973}
       _typeQualifiedName: GameplayFramework.TagOutput, KAction, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: parentNode
-        node: {fileID: 119463710801634013}
-        reroutePoints: []
+      connections: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -406,7 +439,10 @@ MonoBehaviour:
       _node: {fileID: 6845720754101528973}
       _typeQualifiedName: GameplayFramework.TagInput, KAction, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: childNode
+        node: {fileID: -603506967213910081}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
@@ -429,13 +465,13 @@ MonoBehaviour:
   m_Name: wagyuGradeC
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 376, y: -216}
+  position: {x: 392, y: -152}
   ports:
     keys:
-    - childNodes
+    - childNode
     - parentNode
     values:
-    - _fieldName: childNodes
+    - _fieldName: childNode
       _node: {fileID: 7626113692344641893}
       _typeQualifiedName: GameplayFramework.TagOutput, KAction, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
@@ -449,14 +485,14 @@ MonoBehaviour:
       _typeQualifiedName: GameplayFramework.TagInput, KAction, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: childNodes
+      - fieldName: childNode
         node: {fileID: 4728606201864364346}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  tagContent: ssad
+  tagContent: 
   parentTag: {fileID: 0}
   immediateChilds: []
   parentChain: []

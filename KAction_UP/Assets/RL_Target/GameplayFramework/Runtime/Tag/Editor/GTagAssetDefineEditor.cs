@@ -36,14 +36,14 @@ namespace GameplayFramework
         public override Node CreateNode(Type type, Vector2 position)
         {
 			var tg = (GTagAssetDefine)target;
-			tg.OnChangeGraph();
+			tg.OnUpdateTagGraph();
 			return base.CreateNode(type, position);
         }
 
         public override void RemoveNode(Node node)
         {
 			var tg = (GTagAssetDefine)target;
-			tg.OnChangeGraph();
+			tg.OnUpdateTagGraph();
 			base.RemoveNode(node);
         }
     }
