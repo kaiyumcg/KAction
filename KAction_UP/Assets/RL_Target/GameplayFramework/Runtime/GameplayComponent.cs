@@ -29,6 +29,7 @@ namespace GameplayFramework
         protected internal virtual IEnumerator OnExitActorVolumeAsync(Actor rival) { yield return null; }
         protected internal virtual void OnStopActorHit(Actor rival) { }
         protected internal virtual IEnumerator OnStopActorHitAsync(Actor rival) { yield return null; }
+        [SerializeField] List<GameplayTag> componentTags;
 
         internal void SetOwner(Actor actor)
         {

@@ -1,0 +1,21 @@
+<TODO>
+	<Ft>ReEvaluate arch(i.e. remove child-parent dependent actor execution)</Ft>
+	<Ft>General purpose Level Controller?</Ft>
+	<Ft>GetComponent performance improvement</Ft>
+	<Ft>Node based obstacle system for platforming genre</Ft>
+	<Ft>Conditional timeline(specially for animation or animation task) where clips(nodes in graph) are executed when preconditions are satisfied</Ft>
+	<Ft>Weapon System</Ft>
+	<Ft>Parellel Task Execution in FTaskSchedular</Ft>
+	<Ft>Support root motion, IK/FootIK, avatar mask, pause/resume, rewind in FAnimator.</Ft>
+	<Ft>Time rewind</Ft>
+	<Ft>Sequence lib based on Task library</Ft>
+	<Ft>AddForce(dir/force, mode), Spring(dir/force, mode), pop power plate like Thurst(dir/force, mode)
+			Projectile(targetPoint/angle/force amount),
+			Helix(axis, radius, phase, force amount, acceleration = default, deceleration = default),
+			Dash(dir/targetPoint), Jelly(damping time) etc on MoveableActor</Ft>
+	<Ft>Builtin Movement features to handle curvey road, volume control, strip control etc in Player Controller</Ft>
+	<Ft>Robust Pickable API(Async pickable pickup)</Ft>
+	<Ft>Animation Graph editor that has nodes for playing animation tasks</Ft>
+	<Ft>Actor Manager's editor inspector have folded out child actors to manage execution better</Ft>
+	<Ft>Group Actor where many anchor actors are executed by compute shader or unity job system</Ft>
+</TODO>
