@@ -18,4 +18,15 @@
 	<Ft>Animation Graph editor that has nodes for playing animation tasks</Ft>
 	<Ft>Actor Manager's editor inspector have folded out child actors to manage execution better</Ft>
 	<Ft>Group Actor where many anchor actors are executed by compute shader or unity job system</Ft>
+  <Ft>FSM</Ft>
+  <Ft>Node based blueprint and their executioner object which recieve the blueprint scriptable objects and executes them!</Ft>
+  <Ft>Inventory system</Ft>
+  <Ft>Dialogue system</Ft>
+  <Ft>Crafting system</Ft>
+  <Ft>AI behaviour tree and EQS etc like UE4</Ft>
+  <Ft>In game voice dialogue tree or start game story--node based</Ft>
+  <Ft>Quest system</Ft>
+  <Ft>Battle system</Ft>
+  <Ft>Ability tree</Ft>
+  <Ft>Pickable equipment, shop</Ft>
 </TODO>
