@@ -18,6 +18,15 @@ namespace GameplayFramework
         GameManager gameMan_Core;
         Actor owner = null;
 
+        //Record if actor rigidbody is kinematic or not
+        //Record collider tree enable state
+        //In reverse time, per actor 
+        //Per Transform Tree per transform set-->parent transform data, position-rotation-local scale data
+        //Per collider-->disable collider
+        //Set-->rigidbody position-velocity(in kinematic mode)
+        //Get current TimeRevCapsule struct/class data-->call reverse()-->delete current-->Set current for next frame
+        //At the end of process-->reset colliders enable state-->reset rigidbody kinematic mode
+
         [SerializeField] bool isPlayer = false;
         [SerializeField] List<GameplayTag> tags = null;
         [SerializeField] private protected List<GameplayComponent> gameplayComponents;

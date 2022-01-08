@@ -63,6 +63,7 @@ namespace GameplayFramework
             base.OnStart();
             if (useDeviceStorageForScore)
             {
+                /*
                 var diskValue_lastScore = SaveDataManager.LoadInt(lastScoreIdentifier, -1);
                 if (diskValue_lastScore < 0)
                 {
@@ -73,6 +74,7 @@ namespace GameplayFramework
                 {
                     currentScore = diskValue_lastScore;
                 }
+                */
             }
             else
             {
@@ -93,7 +95,7 @@ namespace GameplayFramework
 
             if (useDeviceStorageForScore)
             {
-                SaveDataManager.SaveInt(lastScoreIdentifier, currentScore);
+                //SaveDataManager.SaveInt(lastScoreIdentifier, currentScore);
             }
         }
 

@@ -33,4 +33,9 @@ namespace GameplayFramework
     }
 
     public enum InteractionMode { OneTime = 0, MultipleTime = 1, Infinite = 3 }
+
+    public struct TimeReverseCapsule
+    {
+
+    }
 }
