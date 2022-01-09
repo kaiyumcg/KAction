@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
+//using DG.Tweening;
 
 namespace GameplayFramework.Platforming
 {
@@ -66,24 +66,24 @@ namespace GameplayFramework.Platforming
             {
                 if (mode == TransformTaskObstacleMode.Translate)
                 {
-                    obstacle._Transform.DOMove(targetTransform.position, withinTime).OnComplete(() =>
-                    {
-                        completed = true;
-                    });
+                    //obstacle._Transform.DOMove(targetTransform.position, withinTime).OnComplete(() =>
+                    //{
+                    //    completed = true;
+                    //});
                 }
                 else if (mode == TransformTaskObstacleMode.Rotation)
                 {
-                    obstacle._Transform.DORotate(targetTransform.eulerAngles, withinTime).OnComplete(() =>
-                    {
-                        completed = true;
-                    });
+                    //obstacle._Transform.DORotate(targetTransform.eulerAngles, withinTime).OnComplete(() =>
+                    //{
+                    //    completed = true;
+                    //});
                 }
                 else
                 {
-                    obstacle._Transform.DOScale(targetTransform.localScale, withinTime).OnComplete(() =>
-                    {
-                        completed = true;
-                    });
+                    //obstacle._Transform.DOScale(targetTransform.localScale, withinTime).OnComplete(() =>
+                    //{
+                    //    completed = true;
+                    //});
                 }
             }
             else
@@ -91,26 +91,26 @@ namespace GameplayFramework.Platforming
                 if (mode == TransformTaskObstacleMode.Translate)
                 {
                     var target = initPos + targetOffset;
-                    obstacle._Transform.DOMove(target, withinTime).OnComplete(() =>
-                    {
-                        completed = true;
-                    });
+                    //obstacle._Transform.DOMove(target, withinTime).OnComplete(() =>
+                    //{
+                    //    completed = true;
+                    //});
                 }
                 else if (mode == TransformTaskObstacleMode.Rotation)
                 {
                     var target = initRot + targetOffset;
-                    obstacle._Transform.DORotate(target, withinTime).OnComplete(() =>
-                    {
-                        completed = true;
-                    });
+                    //obstacle._Transform.DORotate(target, withinTime).OnComplete(() =>
+                    //{
+                    //    completed = true;
+                    //});
                 }
                 else
                 {
                     var target = initScale + targetOffset;
-                    obstacle._Transform.DOScale(target, withinTime).OnComplete(() =>
-                    {
-                        completed = true;
-                    });
+                    //obstacle._Transform.DOScale(target, withinTime).OnComplete(() =>
+                    //{
+                    //    completed = true;
+                    //});
                 }
 
             }
