@@ -26,12 +26,12 @@ namespace GameplayFramework
         const string highScoreIdentifier = "_Player_High_Score_";
         //todo we can actually save a set of commonly used data, playerDataAPI?
 
-        GameManager gameMan;
+        GameLevel gameMan;
         bool addedController = false;
 
         protected override void OnCleanup()
         {
-            if (gameMan.HasGameplayBeenStarted == false || gameMan.HasGameplayBeenEnded)
+            if (gameMan.HasLevelGameplayBeenStarted == false || gameMan.HasLevelGameplayBeenEnded)
             {
                 base.OnCleanup();
             }
@@ -44,7 +44,7 @@ namespace GameplayFramework
 
                 if (addedController)
                 {
-                    gameMan.OnStartGameplay -= StartController;
+                    gameMan.OnLevelGameplayStartEv -= StartController;
                 }
                 base.OnCleanup();
             }
@@ -81,8 +81,8 @@ namespace GameplayFramework
                 currentScore = initialScore;
             }
 
-            gameMan = FindObjectOfType<GameManager>();
-            gameMan.OnStartGameplay += StartController;
+            gameMan = FindObjectOfType<GameLevel>();
+            gameMan.OnLevelGameplayStartEv += StartController;
             addedController = true;
         }
 

@@ -13,12 +13,12 @@ namespace GameplayFramework
     public abstract class AIActor : Actor
     {
         public abstract IAIController AI_Controller { get; set; }
-        GameManager gameMan;
+        GameLevel gameMan;
         bool addedController = false;
 
         protected override void OnCleanup()
         {
-            if (gameMan.HasGameplayBeenStarted == false || gameMan.HasGameplayBeenEnded)
+            if (gameMan.HasLevelGameplayBeenStarted == false || gameMan.HasLevelGameplayBeenEnded)
             {
                 base.OnCleanup();
             }
@@ -30,7 +30,7 @@ namespace GameplayFramework
                 }
                 if (addedController)
                 {
-                    gameMan.OnStartGameplay -= StartController;
+                    gameMan.OnLevelGameplayStartEv -= StartController;
                 }
                 base.OnCleanup();
             }
@@ -47,8 +47,8 @@ namespace GameplayFramework
         protected override void OnStart()
         {
             base.OnStart();
-            gameMan = FindObjectOfType<GameManager>();
-            gameMan.OnStartGameplay += StartController;
+            gameMan = FindObjectOfType<GameLevel>();
+            gameMan.OnLevelGameplayStartEv += StartController;
             addedController = true;
         }
 

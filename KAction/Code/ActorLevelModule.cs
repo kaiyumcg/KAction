@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GameplayFramework
 {
-    public class ActorManager : GameSystem
+    public sealed class ActorLevelModule : LevelModule
     {
         [SerializeField] List<Actor> rootActors;
 
@@ -20,7 +20,7 @@ namespace GameplayFramework
             ReloadRootActors();
         }
 
-        void Update()
+        protected internal override void OnTick()
         {
             if (actorListDirty) { return; }
             for (int i = 0; i < rootActors.Count; i++)
@@ -31,7 +31,7 @@ namespace GameplayFramework
             }
         }
 
-        void FixedUpdate()
+        protected internal override void OnPhysxTick()
         {
             if (actorListDirty) { return; }
             for (int i = 0; i < rootActors.Count; i++)
@@ -136,5 +136,7 @@ namespace GameplayFramework
         {
             
         }
+
+        
     }
 }

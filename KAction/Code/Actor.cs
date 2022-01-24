@@ -15,7 +15,7 @@ namespace GameplayFramework
             isRoot = true, childActorListDirty = false, isActorPaused = false;
         private protected bool componentListDirty = false;
         float initialLife = 0.0f, initialTimeScale = 1.0f;
-        GameManager gameMan_Core;
+        GameLevel gameMan_Core;
         Actor owner = null;
 
         //Record if actor rigidbody is kinematic or not
@@ -261,9 +261,9 @@ namespace GameplayFramework
             {
                 gameplayComponents[i].StartComponent();
             }
-            gameMan_Core = FindObjectOfType<GameManager>();
-            gameMan_Core.OnStartGameplay += StartGameplay;
-            gameMan_Core.OnEndGameplay += EndGameplay;
+            gameMan_Core = FindObjectOfType<GameLevel>();
+            gameMan_Core.OnLevelGameplayStartEv += StartGameplay;
+            gameMan_Core.onLevelGameplayEndEv += EndGameplay;
         }
 
         void StartGameplay() { gameplayRun = true; }
@@ -464,8 +464,8 @@ namespace GameplayFramework
 
         void OnDisable()
         {
-            gameMan_Core.OnStartGameplay -= StartGameplay;
-            gameMan_Core.OnEndGameplay -= EndGameplay;
+            gameMan_Core.OnLevelGameplayStartEv -= StartGameplay;
+            gameMan_Core.onLevelGameplayEndEv -= EndGameplay;
             for (int i = 0; i < gameplayComponents.Count; i++)
             {
                 gameplayComponents[i].OnCleanupComponent();
