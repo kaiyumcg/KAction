@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace GameplayFramework
 {
-    public abstract class ReactorActor : Actor
+    public abstract class ReactorActor2D : Actor
     {
         [SerializeField] InteractionMode mode = InteractionMode.Infinite;
         [SerializeField] int maxVolumeInteractionCount = 1, maxCollisionInteractionCount = 1;
@@ -13,12 +13,12 @@ namespace GameplayFramework
         [SerializeField] UnityEvent onEnter, onHit, onExit, onStopHit;
 
         int tCount = 0, cCount = 0;
-        List<Collider> intTrigs;
-        List<Collision> intCols;
+        List<Collider2D> intTrig2Ds;
+        List<Collision2D> intCol2Ds;
 
         public event OnDoAnything<Actor> OnEnter, OnHit, OnExit, OnStopHit;
-        public List<Collider> InteractedTrigger { get { return intTrigs; } }
-        public List<Collision> InteractedCollision { get { return intCols; } }
+        public List<Collider2D> InteractedTrigger2D { get { return intTrig2Ds; } }
+        public List<Collision2D> InteractedCollision2D { get { return intCol2Ds; } }
 
         protected virtual void OnEnterVolume(Actor rival) { }
         protected virtual IEnumerator OnEnterVolumeAsync(Actor rival) { yield return null; }
@@ -35,8 +35,8 @@ namespace GameplayFramework
         {
             base.OnCleanup();
             tCount = cCount = 0;
-            intTrigs = new List<Collider>();
-            intCols = new List<Collision>();
+            intTrig2Ds = new List<Collider2D>();
+            intCol2Ds = new List<Collision2D>();
         }
 
         bool CheckValidityAgainstMode(int intCount, int maxCount)
@@ -46,34 +46,34 @@ namespace GameplayFramework
             else { return intCount == 0; }
         }
 
-        #region TriggerEvent
-        private void OnTriggerEnter(Collider other)
+        #region Trigger2DEvent
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            ProcessVolume(other, true);
+            ProcessVolume2D(other, true);
         }
 
-        private void OnTriggerExit(Collider other)
+        private void OnTriggerExit2D(Collider2D other)
         {
-            ProcessVolume(other, false);
+            ProcessVolume2D(other, false);
         }
 
-        internal void ProcessVolume(Collider other, bool enter)
+        internal void ProcessVolume2D(Collider2D other, bool enter)
         {
             if (!needVolumeExitEvent && enter == false) { return; }
-
             if (IsDead || HasDeathBeenStarted || !useVolume) { return; }
             var rival = other.GetComponentInParent<Actor>();
             if (rival != null && SetInteractionValidity(rival) && CheckValidityAgainstMode(tCount, maxVolumeInteractionCount))
             {
                 tCount++;
-                if (intTrigs == null) { intTrigs = new List<Collider>(); }
-                if (intTrigs.Contains(other)) { intTrigs.Remove(other); }
+
+                if (intTrig2Ds == null) { intTrig2Ds = new List<Collider2D>(); }
+                if (intTrig2Ds.Contains(other)) { intTrig2Ds.Remove(other); }
                 if (enter)
                 {
-                    if (intTrigs == null) { intTrigs = new List<Collider>(); }
-                    intTrigs.Add(other);
+                    if (intTrig2Ds == null) { intTrig2Ds = new List<Collider2D>(); }
+                    intTrig2Ds.Add(other);
                 }
-                if (intTrigs == null) { intTrigs = new List<Collider>(); }
+                if (intTrig2Ds == null) { intTrig2Ds = new List<Collider2D>(); }
 
                 ProcessVolumeInternal(rival, enter);
             }
@@ -81,18 +81,18 @@ namespace GameplayFramework
 
         #endregion
 
-        #region CollisionEvent
-        private void OnCollisionEnter(Collision other)
+        #region Collision2DEvent
+        private void OnCollisionEnter2D(Collision2D collision)
         {
-            ProcessSolid(other, true);
+            ProcessSolid2D(collision, true);
         }
 
-        private void OnCollisionExit(Collision other)
+        private void OnCollisionExit2D(Collision2D collision)
         {
-            ProcessSolid(other, false);
+            ProcessSolid2D(collision, false);
         }
 
-        internal void ProcessSolid(Collision other, bool isHit)
+        internal void ProcessSolid2D(Collision2D other, bool isHit)
         {
             if (!needHitStopEvent && isHit == false) { return; }
             if (IsDead || HasDeathBeenStarted || !useCollider) { return; }
@@ -101,19 +101,18 @@ namespace GameplayFramework
             {
                 cCount++;
 
-                if (intCols == null) { intCols = new List<Collision>(); }
-                if (intCols.Contains(other)) { intCols.Remove(other); }
+                if (intCol2Ds == null) { intCol2Ds = new List<Collision2D>(); }
+                if (intCol2Ds.Contains(other)) { intCol2Ds.Remove(other); }
                 if (isHit)
                 {
-                    if (intCols == null) { intCols = new List<Collision>(); }
-                    intCols.Add(other);
+                    if (intCol2Ds == null) { intCol2Ds = new List<Collision2D>(); }
+                    intCol2Ds.Add(other);
                 }
-                if (intCols == null) { intCols = new List<Collision>(); }
+                if (intCol2Ds == null) { intCol2Ds = new List<Collision2D>(); }
 
                 ProcessSolidInternal(rival, isHit);
             }
         }
-
         #endregion
 
         void ProcessSolidInternal(Actor rival, bool isHit)

@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace GameplayFramework
 {
-    public class FCollider : MonoBehaviour
+    public class FCollider2D : MonoBehaviour
     {
-        ReactorActor r_actor;
+        ReactorActor2D r_actor;
         Actor owningActor;
         private void Awake()
         {
-            r_actor = GetComponentInParent<ReactorActor>();
+            r_actor = GetComponentInParent<ReactorActor2D>();
             owningActor = r_actor;
         }
 
@@ -24,28 +24,28 @@ namespace GameplayFramework
             return valid;
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter2D(Collider2D other)
         {
             if (IsValid(other.gameObject) == false) { return; }
-            r_actor.ProcessVolume(other, true);
+            r_actor.ProcessVolume2D(other, true);
         }
 
-        private void OnTriggerExit(Collider other)
+        private void OnTriggerExit2D(Collider2D other)
         {
             if (IsValid(other.gameObject) == false) { return; }
-            r_actor.ProcessVolume(other, false);
+            r_actor.ProcessVolume2D(other, false);
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnCollisionEnter2D(Collision2D collision)
         {
             if (IsValid(collision.gameObject) == false) { return; }
-            r_actor.ProcessSolid(collision, true);
+            r_actor.ProcessSolid2D(collision, true);
         }
 
-        private void OnCollisionExit(Collision collision)
+        private void OnCollisionExit2D(Collision2D collision)
         {
             if (IsValid(collision.gameObject) == false) { return; }
-            r_actor.ProcessSolid(collision, false);
+            r_actor.ProcessSolid2D(collision, false);
         }
     }
 }

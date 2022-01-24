@@ -11,7 +11,7 @@ namespace GameplayFramework
         Rigidbody2D rgd2D;
         Transform tr;
         GameObject gobj;
-        bool gameplayRun = false, isDead = false, deathStarted = false, is2D = false,
+        bool gameplayRun = false, isDead = false, deathStarted = false,
             isRoot = true, childActorListDirty = false, isActorPaused = false;
         private protected bool componentListDirty = false;
         float initialLife = 0.0f, initialTimeScale = 1.0f;
@@ -99,7 +99,6 @@ namespace GameplayFramework
         public event OnDoAnything OnStartOrSpawnEv, OnDeathEv, OnStartDeathEv, OnRebornEv, OnPauseEv, OnResumeEv;
         public event OnDoAnything<float> OnDamageEv, OnGainHealthEv;
         public event OnDoAnything<float, Vector3> OnDirectionalDamageEv, OnDirectionalGainHealthEv;
-        protected bool Is2D { get { return is2D; } }
         public bool IsPlayer { get { return isPlayer; } }
         public bool ShouldGameplayRun { get { return gameplayRun; } }
         public bool PauseResumeAffectChildActors { get { return pauseResumeAffectsChildActors; } set { pauseResumeAffectsChildActors = value; } }
@@ -245,9 +244,6 @@ namespace GameplayFramework
             initialLife = life;
             tr = transform;
             gobj = gameObject;
-            rgd = GetComponent<Rigidbody>();
-            rgd2D = GetComponent<Rigidbody2D>();
-            is2D = rgd2D != null;
             owner = GetComponentInParent<Actor>();
             isRoot = owner == null;
             ReloadComponents();
