@@ -79,6 +79,9 @@ namespace GameplayFramework
         public bool IsPaused { get { return isPaused; } }
         public event OnDoAnything OnLevelStartEv, OnLevelGameplayStartEv, onLevelGameplayEndEv;
 
+        //when time reverse system is fully implemented,
+        //one interesting aspect is that "pause-resume-step frame backward" in game view or editor window a reality!
+
         //Pause, Resume, Slowdown, TimeBackToNormal, 
         //Due to interaction of Actors, level is changed(visually and logically)
         //So we need something called "level stat" here as well.
