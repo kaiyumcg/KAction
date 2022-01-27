@@ -45,6 +45,7 @@ namespace GameplayFramework
         void Hnd_Completed()
         {
             OnComplete?.Invoke();
+            Destroy(this);
         }
 
         void OnDisable()

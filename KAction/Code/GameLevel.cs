@@ -13,7 +13,12 @@ namespace GameplayFramework
         protected virtual void OnLevelStart() { }
         protected virtual void OnLevelGameplayStart() { }
         protected virtual void OnLevelGameplayEnd() { }
-        protected virtual void OnLoadNextLevel() { }
+
+        //called from LevelManager GameSystem(things which are alive throughout full app life cycle)
+        protected internal virtual void OnLoadNextLevel() { }//just before of loading next level, cut scene of this level has all been completed
+        protected internal virtual void OnReloadLevel() { }
+        protected internal virtual void OnStartLoadingNextLevel(AsyncOperation asyncOpHandle) { }
+
         protected virtual void OnTick() { }
         protected virtual void OnPhysxTick() { }
         protected virtual bool WhenLevelGameplayAutoEnd() { return false; }
@@ -21,20 +26,28 @@ namespace GameplayFramework
         protected virtual IEnumerator OnStartScriptCutScene() { yield return null; }
         protected virtual IEnumerator OnEndScriptCutScene() { yield return null; }
 
+        [Header("Loaded Modules")]
+        [SerializeField] List<LevelModule> levelModules = new List<LevelModule>();
+
+        [Header("FPS Setting")]
         [SerializeField] bool useSmoothFPS = true;
         [SerializeField] int fpsCap = 60;
+
+        [Header("Level Start and End Setting")]
         [SerializeField] bool predicateSupportForAutoLevelCompletion = false;
         [SerializeField] bool useStartCutScene = false, useEndCutScene = false;
         [SerializeField] PlayableAsset startCutScene = null, endCutScene = null;
-        [SerializeField] List<LevelModule> levelModules = new List<LevelModule>();
         [SerializeField] UnityEvent onLevelStart, onLevelGameplayStart, onLevelGameplayEnd;
+
+        [Header("Klog Config for this level")]
         [SerializeField] LogDataSize runtimeCloudLogSize = LogDataSize.Optimal;
-        [SerializeField, Multiline] string runtimeCloudLogAPI_EndPoint = "";
+        [SerializeField, Multiline] string defaultAPIEndPointForCloudLog = "";
+        [SerializeField] bool useOverriddenEndPointForCloudLog = false;
 
         internal LogDataSize RuntimeCloudLogSize { get { return runtimeCloudLogSize; } }
-        internal List<LogDataMinimal> gameplayLogs_min;
-        internal List<LogDataVerbose> gameplayLogs_verbose;
-        internal List<LogDataOptimal> gameplayLogs_optimal;
+        [HideInInspector] internal List<LogDataMinimal> gameplayLogs_min;
+        [HideInInspector] internal List<LogDataVerbose> gameplayLogs_verbose;
+        [HideInInspector] internal List<LogDataOptimal> gameplayLogs_optimal;
         internal bool IsServer()
         {
 #if KML_SUPPORT
@@ -66,11 +79,37 @@ namespace GameplayFramework
         public bool IsPaused { get { return isPaused; } }
         public event OnDoAnything OnLevelStartEv, OnLevelGameplayStartEv, onLevelGameplayEndEv;
 
+        //Pause, Resume, Slowdown, TimeBackToNormal, 
+        //Due to interaction of Actors, level is changed(visually and logically)
+        //So we need something called "level stat" here as well.
+        //So for actor/level stat, should we use atomic scriptable dataset?
+        //What will be the workflow for actor/level stat?
+
+        /// <summary>
+        /// Logic about the full level in a node based workflow. i.e. when player starts to cross a bridge, 
+        /// a subtitled narration audio will play as player is moving. Camera also pan.
+        /// i.e. When the deer drinks from the river second time and player is seeing the deer, 
+        /// the deer now stops drinking and stair at player.
+        /// But we have Game level's overridden methods. Here one can extend GameLevel then do their workflow.
+        /// We could do script cutscene then why support timeline asset at the same time? Conveninence.
+        /// Thus KTaskGraph integration is probably natural once KTaskGraph is matured against node based autoring and debugging tool.
+        /// </summary>
+        //A collection of UI Pages, each page can have its own childs in a hierarchy fashion.
+        //Who invoke UI page, GameLevel or Actor level control? i.e. GameLevel has its own pages that only it can show/hide?
+
+        //On actor, StopMovement() will play idle animation but moving will not there.
+        //Sometime a level can contain randomly generated o generated actors. Should they have any stat?
+        //Irrespective of generation of actors in runtime, should they have persistant stats?
+
+
         //Time slow, reverse etc should be handled by here
         //Finding actors by player or not, tags, type etc handling
+        //Tools-->Level Creation-->A list of buttons denoted all the child classes of GameLevel.
+        //On click each, create a scene along with the class as GameLevel of the scene. And then it adds it to build setting.
+        //Similarly we can create a boot scene as well.
+
         //Level progression, checkpoints, level config data(coins, exp, health etc, door unlock state) update,
         //put it simple things are related to a whole level handling
-        //other todo which are related to a whole level
         //todo for that we need actor manager which handles execution of all actors
         //we should have a default inspector editor UI to create default game systems whenever user adds a game manager or a button to do that!
         void ReloadSysData()
@@ -158,11 +197,9 @@ namespace GameplayFramework
         {
 #if USE_CLOUD_LOG
             string endPoint = "";
-            if (string.IsNullOrEmpty(runtimeCloudLogAPI_EndPoint) == false &&
-                string.IsNullOrWhiteSpace(runtimeCloudLogAPI_EndPoint) == false &&
-                runtimeCloudLogAPI_EndPoint.Contains("https://"))
+            if (useOverriddenEndPointForCloudLog == false)
             {
-                endPoint = runtimeCloudLogAPI_EndPoint;
+                endPoint = defaultAPIEndPointForCloudLog;
             }
             else
             {
@@ -203,7 +240,7 @@ namespace GameplayFramework
 
                     UploadLogsIfReq();
                     OnLoadNextLevel();
-                    //load next level
+                    //load next level TODO
                 }
             }
         }

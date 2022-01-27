@@ -70,7 +70,7 @@ namespace GameplayFramework
             }
         }
 
-        public static void Print(string msg, bool useColor = false, Color color = default)
+        public static void Print(string msg, Color color = default)
         {
 #if KLOG_SUPPORT
             if (GameLevel.Instance == null) 
@@ -79,7 +79,7 @@ namespace GameplayFramework
                 return; 
             }
             string ltxt = msg;
-            if (useColor)
+            if (color != default)
             {
                 ltxt = string.Format("<color=#{0:X2}{1:X2}{2:X2}>{3}</color>", (byte)(color.r * 255f),
                     (byte)(color.g * 255f), (byte)(color.b * 255f), msg);
