@@ -29,7 +29,7 @@ namespace GameplayFramework
         [SerializeField] bool waitForThisInitialization = false;
         [SerializeField] bool useDelay = false;
         [SerializeField] float delayAmount = 2f;
-        [Header("What to do")]
+        [Header("What to do(Only applicable for when logging)")]
         [SerializeField] ActionOnService whenError = ActionOnService.DoNothing;
         [SerializeField] ActionOnService whenException = ActionOnService.DoNothing, whenCodeFailure = ActionOnService.DoNothing;
         bool isRunning = true;
@@ -39,6 +39,7 @@ namespace GameplayFramework
         #region Logging
         protected void Check(System.Action Code)
         {
+#if KLOG_SUPPORT
             if (GameLevel.Instance == null)
             {
                 try
@@ -55,10 +56,14 @@ namespace GameplayFramework
             {
                 KLog.Check(Code);
             }
+#else
+            Code?.Invoke();
+#endif
         }
 
         protected void PrintLog(string message, Color color = default)
         {
+#if KLOG_SUPPORT
             if (GameLevel.Instance == null)
             {
                 string ltxt = message;
@@ -77,10 +82,12 @@ namespace GameplayFramework
             {
                 KLog.Print("Service log: " + message, color);
             }
+#endif
         }
 
         protected void PrintError(string message)
         {
+#if KLOG_SUPPORT
             if (GameLevel.Instance == null)
             {
                 Debug.LogError("Service Error: " + message);
@@ -90,10 +97,12 @@ namespace GameplayFramework
                 KLog.PrintError("Service Error: " + message);
             }
             DoAction(whenError);
+#endif
         }
 
         protected void PrintWarning(string message)
         {
+#if KLOG_SUPPORT
             if (GameLevel.Instance == null)
             {
                 Debug.LogWarning("Service warning: " + message);
@@ -102,10 +111,12 @@ namespace GameplayFramework
             {
                 KLog.PrintWarning("Service warning: " + message);
             }
+#endif
         }
 
         protected void PrintException(Exception exception)
         {
+#if KLOG_SUPPORT
             exception.Source += Environment.NewLine + " At Service";
             if (GameLevel.Instance == null)
             {
@@ -116,10 +127,12 @@ namespace GameplayFramework
                 KLog.PrintException(exception);
             }
             DoAction(whenException);
+#endif
         }
 
         protected void PrintException(Exception exception, UnityEngine.Object context)
         {
+#if KLOG_SUPPORT
             exception.Source += Environment.NewLine + " At Service";
             if (GameLevel.Instance == null)
             {
@@ -130,6 +143,7 @@ namespace GameplayFramework
                 KLog.PrintException(exception, context);
             }
             DoAction(whenException);
+#endif
         }
         #endregion
 
