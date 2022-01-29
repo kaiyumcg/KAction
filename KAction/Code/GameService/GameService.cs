@@ -3,12 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//GameService UI helper information
+//GameService Editor inspector foldout
+
 namespace GameplayFramework
 {
     internal enum ActionOnService { DoNothing = 0, Stop = 1, Restart = 2 }
 
     public abstract class GameService : MonoBehaviour
     {
+        [SerializeField, HideInInspector, Multiline] string serviceAbout = "", serviceDescription = "";
+        [SerializeField, HideInInspector] bool waitForThisInitialization = false, useDelay = false;
+        [SerializeField, HideInInspector] float delayAmount = 2f;
+        [SerializeField, HideInInspector] ActionOnService whenError = ActionOnService.DoNothing,
+            whenException = ActionOnService.DoNothing, whenCodeFailure = ActionOnService.DoNothing;
+
         protected internal abstract void OnTick();
         protected internal virtual void OnInit() { }
         protected internal virtual IEnumerator OnInitAsync() 
@@ -25,16 +34,12 @@ namespace GameplayFramework
         protected virtual void OnRestart() { }
         protected virtual void OnStop() { }
         protected virtual void OnStartManual() { }
-
-        [SerializeField] bool waitForThisInitialization = false;
-        [SerializeField] bool useDelay = false;
-        [SerializeField] float delayAmount = 2f;
-        [Header("What to do(Only applicable for when logging)")]
-        [SerializeField] ActionOnService whenError = ActionOnService.DoNothing;
-        [SerializeField] ActionOnService whenException = ActionOnService.DoNothing, whenCodeFailure = ActionOnService.DoNothing;
+        
         bool isRunning = true;
         public bool IsRunning { get { return isRunning; } internal set { isRunning = value; } }
         internal bool WaitForThisInitialization { get { return waitForThisInitialization; } }
+        public string AboutService { get { return serviceAbout; } }
+        public string ServiceDescription { get { return serviceDescription; } }
 
         #region Logging
         protected void Check(System.Action Code)
@@ -177,6 +182,11 @@ namespace GameplayFramework
             OnInit();
             StartCoroutine(OnInitAsync());
             OnRestart();
+        }
+
+        public void RemoveService()
+        {
+            GameServiceManager.RemoveService(this.GetType());
         }
     }
 }

@@ -14,10 +14,9 @@ namespace GameplayFramework
         protected virtual void OnLevelGameplayStart() { }
         protected virtual void OnLevelGameplayEnd() { }
 
-        //called from LevelManager GameSystem(things which are alive throughout full app life cycle)
-        protected internal virtual void OnLoadNextLevel() { }//just before of loading next level, cut scene of this level has all been completed
+        protected internal virtual void OnLoadNextLevel() { }
         protected internal virtual void OnReloadLevel() { }
-        protected internal virtual void OnStartLoadingNextLevel(AsyncOperation asyncOpHandle) { }
+        protected internal virtual void OnStartLoadingNextLevel(AsyncOperation asyncOpHandle) { }//streaming thingy
 
         protected virtual void OnTick() { }
         protected virtual void OnPhysxTick() { }
@@ -224,7 +223,7 @@ namespace GameplayFramework
 #endif
         }
 
-        public void EndLevelGameplay()
+        public void EndLevelGameplay(string nextLevelName = "")
         {
             OnLevelGameplayEnd();
             onLevelGameplayEnd?.Invoke();
@@ -243,7 +242,18 @@ namespace GameplayFramework
 
                     UploadLogsIfReq();
                     OnLoadNextLevel();
-                    //load next level TODO
+                    var svc = GameServiceManager.GetService<LevelManager>();
+                    if (svc != null)
+                    {
+                        if (string.IsNullOrEmpty(nextLevelName))
+                        {
+                            svc.LoadNextLevel();
+                        }
+                        else
+                        {
+                            svc.LoadLevelFromBuildIndex(nextLevelName);
+                        }
+                    }
                 }
             }
         }

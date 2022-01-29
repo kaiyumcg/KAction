@@ -3,19 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
+using UnityEngine.Events;
 
 namespace GameplayFramework
 {
-    public class GameServiceManager : MonoBehaviour
+    public sealed class GameServiceManager : MonoBehaviour
     {
         [Header("Execution order as well :)")]
         [SerializeField] internal List<GameService> services;
         [SerializeField] bool startAllParallel = true;
         static GameServiceManager instance;
+        public UnityEvent onReadyServiceManager;
+        public UnityEvent<int, int, GameService> onInitializedAGameService;
+        public static UnityEvent OnReadyServiceManager { get { return instance.onReadyServiceManager; } }
+        public static UnityEvent<int, int, GameService> OnInitializedAGameService { get { return instance.onInitializedAGameService; } }
 
-        bool HasTheServiceOrTypeOfIt(GameService svc)
+        bool HasTheServiceOrTypeOfItAlreadyAdded(GameService svc)
         {
-            bool hasIt = false;
+            bool added = false;
             if (services != null && services.Count > 0)
             {
                 for(int i = 0; i < services.Count;i++)
@@ -23,12 +28,12 @@ namespace GameplayFramework
                     var s = services[i];
                     if (s == svc || s.GetType() == svc.GetType())
                     {
-                        hasIt = true;
+                        added = true;
                         break;
                     }
                 }
             }
-            return hasIt;
+            return added;
         }
 
         internal void LoadRefIfReq()
@@ -59,7 +64,7 @@ namespace GameplayFramework
                 {
                     var svc = allSvc[i];
                     if (svc == null) { continue; }
-                    if (HasTheServiceOrTypeOfIt(svc) == false)
+                    if (HasTheServiceOrTypeOfItAlreadyAdded(svc) == false)
                     {
                         services.Add(svc);
                     }
@@ -79,6 +84,9 @@ namespace GameplayFramework
                 return;
             }
 
+            if (onReadyServiceManager == null) { onReadyServiceManager = new UnityEvent(); }
+            if (onInitializedAGameService == null) { onInitializedAGameService = new UnityEvent<int, int, GameService>(); }
+
             if (instance == null)
             {
                 instance = this;
@@ -89,7 +97,15 @@ namespace GameplayFramework
                     {
                         var svc = services[i];
                         if (svc == null) { continue; }
-                        DontDestroyOnLoad(svc);
+                        if (svc.transform.parent != null && svc.transform.GetComponentInParent<GameServiceManager>() == null)
+                        {
+                            svc.transform.SetParent(null, true);
+                        }
+
+                        if (svc.transform.parent == null || svc.transform.GetComponentInParent<GameServiceManager>() == null)
+                        {
+                            DontDestroyOnLoad(svc);
+                        }
                     }
                 }
                 DontDestroyOnLoad(instance);
@@ -107,16 +123,26 @@ namespace GameplayFramework
             SceneManager.sceneLoaded += SceneManager_sceneLoaded;
         }
 
+        private void OnDestroy()
+        {
+            SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
+        }
+
         private void SceneManager_sceneLoaded(Scene scene, LoadSceneMode mode)
         {
             if (scene.name == "boot") { return; }
-            var allSvc = FindObjectsOfType<GameService>();
+            var currentServicesInScene = FindObjectsOfType<GameService>();
             if (services == null) { services = new List<GameService>(); }
-            for (int i = 0; i < allSvc.Length; i++)
+            isListDirty = true;
+            for (int i = 0; i < currentServicesInScene.Length; i++)
             {
-                var svc = allSvc[i];
+                var svc = currentServicesInScene[i];
                 if (svc == null) { continue; }
-                if (HasTheServiceOrTypeOfIt(svc) == false)
+                if (HasTheServiceOrTypeOfItAlreadyAdded(svc))
+                {
+                    //do nothing
+                }
+                else
                 {
                     Debug.LogWarning("You are trying to add a game service in normal Game Level. " +
                         "This is allowed but it is not a recommended practice. " +
@@ -128,12 +154,7 @@ namespace GameplayFramework
                     svc.IsRunning = true;
                     svc.OnInit();
                     StartCoroutine(svc.OnInitAsync());
-                    isListDirty = true;
                     services.Add(svc);
-                }
-                else
-                {
-                    Destroy(svc);
                 }
             }
             isListDirty = false;
@@ -147,7 +168,6 @@ namespace GameplayFramework
                 for (int i = 0; i < services.Count; i++)
                 {
                     var svc = services[i];
-                    if (svc == null) { continue; }
                     svc.IsRunning = true;
                     svc.OnInit();
 
@@ -158,9 +178,11 @@ namespace GameplayFramework
                     else
                     {
                         yield return StartCoroutine(svc.OnInitAsync());
-                    }   
+                    }
+                    onInitializedAGameService?.Invoke(i + 1, services.Count, svc);
                 }
             }
+            onReadyServiceManager?.Invoke();
         }
 
         public static T GetService<T>() where T : GameService
@@ -181,6 +203,43 @@ namespace GameplayFramework
                 }
             }
             return result;
+        }
+
+        public static T AddService<T>() where T : GameService
+        {
+            T spawnedService = null;
+            instance.isListDirty = true;
+            instance.services.RemoveAll((svc) => { return svc.GetType() == typeof(T); });
+            if (instance.services == null) { instance.services = new List<GameService>(); }
+            var g = new GameObject("_spawned_" + typeof(T));
+            spawnedService = g.AddComponent<T>();
+            DontDestroyOnLoad(spawnedService);
+            instance.services.Add(spawnedService);
+            instance.isListDirty = false;
+            return spawnedService;
+        }
+
+        public static void RemoveService<T>() where T : GameService
+        {
+            RemoveService(typeof(T));
+        }
+
+        public static void RemoveService(Type serviceType)
+        {
+            instance.isListDirty = true;
+            for (int i = 0; i < instance.services.Count; i++)
+            {
+                var svc = instance.services[i];
+                if (svc == null) { continue; }
+                if(svc.GetType() == serviceType)
+                {
+                    instance.services.Remove(svc);
+                }
+            }
+            if (instance.services == null) { instance.services = new List<GameService>(); }
+            instance.services.RemoveAll((svc) => { return svc == null; });
+            if (instance.services == null) { instance.services = new List<GameService>(); }
+            instance.isListDirty = false;
         }
 
         bool isListDirty = false;
