@@ -296,6 +296,7 @@ namespace GameplayFramework
             else
             {
                 DestroyImmediate(gameObject);
+                yield break;
             }
 
             void AdjustFPS()

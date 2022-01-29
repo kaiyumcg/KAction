@@ -13,7 +13,7 @@ namespace GameplayFramework
         const string multiplayerDef = "KML_SUPPORT";
         const string loggingDef = "KLOG_SUPPORT";
         const string cloudLogDef = "USE_CLOUD_LOG";
-        [MenuItem("Tool/Game Setting/Open Setting Window")]
+        [MenuItem("Tools/Game Setting/Open Setting Window")]
         static void Init()
         {
             SettingWindow window = (SettingWindow)EditorWindow.GetWindow(typeof(SettingWindow));
