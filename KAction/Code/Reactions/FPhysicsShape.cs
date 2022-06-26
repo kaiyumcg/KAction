@@ -1,13 +1,19 @@
-#define GAMEPLAY_SDK_DEBUG_MODE
+//#define GAMEPLAY_SDK_DEBUG_MODE
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 
 namespace GameplayFramework
 {
     public abstract class FPhysicsShape : MonoBehaviour
     {
+        Transform tr;
+        public Transform _Transform { get { return tr; } }
+        private void Awake()
+        {
+            tr = transform;
+        }
+
         bool IsValid(ReactorActor rival, ReactorActor thisActor)
         {
             var valid = true;

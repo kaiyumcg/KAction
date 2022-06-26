@@ -14,28 +14,28 @@ namespace GameplayFramework
         public static ActorLevelModule Instance { get { return instance; } }
 
         Dictionary<Collider, Actor> actorColliders;
-        public Dictionary<Collider, Actor> ActorColliders { get { return actorColliders; } }
+        internal Dictionary<Collider, Actor> ActorColliders { get { return actorColliders; } }
         Dictionary<Collider, ReactorActor> reactorColliders;
-        public Dictionary<Collider, ReactorActor> ReactorColliders { get { return reactorColliders; } }
+        internal Dictionary<Collider, ReactorActor> ReactorColliders { get { return reactorColliders; } }
         Dictionary<Collider2D, Actor> actorColliders2D;
-        public Dictionary<Collider2D, Actor> ActorColliders2D { get { return actorColliders2D; } }
+        internal Dictionary<Collider2D, Actor> ActorColliders2D { get { return actorColliders2D; } }
         Dictionary<Collider2D, ReactorActor> reactorColliders2D;
-        public Dictionary<Collider2D, ReactorActor> ReactorColliders2D { get { return reactorColliders2D; } }
+        internal Dictionary<Collider2D, ReactorActor> ReactorColliders2D { get { return reactorColliders2D; } }
 
         Dictionary<FPhysicsShape, Actor> actorShapes;
-        public Dictionary<FPhysicsShape, Actor> ActorShapes { get { return actorShapes; } }
+        internal Dictionary<FPhysicsShape, Actor> ActorShapes { get { return actorShapes; } }
         Dictionary<FPhysicsShape, ReactorActor> reactorShapes;
-        public Dictionary<FPhysicsShape, ReactorActor> ReactorShapes { get { return reactorShapes; } }
+        internal Dictionary<FPhysicsShape, ReactorActor> ReactorShapes { get { return reactorShapes; } }
 
         Dictionary<Collider, FPhysicsShape> shapes;
-        public Dictionary<Collider, FPhysicsShape> Shapes { get { return shapes; } }
+        internal Dictionary<Collider, FPhysicsShape> Shapes { get { return shapes; } }
         Dictionary<Collider2D, FPhysicsShape> shapes2D;
-        public Dictionary<Collider2D, FPhysicsShape> Shapes2D { get { return shapes2D; } }
+        internal Dictionary<Collider2D, FPhysicsShape> Shapes2D { get { return shapes2D; } }
 
         Dictionary<FPhysicsShape, Collider> shapes_RV;
-        public Dictionary<FPhysicsShape, Collider> Shapes_RV { get { return shapes_RV; } }
+        internal Dictionary<FPhysicsShape, Collider> Shapes_RV { get { return shapes_RV; } }
         Dictionary<FPhysicsShape, Collider2D> shapes2D_RV;
-        public Dictionary<FPhysicsShape, Collider2D> Shapes2D_RV { get { return shapes2D_RV; } }
+        internal Dictionary<FPhysicsShape, Collider2D> Shapes2D_RV { get { return shapes2D_RV; } }
 
         protected internal override void OnInit()
         {

@@ -2,17 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FColliderStop : MonoBehaviour
+namespace GameplayFramework
 {
-    // Start is called before the first frame update
-    void Start()
+    public class FColliderStop : FPhysicsShape
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private void OnCollisionExit(Collision collision)
+        {
+            this.OnCollisionStop(collision);
+        }
     }
 }

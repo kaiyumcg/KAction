@@ -103,17 +103,16 @@ namespace GameplayFramework.Platforming
             }
         }
 
-        protected override IEnumerator OnStartHitActorAsync(Actor rival)
+        protected override IEnumerator OnStartHitActorAsync(ReactorActor rival, FPhysicsShape rivalShape, FPhysicsShape ownShape)
         {
-            Debug.Log("yap volume. this actor: " + gameObject.name + " rival: " + rival.gameObject.name);
-            yield return StartCoroutine(base.OnStartHitActorAsync(rival));
+            yield return StartCoroutine(base.OnStartHitActorAsync(rival, rivalShape, ownShape));
             if (useThisColliderForDamage) { DamageActor(rival); }
         }
 
-        protected override IEnumerator OnEnterVolumeAsync(Actor rival)
+        protected override IEnumerator OnEnterVolumeAsync(ReactorActor rival, FPhysicsShape rivalShape, FPhysicsShape ownShape)
         {
             Debug.Log("yap collider. this actor: " + gameObject.name + " rival: " + rival.gameObject.name);
-            yield return StartCoroutine(base.OnEnterVolumeAsync(rival));
+            yield return StartCoroutine(base.OnEnterVolumeAsync(rival, rivalShape, ownShape));
             if (useThisVolumeForDamage) { DamageActor(rival); }
         }
 
@@ -130,32 +129,32 @@ namespace GameplayFramework.Platforming
             }
         }
 
-        protected override bool SetInteractionValidity(Actor rival)
+        protected override bool SetInteractionValidity(ReactorActor rival, FPhysicsShape rivalShape, FPhysicsShape ownShape)
         {
             return rival.IsPlayer;
         }
 
-        protected override void OnEnterVolume(Actor rival)
+        protected override void OnEnterVolume(ReactorActor rival, FPhysicsShape rivalShape, FPhysicsShape ownShape)
         {
-            base.OnEnterVolume(rival);
+            base.OnEnterVolume(rival, rivalShape, ownShape);
             CallEventFunc(InteractionEventPhysics.EnterVolume, rival);
         }
 
-        protected override void OnExitVolume(Actor rival)
+        protected override void OnExitVolume(ReactorActor rival, FPhysicsShape rivalShape, FPhysicsShape ownShape)
         {
-            base.OnExitVolume(rival);
+            base.OnExitVolume(rival, rivalShape, ownShape);
             CallEventFunc(InteractionEventPhysics.ExitVolume, rival);
         }
 
-        protected override void OnStartHitActor(Actor rival)
+        protected override void OnStartHitActor(ReactorActor rival, FPhysicsShape rivalShape, FPhysicsShape ownShape)
         {
-            base.OnStartHitActor(rival);
+            base.OnStartHitActor(rival, rivalShape, ownShape);
             CallEventFunc(InteractionEventPhysics.HitEvent, rival);
         }
 
-        protected override void OnStopHitActor(Actor rival)
+        protected override void OnStopHitActor(ReactorActor rival, FPhysicsShape rivalShape, FPhysicsShape ownShape)
         {
-            base.OnStopHitActor(rival);
+            base.OnStopHitActor(rival, rivalShape, ownShape);
             CallEventFunc(InteractionEventPhysics.StopHitEvent, rival);
         }
 

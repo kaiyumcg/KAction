@@ -34,6 +34,7 @@ namespace GameplayFramework
         [SerializeField] [HideInInspector] Actor owner;
         public Actor Owner { get { return owner; } }
 
+        //NOPE, instead call from editor inspector
 #if UNITY_EDITOR
         private void OnValidate()
         {
