@@ -8,7 +8,7 @@ namespace GameplayFramework
 {
     public static class KLog
     {
-        static void AddLogToGameLevel(string msg, LogType logType)
+        internal static void AddLogToGameLevel(string msg, LogType logType)
         {
             var size = GameLevel.Instance.RuntimeCloudLogSize;
             if (size == LogDataSize.Minimal)
@@ -129,6 +129,18 @@ namespace GameplayFramework
             }
             Debug.LogException(exception);
             AddLogToGameLevel(exception.Message, LogType.ExceptionUnity);
+#endif            
+        }
+
+        internal static void ThrowGameplaySDKException(GFType fType, string customMessage = "")
+        {
+#if KLOG_SUPPORT
+            if (GameLevel.Instance == null) 
+            {
+                Debug.LogError("Usage of KLog outside GameLevel is prohibited!");
+                return; 
+            }
+            throw new GameplayFrameworkException(fType, customMessage);
 #endif            
         }
 

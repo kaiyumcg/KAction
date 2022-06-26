@@ -15,15 +15,15 @@ namespace GameplayFramework
 #endif
         protected internal virtual void OnCleanupComponent() { }
 
-        protected internal virtual void OnEnterActorVolume(Actor rival) { }
-        protected internal virtual IEnumerator OnEnterActorVolumeAsync(Actor rival) { yield return null; }
-        protected internal virtual void OnActorHit(Actor rival) { }
-        protected internal virtual IEnumerator OnActorHitAsync(Actor rival) { yield return null; }
+        protected internal virtual void OnEnterActorVolume(ReactorActor rival, FPhysicsShape rivalShape, FPhysicsShape ownShape) { }
+        protected internal virtual IEnumerator OnEnterActorVolumeAsync(ReactorActor rival, FPhysicsShape rivalShape, FPhysicsShape ownShape) { yield return null; }
+        protected internal virtual void OnActorHit(ReactorActor rival, FPhysicsShape rivalShape, FPhysicsShape ownShape) { }
+        protected internal virtual IEnumerator OnActorHitAsync(ReactorActor rival, FPhysicsShape rivalShape, FPhysicsShape ownShape) { yield return null; }
 
-        protected internal virtual void OnExitActorVolume(Actor rival) { }
-        protected internal virtual IEnumerator OnExitActorVolumeAsync(Actor rival) { yield return null; }
-        protected internal virtual void OnStopActorHit(Actor rival) { }
-        protected internal virtual IEnumerator OnStopActorHitAsync(Actor rival) { yield return null; }
+        protected internal virtual void OnExitActorVolume(ReactorActor rival, FPhysicsShape rivalShape, FPhysicsShape ownShape) { }
+        protected internal virtual IEnumerator OnExitActorVolumeAsync(ReactorActor rival, FPhysicsShape rivalShape, FPhysicsShape ownShape) { yield return null; }
+        protected internal virtual void OnStopActorHit(ReactorActor rival, FPhysicsShape rivalShape, FPhysicsShape ownShape) { }
+        protected internal virtual IEnumerator OnStopActorHitAsync(ReactorActor rival, FPhysicsShape rivalShape, FPhysicsShape ownShape) { yield return null; }
         [SerializeField] List<GameplayTag> componentTags;
 
         internal void SetOwner(Actor actor)

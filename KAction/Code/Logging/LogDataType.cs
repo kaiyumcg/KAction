@@ -5,8 +5,23 @@ using System;
 
 namespace GameplayFramework
 {
-    public enum LogType { Normal, Warning, Error, ExceptionUnity, ExceptionUnityContexted, ExceptionCSharp }
-    public enum LogDataSize { Verbose, Optimal, Minimal }
+    public enum LogType 
+    { 
+        Normal = 0, 
+        Warning = 1, 
+        Error = 2, 
+        ExceptionUnity = 3, 
+        ExceptionUnityContexted = 4, 
+        ExceptionCSharp = 5,
+        FrameworkException = 6
+    }
+
+    public enum LogDataSize 
+    { 
+        Verbose = 0, 
+        Optimal = 1, 
+        Minimal = 2
+    }
 
     public struct LogDataOptimal
     {
