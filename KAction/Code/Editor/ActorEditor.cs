@@ -41,7 +41,7 @@ namespace GameplayFramework
                 EditorGUI.indentLevel++;
                 if (GUILayout.Button("Fetch components"))
                 {
-                    actorObject.ReloadComponents();
+                    
                 }
                 EditorGUILayout.PropertyField(gameplayComponents_prop);
                 EditorGUILayout.PropertyField(life_prop);

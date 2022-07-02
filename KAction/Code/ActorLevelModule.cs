@@ -13,6 +13,12 @@ namespace GameplayFramework
         static ActorLevelModule instance;
         public static ActorLevelModule Instance { get { return instance; } }
 
+        Dictionary<ReactorActor, Rigidbody> reactorBodies;
+        internal Dictionary<ReactorActor, Rigidbody> ReactorBodies { get { return reactorBodies; } }
+
+        Dictionary<ReactorActor, Rigidbody2D> reactorBodies2D;
+        internal Dictionary<ReactorActor, Rigidbody2D> ReactorBodies2D { get { return reactorBodies2D; } }
+
         Dictionary<Collider, Actor> actorColliders;
         internal Dictionary<Collider, Actor> ActorColliders { get { return actorColliders; } }
         Dictionary<Collider, ReactorActor> reactorColliders;

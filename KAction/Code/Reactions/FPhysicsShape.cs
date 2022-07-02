@@ -1,4 +1,6 @@
-//#define GAMEPLAY_SDK_DEBUG_MODE
+#define GAMEPLAY_SDK_DEBUG_MODE
+#define GAMEPLAY_SUPPORT_NOSTANDARD_COLS
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -230,66 +232,98 @@ namespace GameplayFramework
 
         internal void OnVolumeEnter(Collider rival)
         {
+#if GAMEPLAY_SUPPORT_NOSTANDARD_COLS
+            var actLvMod = ActorLevelModule.Instance;
+            if (actLvMod.ReactorColliders.ContainsKey(rival) == false || actLvMod.Shapes.ContainsKey(rival) == false) { return; }
+#endif
             ReactorActor thisActor; ReactorActor rivalActor; FPhysicsShape rivalShape;
             GetActors(rival, out thisActor, out rivalActor, out rivalShape);
             if (!IsValid(rivalActor, thisActor)) { return; }
-            thisActor.ProcessVolume(rival, rivalActor, true, rivalShape, this);
+            thisActor.ProcessVolume(rival, null, rivalActor, true, rivalShape, this);
         }
 
         internal void OnVolumeExit(Collider rival)
         {
+#if GAMEPLAY_SUPPORT_NOSTANDARD_COLS
+            var actLvMod = ActorLevelModule.Instance;
+            if (actLvMod.ReactorColliders.ContainsKey(rival) == false || actLvMod.Shapes.ContainsKey(rival) == false) { return; }
+#endif
             ReactorActor thisActor; ReactorActor rivalActor; FPhysicsShape rivalShape;
             GetActors(rival, out thisActor, out rivalActor, out rivalShape);
             if (!IsValid(rivalActor, thisActor)) { return; }
-            thisActor.ProcessVolume(rival, rivalActor, false, rivalShape, this);
+            thisActor.ProcessVolume(rival, null, rivalActor, false, rivalShape, this);
         }
 
-        internal void OnCollisionStart(Collision rivalCollision)
+        internal void OnCollisionStart(Collision rival)
         {
+#if GAMEPLAY_SUPPORT_NOSTANDARD_COLS
+            var actLvMod = ActorLevelModule.Instance;
+            if (actLvMod.ReactorColliders.ContainsKey(rival.collider) == false || actLvMod.Shapes.ContainsKey(rival.collider) == false) { return; }
+#endif
             ReactorActor thisActor; ReactorActor rivalActor; FPhysicsShape rivalShape;
-            GetActors(rivalCollision, out thisActor, out rivalActor, out rivalShape);
+            GetActors(rival, out thisActor, out rivalActor, out rivalShape);
             if (!IsValid(rivalActor, thisActor)) { return; }
-            thisActor.ProcessSolid(rivalCollision, rivalActor, true, rivalShape, this);
+            thisActor.ProcessSolid(rival, null, rivalActor, true, rivalShape, this);
         }
 
-        internal void OnCollisionStop(Collision rivalCollision)
+        internal void OnCollisionStop(Collision rival)
         {
+#if GAMEPLAY_SUPPORT_NOSTANDARD_COLS
+            var actLvMod = ActorLevelModule.Instance;
+            if (actLvMod.ReactorColliders.ContainsKey(rival.collider) == false || actLvMod.Shapes.ContainsKey(rival.collider) == false) { return; }
+#endif
             ReactorActor thisActor; ReactorActor rivalActor; FPhysicsShape rivalShape;
-            GetActors(rivalCollision, out thisActor, out rivalActor, out rivalShape);
+            GetActors(rival, out thisActor, out rivalActor, out rivalShape);
             if (!IsValid(rivalActor, thisActor)) { return; }
-            thisActor.ProcessSolid(rivalCollision, rivalActor, false, rivalShape, this);
+            thisActor.ProcessSolid(rival, null, rivalActor, false, rivalShape, this);
         }
 
         internal void OnVolumeEnter2D(Collider2D rival)
         {
+#if GAMEPLAY_SUPPORT_NOSTANDARD_COLS
+            var actLvMod = ActorLevelModule.Instance;
+            if (actLvMod.ReactorColliders2D.ContainsKey(rival) == false || actLvMod.Shapes2D.ContainsKey(rival) == false) { return; }
+#endif
             ReactorActor thisActor; ReactorActor rivalActor; FPhysicsShape rivalShape;
             GetActors(rival, out thisActor, out rivalActor, out rivalShape);
             if (!IsValid(rivalActor, thisActor)) { return; }
-            thisActor.ProcessVolume2D(rival, rivalActor, true, rivalShape, this);
+            thisActor.ProcessVolume(null, rival, rivalActor, true, rivalShape, this);
         }
 
         internal void OnVolumeExit2D(Collider2D rival)
         {
+#if GAMEPLAY_SUPPORT_NOSTANDARD_COLS
+            var actLvMod = ActorLevelModule.Instance;
+            if (actLvMod.ReactorColliders2D.ContainsKey(rival) == false || actLvMod.Shapes2D.ContainsKey(rival) == false) { return; }
+#endif
             ReactorActor thisActor; ReactorActor rivalActor; FPhysicsShape rivalShape;
             GetActors(rival, out thisActor, out rivalActor, out rivalShape);
             if (!IsValid(rivalActor, thisActor)) { return; }
-            thisActor.ProcessVolume2D(rival, rivalActor, false, rivalShape, this);
+            thisActor.ProcessVolume(null, rival, rivalActor, false, rivalShape, this);
         }
 
-        internal void OnCollisionStart2D(Collision2D rivalCollision)
+        internal void OnCollisionStart2D(Collision2D rival)
         {
+#if GAMEPLAY_SUPPORT_NOSTANDARD_COLS
+            var actLvMod = ActorLevelModule.Instance;
+            if (actLvMod.ReactorColliders2D.ContainsKey(rival.collider) == false || actLvMod.Shapes2D.ContainsKey(rival.collider) == false) { return; }
+#endif
             ReactorActor thisActor; ReactorActor rivalActor; FPhysicsShape rivalShape;
-            GetActors(rivalCollision, out thisActor, out rivalActor, out rivalShape);
+            GetActors(rival, out thisActor, out rivalActor, out rivalShape);
             if (!IsValid(rivalActor, thisActor)) { return; }
-            thisActor.ProcessSolid2D(rivalCollision, rivalActor, true, rivalShape, this);
+            thisActor.ProcessSolid(null, rival, rivalActor, true, rivalShape, this);
         }
 
-        internal void OnCollisionStop2D(Collision2D rivalCollision)
+        internal void OnCollisionStop2D(Collision2D rival)
         {
+#if GAMEPLAY_SUPPORT_NOSTANDARD_COLS
+            var actLvMod = ActorLevelModule.Instance;
+            if (actLvMod.ReactorColliders2D.ContainsKey(rival.collider) == false || actLvMod.Shapes2D.ContainsKey(rival.collider) == false) { return; }
+#endif
             ReactorActor thisActor; ReactorActor rivalActor; FPhysicsShape rivalShape;
-            GetActors(rivalCollision, out thisActor, out rivalActor, out rivalShape);
+            GetActors(rival, out thisActor, out rivalActor, out rivalShape);
             if (!IsValid(rivalActor, thisActor)) { return; }
-            thisActor.ProcessSolid2D(rivalCollision, rivalActor, false, rivalShape, this);
+            thisActor.ProcessSolid(null, rival, rivalActor, false, rivalShape, this);
         }
     }
 }
