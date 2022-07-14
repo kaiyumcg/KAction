@@ -24,7 +24,9 @@ namespace GameplayFramework
         protected internal virtual IEnumerator OnExitActorVolumeAsync(ReactorActor rival, FPhysicsShape rivalShape, FPhysicsShape ownShape) { yield return null; }
         protected internal virtual void OnStopActorHit(ReactorActor rival, FPhysicsShape rivalShape, FPhysicsShape ownShape) { }
         protected internal virtual IEnumerator OnStopActorHitAsync(ReactorActor rival, FPhysicsShape rivalShape, FPhysicsShape ownShape) { yield return null; }
-        [SerializeField] List<GameplayTag> componentTags;
+        [SerializeField] internal GameplayTag componentTag;
+        [System.NonSerialized, HideInInspector] internal bool isDynamic = false, canTick = true;
+        public bool CanTick { get { return canTick; } set { canTick = value; } }
 
         internal void SetOwner(Actor actor)
         {
@@ -33,13 +35,5 @@ namespace GameplayFramework
 
         [SerializeField] [HideInInspector] Actor owner;
         public Actor Owner { get { return owner; } }
-
-        //NOPE, instead call from editor inspector
-#if UNITY_EDITOR
-        private void OnValidate()
-        {
-            OnEditorUpdate();
-        }
-#endif
     }
 }

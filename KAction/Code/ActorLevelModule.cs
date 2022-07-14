@@ -6,11 +6,12 @@ namespace GameplayFramework
 {
     public sealed class ActorLevelModule : LevelModule
     {
-        [SerializeField] List<Actor> rootActors;
+        [SerializeField] internal List<Actor> actors, rootActors;
+        internal bool actorListDirty = false;
 
-        bool actorListDirty = false;
+        internal static float RawDelta, RawFixedDelta;
 
-        static ActorLevelModule instance;
+        internal static ActorLevelModule instance;
         public static ActorLevelModule Instance { get { return instance; } }
 
         Dictionary<ReactorActor, Rigidbody> reactorBodies;
@@ -49,24 +50,14 @@ namespace GameplayFramework
             instance = this;
         }
 
-        internal void ReloadRootActors()
-        {
-            
-        }
-
-        void Awake()
-        {
-            ReloadRootActors();
-        }
-
         protected internal override void OnTick()
         {
             if (actorListDirty) { return; }
+            RawDelta = Time.deltaTime;
+            RawFixedDelta = Time.fixedDeltaTime;
             for (int i = 0; i < rootActors.Count; i++)
             {
-                var dt = Time.deltaTime;
-                var fDt = Time.fixedDeltaTime;
-                rootActors[i].Tick(dt, fDt);
+                rootActors[i].Tick(RawDelta, RawFixedDelta);
             }
         }
 
@@ -75,95 +66,8 @@ namespace GameplayFramework
             if (actorListDirty) { return; }
             for (int i = 0; i < rootActors.Count; i++)
             {
-                var dt = Time.deltaTime;
-                var fDt = Time.fixedDeltaTime;
-                rootActors[i].TickPhysics(dt, fDt);
+                rootActors[i].TickPhysics(RawDelta, RawFixedDelta);
             }
-        }
-
-        public void PauseActors()
-        {
-            
-        }
-
-        public void ResumeActors()
-        {
-            
-        }
-
-        public void SetCustomTime(float timeScale)
-        {
-            
-        }
-
-        public T GetActor<T>() where T : Actor
-        {
-            return null;
-        }
-
-        public List<T> GetActors<T>() where T : Actor
-        {
-            return null;
-        }
-
-        public T GetPlayerActor<T>() where T : Actor
-        {
-            return null;
-        }
-
-        public List<T> GetPlayerActors<T>() where T : Actor
-        {
-            return null;
-        }
-
-        public T GetActorByTag<T>(GameplayTag tag) where T : Actor
-        {
-            return null;
-        }
-
-        public List<T> GetActorsByTag<T>(GameplayTag tag) where T : Actor
-        {
-            return null;
-        }
-
-        public T GetActorByTag<T>(string a_tag, bool inFileName = false) where T : Actor
-        {
-            return null;
-        }
-
-        public List<T> GetActorsByTag<T>(string a_tag, bool inFileName = false) where T : Actor
-        {
-            return null;
-        }
-
-        public T GetActorByTag<T>(List<GameplayTag> a_tags) where T : Actor
-        {
-            return null;
-        }
-
-        public List<T> GetActorsByTag<T>(List<GameplayTag> a_tags) where T : Actor
-        {
-            return null;
-        }
-
-        public T GetActorByTag<T>(List<string> a_tags, bool inFileName = false) where T : Actor
-        {
-            return null;
-        }
-
-        public List<T> GetActorsByTag<T>(List<string> a_tags, bool inFileName = false) where T : Actor
-        {
-            return null;
-        }
-
-        public List<T> GetActorsFor<T>(System.Predicate<Actor> condition) where T : Actor
-        {
-            return null;
-        }
-
-        public T GetActorFor<T>(System.Predicate<Actor> condition) where T : Actor
-        {
-            return null;
         }
 
         public T GetOrCloneActor<T>(T prefab) where T : Actor
@@ -175,7 +79,5 @@ namespace GameplayFramework
         {
             
         }
-
-        
     }
 }

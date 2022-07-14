@@ -7,17 +7,18 @@ namespace GameplayFramework
 {
     public abstract partial class Actor : MonoBehaviour
     {
-        [HideInInspector, System.NonSerialized] internal bool shaking = false;
-
+        [SerializeField] ActorType mType = ActorType.Player;
+        public ActorType ActorType { get { return mType; } }
+        [System.NonSerialized, HideInInspector] internal bool canTick = true;
+        public bool CanTick { get { return canTick; } set { canTick = value; } }
         Transform tr;
         GameObject gobj;
         bool gameplayRun = false, isRoot = true, childActorListDirty = false, isActorPaused = false;
-        private protected bool componentListDirty = false;
         
         GameLevel gameMan_Core;
         Actor owner = null;
         
-        [SerializeField] private protected List<GameplayComponent> gameplayComponents;
+        
         [SerializeField] internal List<Actor> childActors;
 
         [SerializeField] UnityEvent onStartOrSpawn = null;

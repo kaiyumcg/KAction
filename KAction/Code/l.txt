@@ -1,0 +1,36 @@
+Visibility and Toggle:
+	Show or Hide renderers
+	SetActive GameObjects
+	Enable or Disable gameplay components and actor component
+
+Internal Getter and Components
+	Destroy Actors(consider time travel and object pooling)
+	Clone Actors(consider time travel and object pooling)
+	Parent/ReParent child actor
+
+Mini Actor Set like mass framework/DOTS/Compute Shader:
+
+Execution:
+	Easily educatable execution workflow to change execution order of actors and components.
+	Custom time dilation
+	Pause and Resume
+	Can disable tick if not needed
+
+Life and Death:
+	Health
+	Damage(Fixed/Directional etc)
+	Death Async and Respawn Async
+
+List Extension for optimized ref equal and other commonly used methods:
+
+Data layer:
+	Not like UE4's one. This is a dictionary where key is string and value is a plain class object instance 
+	or certain allowed structs. This is essentially playerpref but runtime one which 
+	rests only in memory and not in device storage. 
+	A bunch events corresponding to that when the data changes.
+
+Level Prep upon build/play mode--this make sure no null list(actor, components, child actors etc)
+							   --proper child/components etc
+
+Update ActorLevelModule's dictionary maps and other data w.r.t. add actor components/remove actor component/child-parent relation change of actor-child actor/
+																/clone-free actor prefab

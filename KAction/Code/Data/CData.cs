@@ -5,6 +5,33 @@ using UnityEngine;
 namespace GameplayFramework
 {
     [System.Serializable]
+    public abstract class ActorData
+    {
+
+        public virtual string ConvertToJson() { return null; }
+    }
+
+    public enum ActorForceEase
+    {
+        EaseIn = 0,
+        EaseOut = 1,
+        Cubic = 2,
+        Linear = 3
+    }
+
+    public enum ActorType
+    {
+        Player = 0,
+        NPC = 1, 
+        EnvironmentalStatic = 2, 
+        EnvironmentalDynamic = 3, 
+        Other = 4
+    }
+
+    public delegate void OnCompleteForceLibFunc();
+    public delegate void OnDoActorDataFunc(string key, ActorData data);
+
+    [System.Serializable]
     public class ParticleSpawnDesc
     {
         [SerializeField] Transform particle = null, holder = null;

@@ -4,53 +4,75 @@ using UnityEngine;
 
 namespace GameplayFramework
 {
-    public static class ActorExt
+    public static class ActorForceExt
     {
-        public static T GetComInActor<T>(this Actor thisActor) where T : Component
+        public static void Jump(this Actor actor, Vector3 direction, float height, OnCompleteForceLibFunc OnComplete = null, bool acceleration = true)
         {
-            var obj = thisActor.gameObject;
-            var actObj = obj.GetComponent<Actor>();
-            if (obj == null || (actObj != null && actObj != thisActor)) { return null; }
-            T result = GetComInActorInternal<T>(thisActor, obj);
-            return result;
+            throw new System.NotImplementedException();
         }
 
-        static T GetComInActorInternal<T>(Actor thisActor, GameObject obj) where T : Component
+        public static void Helix(this Actor actor, Vector3 direction, float height, float within, OnCompleteForceLibFunc OnComplete = null, bool revertBack = true)
         {
-            var actObj = obj.GetComponent<Actor>();
-            if (obj == null || (actObj != null && actObj != thisActor)) { return null; }
-            T result = obj.GetComponent<T>();
-            if (result == null)
-            {
-                if (obj.transform.childCount > 0)
-                {
-                    for (int i = 0; i < obj.transform.childCount; i++)
-                    {
-                        var gh = obj.transform.GetChild(i);
-                        result = GetComInActorInternal<T>(thisActor, gh.gameObject);
-                        if (result != null)
-                        {
-                            break;
-                        }
-                    }
-                }
-            }
-
-            return result;
+            throw new System.NotImplementedException();
         }
 
-
-        #region Shake
-        
-        //swirl, rubber jump, spring arm etc effect? socket like attachement as we see in ue?
-        //todo rigidbody counterpart?
-        public static void Shake(this Actor actor, float shakeDuration, float decreasePoint, bool is2D = false)
+        public static void TurnTo(this Actor actor, Actor to, float within, OnCompleteForceLibFunc OnComplete = null, ActorForceEase ease = ActorForceEase.Linear)
         {
-            if (actor.shaking)
+            throw new System.NotImplementedException();
+        }
+
+        public static void MoveTo(this Actor actor, Actor to, float within, OnCompleteForceLibFunc OnComplete = null, ActorForceEase ease = ActorForceEase.Linear)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public static void TurnTo(this Actor actor, Vector3 to, float within, OnCompleteForceLibFunc OnComplete = null, ActorForceEase ease = ActorForceEase.Linear)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public static void MoveTo(this Actor actor, Vector3 to, float within, OnCompleteForceLibFunc OnComplete = null, ActorForceEase ease = ActorForceEase.Linear)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public static void Thurst(this Actor actor, Vector3 direction, float initialBackwardTime, float restTime, OnCompleteForceLibFunc OnComplete = null)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public static void Swirl(this Actor actor, Vector3 singularityPosition, float centerTime, float upwardFactor, OnCompleteForceLibFunc OnComplete = null)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public static void Pop(this Actor actor, float popTime, float rubberness, OnCompleteForceLibFunc OnComplete = null)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public static void SpringRelease(this Actor actor, Vector3 direction, float force, OnCompleteForceLibFunc OnComplete = null)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public static void Summon(this Actor actor, Vector3 direction, Vector3 position, float force, OnCompleteForceLibFunc OnComplete = null)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public static void Summon(this Actor actor, Vector3 position, float force, OnCompleteForceLibFunc OnComplete = null)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public static void Shake(this Actor actor, float shakeDuration, float decreasePoint, OnCompleteForceLibFunc OnComplete = null, bool is2D = false)
+        {
+            if (actor.isShaking)
             {
                 return;
             }
-            actor.shaking = true;
+            actor.isShaking = true;
             actor.StartCoroutine(shakeGameObjectCOR(actor._Transform, shakeDuration, decreasePoint, is2D));
 
             IEnumerator shakeGameObjectCOR(Transform objTransform, float totalShakeDuration, float decreasePoint, bool objectIs2D = false)
@@ -133,10 +155,39 @@ namespace GameplayFramework
                 }
                 objTransform.position = defaultPos; //Reset to original postion
                 objTransform.rotation = defaultRot;//Reset to original rotation
-
-                actor.shaking = false; //So that we can call this function next time
+                actor.isShaking = false; //So that we can call this function next time
+                OnComplete?.Invoke();
             }
         }
-        #endregion
+
+        public static void HangStill(this Actor actor, Vector3 origin, float randomness, Vector3 direction)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public static void HangStill(this Actor actor, Vector3 origin, float randomness)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public static void Swing(this Actor actor, Vector3 originPosition, Vector3 centerPosition, Vector3 direction, float angleInDegree, OnCompleteForceLibFunc OnComplete = null)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public static void Brownian(this Actor actor, float force, float spread, Vector3 plane)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public static void Brownian(this Actor actor, float force, float spread)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public static void RubberBandFollow(this Actor actor, Actor to, float followSpeed, float rubberness)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

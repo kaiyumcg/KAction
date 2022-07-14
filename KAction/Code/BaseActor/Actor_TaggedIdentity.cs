@@ -7,7 +7,7 @@ namespace GameplayFramework
     public abstract partial class Actor : MonoBehaviour
     {
         [SerializeField] bool isPlayer = false;
-        [SerializeField] List<GameplayTag> tags = null;
+        [SerializeField] internal List<GameplayTag> tags = null;
         public bool IsPlayer { get { return isPlayer; } }
 
         public bool HasAnyTaggedRelation(Actor actor)
@@ -110,7 +110,7 @@ namespace GameplayFramework
                                 for (int j = 0; j < otCount; j++)
                                 {
                                     var oTag = otherTags[j];
-                                    if (thisTag.ParentChain.HasItemIn(oTag.ParentChain))
+                                    if (thisTag.ParentChain.HasAtleastOneItemIn(oTag.ParentChain))
                                     {
                                         hasIt = true;
                                         break;

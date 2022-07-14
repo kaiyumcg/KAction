@@ -36,8 +36,6 @@ namespace GameplayFramework
         {
             var rgd = reactor_Object.GetComponent<Rigidbody>();
             var rgd2D = reactor_Object.GetComponent<Rigidbody2D>();
-            var col = reactor_Object.GetComInActor<Collider>();
-            var col2D = reactor_Object.GetComInActor<Collider2D>();
 
             var str = "";
             var valid = true;
@@ -47,11 +45,11 @@ namespace GameplayFramework
                 str = "This actor(reactor) must have rigidbody attached to it!";
                 valid = false;
             }
-            else if (col == null && col2D == null)
-            {
-                str = "This actor(reactor) must have collider(s) attached to it/children that belongs to this actor!";
-                valid = false;
-            }
+            //else if (col == null && col2D == null)
+            //{
+            //    str = "This actor(reactor) must have collider(s) attached to it/children that belongs to this actor!";
+            //    valid = false;
+            //}
 
             if (valid == false)
             {

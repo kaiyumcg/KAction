@@ -6,11 +6,10 @@ namespace GameplayFramework
 {
     public abstract partial class Actor : MonoBehaviour
     {
-        [SerializeField] float timeScale = 1.0f;
-        [SerializeField] bool pauseResumeAffectsChildActors = false, customTimeDilationAffectsChildActors = false;
-
-        public bool PauseResumeAffectChildActors { get { return pauseResumeAffectsChildActors; } set { pauseResumeAffectsChildActors = value; } }
-        public bool CustomTimeDilationAffectChildActors { get { return customTimeDilationAffectsChildActors; } set { customTimeDilationAffectsChildActors = value; } }
+        [SerializeField] internal float timeScale = 1.0f;
+        [SerializeField] bool timeDilationAffectsChildActors = true;
+        
+        public bool TimeDilationAffectChildActors { get { return timeDilationAffectsChildActors; } set { timeDilationAffectsChildActors = value; } }
         public float TimeScale
         {
             get
@@ -20,18 +19,15 @@ namespace GameplayFramework
             set
             {
                 timeScale = value;
-                if (customTimeDilationAffectsChildActors)
+                if (timeDilationAffectsChildActors)
                 {
                     if (childActorListDirty == false)
                     {
-                        if (childActors != null && childActors.Count > 0)
+                        for (int i = 0; i < childActors.Count; i++)
                         {
-                            for (int i = 0; i < childActors.Count; i++)
-                            {
-                                var ch = childActors[i];
-                                if (ch == null) { continue; }
-                                ch.TimeScale = value;
-                            }
+                            var ch = childActors[i];
+                            if (ch == null) { continue; }
+                            ch.TimeScale = value;
                         }
                     }
                 }
@@ -39,30 +35,37 @@ namespace GameplayFramework
         }
 
         #region TickFunc
-        //for actor manager
         internal void Tick(float dt_from_unity, float fixedDt_from_unity)
         {
-            if (!gameplayRun || isDead || deathStarted || !isRoot) { return; }
-            dt_from_unity *= timeScale;
-            fixedDt_from_unity *= timeScale;
-            TickActorInternal(dt_from_unity, fixedDt_from_unity);
+            if (!isRoot) { return; }
+            var dt = dt_from_unity * timeScale;
+            var fdt = fixedDt_from_unity * timeScale;
+            TickActorInternal(dt, fdt);
         }
 
-        private protected void TickActorInternal(float dt_from_unity, float fixedDt_from_unity)
+        void TickActorInternal(float dt, float fdt)
         {
-            UpdateActor(dt_from_unity, fixedDt_from_unity);
-            if (childActorListDirty == false)
+            if (!gameplayRun || isDead || deathStarted) { return; }
+            UpdateActor(dt, fdt);
+            if (componentListDirty == false)
             {
-                for (int i = 0; i < childActors.Count; i++)
+                for (int i = 0; i < gameplayComponents.Count; i++)
                 {
-                    childActors[i].TickActorInternal(dt_from_unity, fixedDt_from_unity);
+                    gameplayComponents[i].UpdateComponent(dt, fdt);
                 }
             }
 
-            if (componentListDirty) { return; }
-            for (int i = 0; i < gameplayComponents.Count; i++)
+            if (childActorListDirty == false)
             {
-                gameplayComponents[i].UpdateComponent(dt_from_unity, fixedDt_from_unity);
+                var dt_from_unity = ActorLevelModule.RawDelta;
+                var fdt_from_unity = ActorLevelModule.RawFixedDelta;
+                for (int i = 0; i < childActors.Count; i++)
+                {
+                    var chActor = childActors[i];
+                    var ch_dt = timeDilationAffectsChildActors ? dt : dt_from_unity * chActor.timeScale;
+                    var ch_fdt = timeDilationAffectsChildActors ? fdt : fdt_from_unity * chActor.timeScale;
+                    childActors[i].TickActorInternal(ch_dt, ch_fdt);
+                }
             }
         }
 
@@ -71,28 +74,35 @@ namespace GameplayFramework
         #region PhysicsTickFunc
         internal void TickPhysics(float dt_from_unity, float fixedDt_from_unity)
         {
-            if (!gameplayRun || isDead || deathStarted || !isRoot) { return; }
-            dt_from_unity *= timeScale;
-            fixedDt_from_unity *= timeScale;
-            TickPhysicsInternal(dt_from_unity, fixedDt_from_unity);
+            if (!isRoot) { return; }
+            var dt = dt_from_unity * timeScale;
+            var fdt = fixedDt_from_unity * timeScale;
+            TickPhysicsInternal(dt, fdt);
         }
 
-        private protected void TickPhysicsInternal(float dt, float fixedDt)
+        void TickPhysicsInternal(float dt, float fdt)
         {
-            UpdateActorPhysics(dt, fixedDt);
-
-            if (childActorListDirty == false)
+            if (!gameplayRun || isDead || deathStarted) { return; }
+            UpdateActorPhysics(dt, fdt);
+            if (componentListDirty == false)
             {
-                for (int i = 0; i < childActors.Count; i++)
+                for (int i = 0; i < gameplayComponents.Count; i++)
                 {
-                    childActors[i].TickPhysicsInternal(dt, fixedDt);//so child dead hoileo ki child run korbe? eta fix korte hobe!
+                    gameplayComponents[i].UpdateComponentPhysics(dt, fdt);
                 }
             }
 
-            if (componentListDirty) { return; }
-            for (int i = 0; i < gameplayComponents.Count; i++)
+            if (childActorListDirty == false)
             {
-                gameplayComponents[i].UpdateComponentPhysics(dt, fixedDt);
+                var dt_from_unity = ActorLevelModule.RawDelta;
+                var fdt_from_unity = ActorLevelModule.RawFixedDelta;
+                for (int i = 0; i < childActors.Count; i++)
+                {
+                    var chActor = childActors[i];
+                    var ch_dt = timeDilationAffectsChildActors ? dt : dt_from_unity * chActor.timeScale;
+                    var ch_fdt = timeDilationAffectsChildActors ? fdt : fdt_from_unity * chActor.timeScale;
+                    childActors[i].TickPhysicsInternal(ch_dt, ch_fdt);
+                }
             }
         }
         #endregion
@@ -107,6 +117,29 @@ namespace GameplayFramework
             {
                 yield return new WaitForSeconds(amount_wt);
                 OnComplete?.Invoke();
+            }
+        }
+
+        public void SetTickForGameplayComponents(bool tick)
+        {
+            if (gameplayComponents != null && gameplayComponents.Count > 0)
+            {
+                for (int i = 0; i < gameplayComponents.Count; i++)
+                {
+                    var comp = gameplayComponents[i];
+                    if (comp == null) { continue; }
+                    comp.canTick = tick;
+                }
+            }
+        }
+
+        public void SetTick(bool tick)
+        {
+            SetTickForGameplayComponents(tick);
+            for (int i = 0; i < childActors.Count; i++)
+            {
+                var chActor = childActors[i];
+                chActor.SetTick(tick);
             }
         }
     }

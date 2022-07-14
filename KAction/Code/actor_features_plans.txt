@@ -20,7 +20,7 @@ Force Lib(Burst support or not):
 	Continuous force effects
 	Shake
 	Rotate move ahead for attack and back
-	Check keijrio’s repo for a gameplay related project for further
+	Check keijrio repo for a gameplay related project for further
 	Rope hanging fake physics
 	Brownian movement
 	Rubber band follow movement
@@ -51,8 +51,7 @@ Life and Death:
 List Extension for optimized ref equal and other commonly used methods:
 
 Data layer:
-	Not like UE’s one. This is a dictionary where key is string and value is a plain class object instance 
+	Not like UE4's one. This is a dictionary where key is string and value is a plain class object instance 
 	or certain allowed structs. This is essentially playerpref but runtime one which 
 	rests only in memory and not in device storage. 
 	A bunch events corresponding to that when the data changes.
-
