@@ -6,53 +6,75 @@ namespace GameplayFramework
 {
     public sealed class ActorLevelModule : LevelModule
     {
-        [SerializeField] internal List<Actor> actors, rootActors;
-        internal bool actorListDirty = false;
+        /// <summary>
+        /// these are baked into by baking tools upon save operation of a level, during build process and upon play mode
+        /// </summary>
+        [SerializeField] internal List<Actor> rootActors;
+        [SerializeField, HideInInspector] internal List<Actor> actors;
+        [SerializeField, HideInInspector] FOrderedDictionary<ReactorActor, Rigidbody> reactorBodies;
+        [SerializeField, HideInInspector] FOrderedDictionary<ReactorActor, Rigidbody2D> reactorBodies2D;
+        [SerializeField, HideInInspector] FOrderedDictionary<Collider, Actor> actorColliders;
+        [SerializeField, HideInInspector] FOrderedDictionary<Collider, ReactorActor> reactorColliders;
+        [SerializeField, HideInInspector] FOrderedDictionary<Collider2D, Actor> actorColliders2D;
+        [SerializeField, HideInInspector] FOrderedDictionary<Collider2D, ReactorActor> reactorColliders2D;
+        [SerializeField, HideInInspector] FOrderedDictionary<FPhysicsShape, Actor> actorShapes;
+        [SerializeField, HideInInspector] FOrderedDictionary<FPhysicsShape, ReactorActor> reactorShapes;
+        [SerializeField, HideInInspector] FOrderedDictionary<Collider, FPhysicsShape> shapes;
+        [SerializeField, HideInInspector] FOrderedDictionary<Collider2D, FPhysicsShape> shapes2D;
+        [SerializeField, HideInInspector] FOrderedDictionary<FPhysicsShape, Collider> shapes_RV;
+        [SerializeField, HideInInspector] FOrderedDictionary<FPhysicsShape, Collider2D> shapes2D_RV;
+
+#if UNITY_EDITOR
+        public void Set_reactorBodies(FOrderedDictionary<ReactorActor, Rigidbody> reactorBodies) { this.reactorBodies = reactorBodies; }
+        public void Set_reactorBodies2D(FOrderedDictionary<ReactorActor, Rigidbody2D> reactorBodies2D) { this.reactorBodies2D = reactorBodies2D; }
+        public void Set_actorColliders(FOrderedDictionary<Collider, Actor> actorColliders) { this.actorColliders = actorColliders; }
+        public void Set_reactorColliders(FOrderedDictionary<Collider, ReactorActor> reactorColliders) { this.reactorColliders = reactorColliders; }
+        public void Set_actorColliders2D(FOrderedDictionary<Collider2D, Actor> actorColliders2D) { this.actorColliders2D = actorColliders2D; }
+        public void Set_reactorColliders2D(FOrderedDictionary<Collider2D, ReactorActor> reactorColliders2D) { this.reactorColliders2D = reactorColliders2D; }
+        public void Set_actorShapes(FOrderedDictionary<FPhysicsShape, Actor> actorShapes) { this.actorShapes = actorShapes; }
+        public void Set_reactorShapes(FOrderedDictionary<FPhysicsShape, ReactorActor> reactorShapes) { this.reactorShapes = reactorShapes; }
+        public void Set_shapes(FOrderedDictionary<Collider, FPhysicsShape> shapes) { this.shapes = shapes; }
+        public void Set_shapes2D(FOrderedDictionary<Collider2D, FPhysicsShape> shapes2D) { this.shapes2D = shapes2D; }
+        public void Set_shapes_RV(FOrderedDictionary<FPhysicsShape, Collider> shapes_RV) { this.shapes_RV = shapes_RV; }
+        public void Set_shapes2D_RV(FOrderedDictionary<FPhysicsShape, Collider2D> shapes2D_RV) { this.shapes2D_RV = shapes2D_RV; }
+#endif
+
+        internal bool actorListDirty = false, rootActorListDirty = false;
 
         internal static float RawDelta, RawFixedDelta;
 
         internal static ActorLevelModule instance;
         public static ActorLevelModule Instance { get { return instance; } }
-
-        Dictionary<ReactorActor, Rigidbody> reactorBodies;
-        internal Dictionary<ReactorActor, Rigidbody> ReactorBodies { get { return reactorBodies; } }
-
-        Dictionary<ReactorActor, Rigidbody2D> reactorBodies2D;
-        internal Dictionary<ReactorActor, Rigidbody2D> ReactorBodies2D { get { return reactorBodies2D; } }
-
-        Dictionary<Collider, Actor> actorColliders;
-        internal Dictionary<Collider, Actor> ActorColliders { get { return actorColliders; } }
-        Dictionary<Collider, ReactorActor> reactorColliders;
-        internal Dictionary<Collider, ReactorActor> ReactorColliders { get { return reactorColliders; } }
-        Dictionary<Collider2D, Actor> actorColliders2D;
-        internal Dictionary<Collider2D, Actor> ActorColliders2D { get { return actorColliders2D; } }
-        Dictionary<Collider2D, ReactorActor> reactorColliders2D;
-        internal Dictionary<Collider2D, ReactorActor> ReactorColliders2D { get { return reactorColliders2D; } }
-
-        Dictionary<FPhysicsShape, Actor> actorShapes;
-        internal Dictionary<FPhysicsShape, Actor> ActorShapes { get { return actorShapes; } }
-        Dictionary<FPhysicsShape, ReactorActor> reactorShapes;
-        internal Dictionary<FPhysicsShape, ReactorActor> ReactorShapes { get { return reactorShapes; } }
-
-        Dictionary<Collider, FPhysicsShape> shapes;
-        internal Dictionary<Collider, FPhysicsShape> Shapes { get { return shapes; } }
-        Dictionary<Collider2D, FPhysicsShape> shapes2D;
-        internal Dictionary<Collider2D, FPhysicsShape> Shapes2D { get { return shapes2D; } }
-
-        Dictionary<FPhysicsShape, Collider> shapes_RV;
-        internal Dictionary<FPhysicsShape, Collider> Shapes_RV { get { return shapes_RV; } }
-        Dictionary<FPhysicsShape, Collider2D> shapes2D_RV;
-        internal Dictionary<FPhysicsShape, Collider2D> Shapes2D_RV { get { return shapes2D_RV; } }
+        internal FOrderedDictionary<ReactorActor, Rigidbody> ReactorBodies { get { return reactorBodies; } }
+        internal FOrderedDictionary<ReactorActor, Rigidbody2D> ReactorBodies2D { get { return reactorBodies2D; } }
+        internal FOrderedDictionary<Collider, Actor> ActorColliders { get { return actorColliders; } }
+        internal FOrderedDictionary<Collider, ReactorActor> ReactorColliders { get { return reactorColliders; } }
+        internal FOrderedDictionary<Collider2D, Actor> ActorColliders2D { get { return actorColliders2D; } }
+        internal FOrderedDictionary<Collider2D, ReactorActor> ReactorColliders2D { get { return reactorColliders2D; } }
+        internal FOrderedDictionary<FPhysicsShape, Actor> ActorShapes { get { return actorShapes; } }
+        internal FOrderedDictionary<FPhysicsShape, ReactorActor> ReactorShapes { get { return reactorShapes; } }
+        internal FOrderedDictionary<Collider, FPhysicsShape> Shapes { get { return shapes; } }
+        internal FOrderedDictionary<Collider2D, FPhysicsShape> Shapes2D { get { return shapes2D; } }
+        internal FOrderedDictionary<FPhysicsShape, Collider> Shapes_RV { get { return shapes_RV; } }
+        internal FOrderedDictionary<FPhysicsShape, Collider2D> Shapes2D_RV { get { return shapes2D_RV; } }
 
         protected internal override void OnInit()
         {
             base.OnInit();
             instance = this;
+            if (rootActorListDirty)
+            {
+                KLog.PrintError("Root actor list can never be dirty at Init() of Actor Level Module! BUG!!");
+            }
+            for (int i = 0; i < rootActors.Count; i++)
+            {
+                rootActors[i].AwakeActor();
+            }
         }
 
         protected internal override void OnTick()
         {
-            if (actorListDirty) { return; }
+            if (rootActorListDirty) { return; }
             RawDelta = Time.deltaTime;
             RawFixedDelta = Time.fixedDeltaTime;
             for (int i = 0; i < rootActors.Count; i++)
@@ -63,7 +85,7 @@ namespace GameplayFramework
 
         protected internal override void OnPhysxTick()
         {
-            if (actorListDirty) { return; }
+            if (rootActorListDirty) { return; }
             for (int i = 0; i < rootActors.Count; i++)
             {
                 rootActors[i].TickPhysics(RawDelta, RawFixedDelta);

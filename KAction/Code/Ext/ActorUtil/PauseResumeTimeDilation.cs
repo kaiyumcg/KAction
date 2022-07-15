@@ -10,7 +10,7 @@ namespace GameplayFramework
         {
             var handle = ActorLevelModule.instance;
             var actors = isRoot ? handle.rootActors : handle.actors;
-            var isDirty = handle.actorListDirty;
+            var isDirty = isRoot ? handle.rootActorListDirty : handle.actorListDirty;
             if (isDirty == false)
             {
                 for (int i = 0; i < actors.Count; i++)
@@ -24,7 +24,7 @@ namespace GameplayFramework
         {
             var handle = ActorLevelModule.instance;
             var actors = isRoot ? handle.rootActors : handle.actors;
-            var isDirty = handle.actorListDirty;
+            var isDirty = isRoot ? handle.rootActorListDirty : handle.actorListDirty;
             if (isDirty == false)
             {
                 for (int i = 0; i < actors.Count; i++)
@@ -38,7 +38,7 @@ namespace GameplayFramework
         {
             var handle = ActorLevelModule.instance;
             var actors = isRoot ? handle.rootActors : handle.actors;
-            var isDirty = handle.actorListDirty;
+            var isDirty = isRoot ? handle.rootActorListDirty : handle.actorListDirty;
             if (isDirty == false)
             {
                 for (int i = 0; i < actors.Count; i++)

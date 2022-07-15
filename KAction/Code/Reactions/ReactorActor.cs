@@ -38,9 +38,10 @@ namespace GameplayFramework
         protected virtual IEnumerator OnStopHitActorAsync(ReactorActor rival, FPhysicsShape rivalShape, FPhysicsShape ownShape) { yield break; }
 
         protected virtual bool SetInteractionValidity(ReactorActor rival, FPhysicsShape rivalShape, FPhysicsShape ownShape) { return false; }
-        protected override void OnCleanup()
+
+        protected internal override void OnCleanupActor()
         {
-            base.OnCleanup();
+            base.OnCleanupActor();
             tCount = cCount = 0;
             intTrigs = new List<Collider>();
             intCols = new List<Collision>();
@@ -48,7 +49,7 @@ namespace GameplayFramework
             intCol2Ds = new List<Collision2D>();
         }
 
-        protected override void OnStart()
+        protected internal override void OnStart()
         {
             base.OnStart();
             rgd = ActorLevelModule.Instance.ReactorBodies[this];

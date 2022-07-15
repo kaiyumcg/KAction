@@ -4,21 +4,19 @@ using UnityEngine;
 
 namespace GameplayFramework
 {
-    public abstract partial class Actor : MonoBehaviour
+    public static partial class ActorAPI
     {
-        [SerializeField] bool isPlayer = false;
-        [SerializeField] internal List<GameplayTag> tags = null;
-        public bool IsPlayer { get { return isPlayer; } }
-
-        public bool HasAnyTaggedRelation(Actor actor)
+        static bool _HasAnyTaggedRelation(Actor actor, Actor otherActor, bool useRefOptimization)
         {
-            return HasAtleastOneTagOf(actor) || IsTaggedAncestorOf(actor) || IsTaggedDescendantOf(actor);
+            return _HasAtleastOneTagOf(actor, otherActor, useRefOptimization) || 
+                _IsTaggedAncestorOf(actor, otherActor, useRefOptimization) || 
+                _IsTaggedDescendantOf(actor, otherActor, useRefOptimization);
         }
 
-        public bool IsTaggedDescendantOf(Actor actor)
+        static bool _IsTaggedDescendantOf(Actor actor, Actor otherActor, bool useRefOptimization)
         {
             bool isIt = false;
-            
+            var tags = actor.tags;
             if (tags != null)
             {
                 var tCount = tags.Count;
@@ -29,7 +27,7 @@ namespace GameplayFramework
                         if (isIt) { break; }
                         var thisTag = tags[i];
 
-                        var otherTags = actor.tags;
+                        var otherTags = otherActor.tags;
                         if (otherTags != null)
                         {
                             var otCount = otherTags.Count;
@@ -38,7 +36,7 @@ namespace GameplayFramework
                                 for (int j = 0; j < otCount; j++)
                                 {
                                     var oTag = otherTags[j];
-                                    if (thisTag.ParentChain.Contains(oTag))
+                                    if (useRefOptimization ? thisTag.ParentChain.ContainsOPT(oTag) : thisTag.ParentChain.Contains(oTag))
                                     {
                                         isIt = true;
                                         break;
@@ -52,9 +50,10 @@ namespace GameplayFramework
             return isIt;
         }
 
-        public bool IsTaggedAncestorOf(Actor actor)
+        static bool _IsTaggedAncestorOf(Actor actor, Actor otherActor, bool useRefOptimization)
         {
             bool isIt = false;
+            var tags = actor.tags;
             if (tags != null)
             {
                 var tCount = tags.Count;
@@ -65,7 +64,7 @@ namespace GameplayFramework
                         if (isIt) { break; }
                         var thisTag = tags[i];
 
-                        var otherTags = actor.tags;
+                        var otherTags = otherActor.tags;
                         if (otherTags != null)
                         {
                             var otCount = otherTags.Count;
@@ -74,7 +73,7 @@ namespace GameplayFramework
                                 for (int j = 0; j < otCount; j++)
                                 {
                                     var oTag = otherTags[j];
-                                    if (oTag.ParentChain.Contains(thisTag))
+                                    if (useRefOptimization ? oTag.ParentChain.ContainsOPT(thisTag) : oTag.ParentChain.Contains(thisTag))
                                     {
                                         isIt = true;
                                         break;
@@ -88,9 +87,10 @@ namespace GameplayFramework
             return isIt;
         }
 
-        public bool HasCommonTaggedAncestor(Actor actor)
+        static bool _HasCommonTaggedAncestor(Actor actor, Actor otherActor, bool useRefOptimization)
         {
             bool hasIt = false;
+            var tags = actor.tags;
             if (tags != null)
             {
                 var tCount = tags.Count;
@@ -101,7 +101,7 @@ namespace GameplayFramework
                         if (hasIt) { break; }
                         var thisTag = tags[i];
 
-                        var otherTags = actor.tags;
+                        var otherTags = otherActor.tags;
                         if (otherTags != null)
                         {
                             var otCount = otherTags.Count;
@@ -110,14 +110,14 @@ namespace GameplayFramework
                                 for (int j = 0; j < otCount; j++)
                                 {
                                     var oTag = otherTags[j];
-                                    if (thisTag.ParentChain.HasAtleastOneItemIn(oTag.ParentChain))
+                                    if (thisTag.ParentChain.HasAtleastOneItemIn(oTag.ParentChain, useRefOptimization))
                                     {
                                         hasIt = true;
                                         break;
                                     }
                                 }
                             }
-                            
+
                         }
                     }
                 }
@@ -125,10 +125,11 @@ namespace GameplayFramework
             return hasIt;
         }
 
-        public bool HasAtleastOneTagOf(Actor actor)
+        static bool _HasAtleastOneTagOf(Actor actor, Actor otherActor, bool useRefOptimization)
         {
             bool found = false;
-            var acTags = actor.tags;
+            var tags = actor.tags;
+            var acTags = otherActor.tags;
             if (acTags != null)
             {
                 var tCount = acTags.Count;
@@ -137,7 +138,7 @@ namespace GameplayFramework
                     for (int i = 0; i < tCount; i++)
                     {
                         var t = acTags[i];
-                        if (tags.Contains(t))
+                        if (useRefOptimization ? tags.ContainsOPT(t) : tags.Contains(t))
                         {
                             found = true;
                             break;
@@ -148,11 +149,11 @@ namespace GameplayFramework
             return found;
         }
 
-        public void AddUniqueTag(GameplayTag tag)
+        static void _AddUniqueTag(Actor actor, GameplayTag tag, bool useRefOptimization)
         {
             if (tag == null) { return; }
-            if (tags == null) { tags = new List<GameplayTag>(); }
-            if (tags.Contains(tag) == false) { tags.Add(tag); }
+            if (actor.tags == null) { actor.tags = new List<GameplayTag>(); }
+            if ((useRefOptimization ? actor.tags.ContainsOPT(tag) : actor.tags.Contains(tag)) == false) { actor.tags.Add(tag); }
         }
     }
 }

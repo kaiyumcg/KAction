@@ -1,5 +1,3 @@
-Actor er partial class gulo theke public method gulo extension method e niye jete hobe and internal korbo jegulo private field laage segulo
-
 Visibility and Toggle:
 	Show or Hide renderers
 	SetActive GameObjects
@@ -12,18 +10,10 @@ Internal Getter and Components
 
 Mini Actor Set like mass framework/DOTS/Compute Shader:
 
-Execution:
-	Easily educatable execution workflow to change execution order of actors and components.
-	Custom time dilation
-	Pause and Resume
-	Can disable tick if not needed
-
 Life and Death:
 	Health
 	Damage(Fixed/Directional etc)
 	Death Async and Respawn Async
-
-List Extension for optimized ref equal and other commonly used methods:
 
 Data layer:
 	Not like UE4's one. This is a dictionary where key is string and value is a plain class object instance 
@@ -36,4 +26,15 @@ Level Prep upon build/play mode--this make sure no null list(actor, components, 
 
 Update ActorLevelModule's dictionary maps and other data w.r.t. add actor components/remove actor component/child-parent relation change of actor-child actor/
 																/clone-free actor prefab
-
+//clone/free pooling of actors
+//todo level module e trasient data init
+//todo actor theke then ekdom first e kothay ase-upward thinking
+//todo check gameplay component
+//todo check actor level module
+//todo check level module
+//todo error check of entire framework on debug mode for early bug/error detection
+//todo editor tools
+//On every save, invoke editor tool's method to inject dependencies
+//dictionary for mapping reactor actor things should be serialized and baked prior to avoid slow loading of levels
+//editor tools for on/off conditional compilation flags
+		they are: _DEBUG_MODE, Turn_Off_RefEqual_Optmization,  

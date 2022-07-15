@@ -6,8 +6,8 @@ namespace GameplayFramework
 {
     public abstract class GameplayComponent : MonoBehaviour
     {
-        protected internal virtual void OnStartOrSpawnActor() { }
-        protected internal virtual void StartComponent() { }
+        protected internal virtual void OnAppearActor() { }
+        protected internal virtual void StartComponentOnce() { }
         protected internal virtual void UpdateComponent(float dt, float fixedDt) { }
         protected internal virtual void UpdateComponentPhysics(float dt, float fixedDt) { }
 #if UNITY_EDITOR

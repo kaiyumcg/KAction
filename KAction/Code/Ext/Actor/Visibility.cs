@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GameplayFramework
 {
-    public abstract partial class Actor : MonoBehaviour
+    public static partial class ActorAPI
     {
 
     }

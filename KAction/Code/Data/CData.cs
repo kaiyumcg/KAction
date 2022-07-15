@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace GameplayFramework
 {
+    [Serializable]
+    public class ActorDataSet : FOrderedDictionary<string, ActorData> { }
+
     [System.Serializable]
     public abstract class ActorData
     {
@@ -28,9 +32,6 @@ namespace GameplayFramework
         Other = 4
     }
 
-    public delegate void OnCompleteForceLibFunc();
-    public delegate void OnDoActorDataFunc(string key, ActorData data);
-
     [System.Serializable]
     public class ParticleSpawnDesc
     {
@@ -41,7 +42,7 @@ namespace GameplayFramework
 
         public void Spawn(Transform where)
         {
-            var vfx = Object.Instantiate(particle);
+            var vfx = UnityEngine.Object.Instantiate(particle);
             if (holder != null)
             {
                 vfx.SetParent(holder, false);

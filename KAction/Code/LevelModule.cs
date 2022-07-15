@@ -19,7 +19,6 @@ namespace GameplayFramework
         protected internal virtual void OnEndGameplay() { }
         //what else need to be called from GameLevel? TODO
 
-
         GameLevel level;
         internal void SetLevelManager(GameLevel level) { this.level = level; }
         protected GameLevel Level { get { return level; } }

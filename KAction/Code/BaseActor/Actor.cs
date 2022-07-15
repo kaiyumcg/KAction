@@ -7,60 +7,17 @@ namespace GameplayFramework
 {
     public abstract partial class Actor : MonoBehaviour
     {
-        [SerializeField] ActorType mType = ActorType.Player;
-        public ActorType ActorType { get { return mType; } }
-        [System.NonSerialized, HideInInspector] internal bool canTick = true;
-        public bool CanTick { get { return canTick; } set { canTick = value; } }
-        Transform tr;
-        GameObject gobj;
-        bool gameplayRun = false, isRoot = true, childActorListDirty = false, isActorPaused = false;
-        
-        GameLevel gameMan_Core;
-        Actor owner = null;
-        
-        
-        [SerializeField] internal List<Actor> childActors;
-
-        [SerializeField] UnityEvent onStartOrSpawn = null;
-
-        protected virtual IEnumerator OnStartAsync() { yield break; }
-        
-        protected virtual void OnStartOnce() { }
-        protected virtual void OnStart() { }
-        protected virtual void OnCleanup() { }
-#if UNITY_EDITOR
-        protected virtual void OnEditorUpdate() { }//called from editor inspector custom code. todo
-#endif
-        
-        public Transform _Transform { get { return tr; } }
-        public GameObject _GameObject { get { return gobj; } }
-        public event OnDoAnything OnStartOrSpawnEv;
-        public bool ShouldGameplayRun { get { return gameplayRun; } }
-
         internal void AwakeActor()
         {
-            initialTimeScale = timeScale;
-            initialLife = life;
-            tr = transform;
-            gobj = gameObject;
-            owner = GetComponentInParent<Actor>();
-            isRoot = owner == null;
-
-            if (tags != null && tags.Count > 0)
-            {
-                tags.RemoveAll((t) => { return t == null; });
-            }
-            if (tags == null) { tags = new List<GameplayTag>(); }
-
-            Born();
+            InitData();
+            this.Born();
             OnStartOnce();
             for (int i = 0; i < gameplayComponents.Count; i++)
             {
-                gameplayComponents[i].StartComponent();
+                gameplayComponents[i].StartComponentOnce();
             }
-            gameMan_Core = FindObjectOfType<GameLevel>();
-            gameMan_Core.OnLevelGameplayStartEv += StartGameplay;
-            gameMan_Core.onLevelGameplayEndEv += EndGameplay;
+            level.OnLevelGameplayStartEv += StartGameplay;
+            level.onLevelGameplayEndEv += EndGameplay;
         }
 
         void StartGameplay() { gameplayRun = true; }
@@ -68,14 +25,14 @@ namespace GameplayFramework
 
         void OnEnable()
         {
-            OnStartOrSpawnActor();
+            OnAppearActor();
             for (int i = 0; i < gameplayComponents.Count; i++)
             {
-                gameplayComponents[i].OnStartOrSpawnActor();
+                gameplayComponents[i].OnAppearActor();
             }
         }
 
-        protected virtual void OnStartOrSpawnActor()
+        protected virtual void OnAppearActor()
         {
             isDead = deathStarted = isActorPaused = false;
             life = initialLife;
@@ -86,14 +43,77 @@ namespace GameplayFramework
 
         void OnDisable()
         {
-            gameMan_Core.OnLevelGameplayStartEv -= StartGameplay;
-            gameMan_Core.onLevelGameplayEndEv -= EndGameplay;
             for (int i = 0; i < gameplayComponents.Count; i++)
             {
                 gameplayComponents[i].OnCleanupComponent();
             }
+            OnCleanupActor();
             StopAllCoroutines();
-            OnCleanup();
+            level.OnLevelGameplayStartEv -= StartGameplay;
+            level.onLevelGameplayEndEv -= EndGameplay;
+        }
+
+        internal void Tick(float dt_from_unity, float fixedDt_from_unity)
+        {
+            if (!isRoot) { return; }
+            var dt = dt_from_unity * timeScale;
+            var fdt = fixedDt_from_unity * timeScale;
+            TickActorInternal(dt, fdt, physx: false);
+        }
+
+        internal void TickPhysics(float dt_from_unity, float fixedDt_from_unity)
+        {
+            if (!isRoot) { return; }
+            var dt = dt_from_unity * timeScale;
+            var fdt = fixedDt_from_unity * timeScale;
+            TickActorInternal(dt, fdt, physx: true);
+        }
+
+        void TickActorInternal(float dt, float fdt, bool physx)
+        {
+            if (!gameplayRun) { return; }
+            if (canTick && isActorPaused == false && isDead == false && deathStarted == false)
+            {
+                if (physx)
+                {
+                    UpdateActorPhysics(dt, fdt);
+                }
+                else
+                {
+                    UpdateActor(dt, fdt);
+                }
+
+                if (componentListDirty == false)
+                {
+                    if (physx)
+                    {
+                        for (int i = 0; i < gameplayComponents.Count; i++)
+                        {
+                            gameplayComponents[i].UpdateComponentPhysics(dt, fdt);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < gameplayComponents.Count; i++)
+                        {
+                            gameplayComponents[i].UpdateComponent(dt, fdt);
+                        }
+                    }
+                }
+            }
+
+            if (childActorListDirty == false)
+            {
+                var dt_from_unity = ActorLevelModule.RawDelta;
+                var fdt_from_unity = ActorLevelModule.RawFixedDelta;
+                for (int i = 0; i < childActors.Count; i++)
+                {
+                    var chActor = childActors[i];
+                    var ch_dt = timeDilationAffectsChildActors ? dt : dt_from_unity * chActor.timeScale;
+                    var ch_fdt = timeDilationAffectsChildActors ? fdt : fdt_from_unity * chActor.timeScale;
+                    childActors[i].TickActorInternal(ch_dt, ch_fdt, physx);
+                }
+            }
         }
     }
 }

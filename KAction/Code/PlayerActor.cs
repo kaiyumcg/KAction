@@ -29,11 +29,11 @@ namespace GameplayFramework
         GameLevel gameMan;
         bool addedController = false;
 
-        protected override void OnCleanup()
+        protected internal override void OnCleanupActor()
         {
             if (gameMan.HasLevelGameplayBeenStarted == false || gameMan.HasLevelGameplayBeenEnded)
             {
-                base.OnCleanup();
+                base.OnCleanupActor();
             }
             else
             {
@@ -46,7 +46,7 @@ namespace GameplayFramework
                 {
                     gameMan.OnLevelGameplayStartEv -= StartController;
                 }
-                base.OnCleanup();
+                base.OnCleanupActor();
             }
         }
 
@@ -58,7 +58,7 @@ namespace GameplayFramework
             }
         }
 
-        protected override void OnStart()
+        protected internal override void OnStart()
         {
             base.OnStart();
             if (useDeviceStorageForScore)
