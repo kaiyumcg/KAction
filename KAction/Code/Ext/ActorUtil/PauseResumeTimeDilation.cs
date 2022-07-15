@@ -6,52 +6,10 @@ namespace GameplayFramework
 {
     public static partial class ActorUtil
     {
-        public static void PauseRootActors()
+        static void _PauseAllActors(bool isRoot)
         {
             var handle = ActorLevelModule.instance;
-            var actors = handle.rootActors;
-            var isDirty = handle.actorListDirty;
-            if (isDirty == false)
-            {
-                for (int i = 0; i < actors.Count; i++)
-                {
-                    actors[i].Pause();
-                }
-            }
-        }
-
-        public static void ResumeRootActors()
-        {
-            var handle = ActorLevelModule.instance;
-            var actors = handle.rootActors;
-            var isDirty = handle.actorListDirty;
-            if (isDirty == false)
-            {
-                for (int i = 0; i < actors.Count; i++)
-                {
-                    actors[i].Resume();
-                }
-            }
-        }
-
-        public static void SetCustomTimeForRootActors(float timeScale)
-        {
-            var handle = ActorLevelModule.instance;
-            var actors = handle.rootActors;
-            var isDirty = handle.actorListDirty;
-            if (isDirty == false)
-            {
-                for (int i = 0; i < actors.Count; i++)
-                {
-                    actors[i].TimeScale = timeScale;
-                }
-            }
-        }
-
-        public static void PauseAllActors()
-        {
-            var handle = ActorLevelModule.instance;
-            var actors = handle.actors;
+            var actors = isRoot ? handle.rootActors : handle.actors;
             var isDirty = handle.actorListDirty;
             if (isDirty == false)
             {
@@ -62,10 +20,10 @@ namespace GameplayFramework
             }
         }
 
-        public static void ResumeAllActors()
+        static void _ResumeAllActors(bool isRoot)
         {
             var handle = ActorLevelModule.instance;
-            var actors = handle.actors;
+            var actors = isRoot ? handle.rootActors : handle.actors;
             var isDirty = handle.actorListDirty;
             if (isDirty == false)
             {
@@ -76,10 +34,10 @@ namespace GameplayFramework
             }
         }
 
-        public static void SetCustomTimeForAllActors(float timeScale)
+        static void _SetCustomTimeForAllActors(bool isRoot, float timeScale)
         {
             var handle = ActorLevelModule.instance;
-            var actors = handle.actors;
+            var actors = isRoot ? handle.rootActors : handle.actors;
             var isDirty = handle.actorListDirty;
             if (isDirty == false)
             {

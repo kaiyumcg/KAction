@@ -45,7 +45,7 @@ namespace GameplayFramework
 
         void TickActorInternal(float dt, float fdt)
         {
-            if (!gameplayRun || isDead || deathStarted) { return; }
+            if (!gameplayRun || isDead || deathStarted) { return; }//todo cantick hole ki hobe??
             UpdateActor(dt, fdt);
             if (componentListDirty == false)
             {

@@ -6,11 +6,11 @@ namespace GameplayFramework
 {
     public static partial class ActorUtil
     {
-        public static T GetActorByTagClassed<T>(GameplayTag tag, bool useRefOptimization = false) where T : Actor
+        static T _GetActorByTagClassed<T>(bool isRoot, GameplayTag tag, bool useRefOptimization = false) where T : Actor
         {
             T result = null;
             var handle = ActorLevelModule.instance;
-            var actors = handle.actors;
+            var actors = isRoot ? handle.rootActors : handle.actors;
             var isDirty = handle.actorListDirty;
             if (actors != null && isDirty == false)
             {
@@ -32,11 +32,11 @@ namespace GameplayFramework
             return result;
         }
 
-        public static List<T> GetActorsByTagClassed<T>(GameplayTag tag, bool useRefOptimization = false) where T : Actor
+        static List<T> _GetActorsByTagClassed<T>(bool isRoot, GameplayTag tag, bool useRefOptimization = false) where T : Actor
         {
             List<T> results = new List<T>();
             var handle = ActorLevelModule.instance;
-            var actors = handle.actors;
+            var actors = isRoot ? handle.rootActors : handle.actors;
             var isDirty = handle.actorListDirty;
             if (actors != null && isDirty == false)
             {
@@ -57,11 +57,11 @@ namespace GameplayFramework
             return results;
         }
 
-        public static T GetActorByTagsClassed<T>(bool useRefOptimization = false, params GameplayTag[] a_tags) where T : Actor
+        static T _GetActorByTagsClassed<T>(bool isRoot, bool useRefOptimization = false, params GameplayTag[] a_tags) where T : Actor
         {
             T result = null;
             var handle = ActorLevelModule.instance;
-            var actors = handle.actors;
+            var actors = isRoot ? handle.rootActors : handle.actors;
             var isDirty = handle.actorListDirty;
             if (actors != null && isDirty == false)
             {
@@ -83,11 +83,11 @@ namespace GameplayFramework
             return result;
         }
 
-        public static List<T> GetActorsByTagsClassed<T>(bool useRefOptimization = false, params GameplayTag[] a_tags) where T : Actor
+        static List<T> _GetActorsByTagsClassed<T>(bool isRoot, bool useRefOptimization = false, params GameplayTag[] a_tags) where T : Actor
         {
             List<T> results = new List<T>();
             var handle = ActorLevelModule.instance;
-            var actors = handle.actors;
+            var actors = isRoot ? handle.rootActors : handle.actors;
             var isDirty = handle.actorListDirty;
             if (actors != null && isDirty == false)
             {

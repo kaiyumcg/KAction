@@ -6,11 +6,11 @@ namespace GameplayFramework
 {
     public static partial class ActorUtil
     {
-        public static T GetActorClassed<T>() where T : Actor
+        static T _GetActorClassed<T>(bool isRoot) where T : Actor
         {
             T result = null;
             var handle = ActorLevelModule.instance;
-            var actors = handle.actors;
+            var actors = isRoot ? handle.rootActors : handle.actors;
             var isDirty = handle.actorListDirty;
             if(actors != null && isDirty == false)
             {
@@ -31,11 +31,11 @@ namespace GameplayFramework
             return result;
         }
 
-        public static List<T> GetActorsClassed<T>() where T : Actor
+        static List<T> _GetActorsClassed<T>(bool isRoot) where T : Actor
         {
             List<T> results = new List<T>();
             var handle = ActorLevelModule.instance;
-            var actors = handle.actors;
+            var actors = isRoot ? handle.rootActors : handle.actors;
             var isDirty = handle.actorListDirty;
             if (actors != null && isDirty == false)
             {
@@ -55,11 +55,11 @@ namespace GameplayFramework
             return results;
         }
 
-        public static T GetActorByType<T>(ActorType aType) where T : Actor
+        static T _GetActorByType<T>(bool isRoot, ActorType aType) where T : Actor
         {
             T result = null;
             var handle = ActorLevelModule.instance;
-            var actors = handle.actors;
+            var actors = isRoot ? handle.rootActors : handle.actors;
             var isDirty = handle.actorListDirty;
             if (actors != null && isDirty == false)
             {
@@ -80,11 +80,11 @@ namespace GameplayFramework
             return result;
         }
 
-        public static List<T> GetActorsByType<T>(ActorType aType) where T : Actor
+        static List<T> _GetActorsByType<T>(bool isRoot, ActorType aType) where T : Actor
         {
             List<T> results = new List<T>();
             var handle = ActorLevelModule.instance;
-            var actors = handle.actors;
+            var actors = isRoot ? handle.rootActors : handle.actors;
             var isDirty = handle.actorListDirty;
             if (actors != null && isDirty == false)
             {
@@ -104,11 +104,11 @@ namespace GameplayFramework
             return results;
         }
 
-        public static Actor GetActor(ActorType aType)
+        static Actor _GetActor(bool isRoot, ActorType aType)
         {
             Actor result = null;
             var handle = ActorLevelModule.instance;
-            var actors = handle.actors;
+            var actors = isRoot ? handle.rootActors : handle.actors;
             var isDirty = handle.actorListDirty;
             if (actors != null && isDirty == false)
             {
@@ -129,11 +129,11 @@ namespace GameplayFramework
             return result;
         }
 
-        public static List<Actor> GetActors(ActorType aType)
+        static List<Actor> _GetActors(bool isRoot, ActorType aType)
         {
             List<Actor> results = new List<Actor>();
             var handle = ActorLevelModule.instance;
-            var actors = handle.actors;
+            var actors = isRoot ? handle.rootActors : handle.actors;
             var isDirty = handle.actorListDirty;
             if (actors != null && isDirty == false)
             {

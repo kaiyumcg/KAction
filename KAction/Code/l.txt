@@ -1,3 +1,5 @@
+Actor er partial class gulo theke public method gulo extension method e niye jete hobe and internal korbo jegulo private field laage segulo
+
 Visibility and Toggle:
 	Show or Hide renderers
 	SetActive GameObjects
@@ -34,3 +36,4 @@ Level Prep upon build/play mode--this make sure no null list(actor, components, 
 
 Update ActorLevelModule's dictionary maps and other data w.r.t. add actor components/remove actor component/child-parent relation change of actor-child actor/
 																/clone-free actor prefab
+

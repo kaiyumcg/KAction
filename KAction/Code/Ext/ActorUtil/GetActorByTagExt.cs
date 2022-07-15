@@ -6,11 +6,11 @@ namespace GameplayFramework
 {
     public static partial class ActorUtil
     {
-        public static Actor GetActorByTag(GameplayTag tag, bool useRefOptimization = false)
+        static Actor _GetActorByTag(bool isRoot, GameplayTag tag, bool useRefOptimization = false)
         {
             Actor result = null;
             var handle = ActorLevelModule.instance;
-            var actors = handle.actors;
+            var actors = isRoot ? handle.rootActors : handle.actors;
             var isDirty = handle.actorListDirty;
             if (actors != null && isDirty == false)
             {
@@ -32,11 +32,11 @@ namespace GameplayFramework
             return result;
         }
 
-        public static List<Actor> GetActorsByTag(GameplayTag tag, bool useRefOptimization = false)
+        static List<Actor> _GetActorsByTag(bool isRoot, GameplayTag tag, bool useRefOptimization = false)
         {
             List<Actor> results = new List<Actor>();
             var handle = ActorLevelModule.instance;
-            var actors = handle.actors;
+            var actors = isRoot ? handle.rootActors : handle.actors;
             var isDirty = handle.actorListDirty;
             if (actors != null && isDirty == false)
             {
@@ -57,11 +57,11 @@ namespace GameplayFramework
             return results;
         }
 
-        public static Actor GetActorByTags(bool useRefOptimization = false, params GameplayTag[] a_tags)
+        static Actor _GetActorByTags(bool isRoot, bool useRefOptimization = false, params GameplayTag[] a_tags)
         {
             Actor result = null;
             var handle = ActorLevelModule.instance;
-            var actors = handle.actors;
+            var actors = isRoot ? handle.rootActors : handle.actors;
             var isDirty = handle.actorListDirty;
             if (actors != null && isDirty == false)
             {
@@ -83,11 +83,11 @@ namespace GameplayFramework
             return result;
         }
 
-        public static List<Actor> GetActorsByTags(bool useRefOptimization = false, params GameplayTag[] a_tags)
+        static List<Actor> _GetActorsByTags(bool isRoot, bool useRefOptimization = false, params GameplayTag[] a_tags)
         {
             List<Actor> results = new List<Actor>();
             var handle = ActorLevelModule.instance;
-            var actors = handle.actors;
+            var actors = isRoot ? handle.rootActors : handle.actors;
             var isDirty = handle.actorListDirty;
             if (actors != null && isDirty == false)
             {
