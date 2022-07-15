@@ -10,7 +10,7 @@ namespace GameplayFramework
     {
         internal static void AddLogToGameLevel(string msg, LogType logType)
         {
-            var size = GameLevel.Instance.RuntimeCloudLogSize;
+            var size = GameLevel.Instance.runtimeCloudLogSize;
             if (size == LogDataSize.Minimal)
             {
                 var lData = GetCurrentMinimalLogData(msg, logType);

@@ -3,9 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//GameService UI helper information
-//GameService Editor inspector foldout
-
 namespace GameplayFramework
 {
     internal enum ActionOnService { DoNothing = 0, Stop = 1, Restart = 2 }

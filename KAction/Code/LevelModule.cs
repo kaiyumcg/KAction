@@ -14,10 +14,12 @@ namespace GameplayFramework
         //below are yet to be called from GameLevel. TODO. NOT yet implemented
         protected internal virtual void OnPause() { }
         protected internal virtual void OnResume() { }
-        protected internal virtual void OnSlowDown(float slowDown) { }
+        protected internal virtual void OnSlowDown(float slowDown) { }//todo time reverse?
         protected internal virtual void OnStartGameplay() { }
         protected internal virtual void OnEndGameplay() { }
         //what else need to be called from GameLevel? TODO
+
+        //todo what other methods are relevent for level? UE?
 
         GameLevel level;
         internal void SetLevelManager(GameLevel level) { this.level = level; }
