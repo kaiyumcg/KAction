@@ -60,6 +60,7 @@ namespace GameplayFramework
 
         protected internal override void OnStart()
         {
+            if (onUpdateScore == null) { onUpdateScore = new UnityEvent<int>(); }
             base.OnStart();
             if (useDeviceStorageForScore)
             {

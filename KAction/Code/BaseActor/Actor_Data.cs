@@ -51,6 +51,18 @@ namespace GameplayFramework
             componentListDirty = childActorListDirty = canRecieveDamage = canGainHealth = healthOverflow = 
             gameplayRun =  isActorPaused = isDead =  deathStarted = false;
             initialLife = life; initialTimeScale = timeScale; canTick = true;
+
+            if (onStartOrSpawn == null) { onStartOrSpawn = new UnityEvent(); }
+            if (onPause == null) { onPause = new UnityEvent(); }
+            if (onResume == null) { onResume = new UnityEvent(); }
+            if (onStartDeath == null) { onStartDeath = new UnityEvent(); }
+            if (onDeath == null) { onDeath = new UnityEvent(); }
+            if (onReborn == null) { onReborn = new UnityEvent(); }
+            if (onDamage == null) { onDamage = new UnityEvent<float>(); }
+            if (onGainHealth == null) { onGainHealth = new UnityEvent<float>(); }
+            if (onDirectionalDamage == null) { onDirectionalDamage = new UnityEvent<float, Vector3>(); }
+            if (onDirectionalGainHealth == null) { onDirectionalGainHealth = new UnityEvent<float, Vector3>(); }
+
         }
     }
 }

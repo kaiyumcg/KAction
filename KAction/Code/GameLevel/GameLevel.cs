@@ -212,6 +212,17 @@ namespace GameplayFramework
         //instead of Awake, we will use when server or client or host is started--callback
         private void Awake()
         {
+            //if user wish to go to playmode from directly a opened scene, redirect from boot scene!
+#if UNITY_EDITOR
+            if (GameServiceManager.Healthy == false)
+            {
+                StopAllCoroutines();
+                LevelManager.editorModeOpenedScene = SceneManager.GetActiveScene();
+                LevelManager.editorModeFlagSet = 1;
+                SceneManager.LoadScene(0);
+                return;
+            }
+#endif
             instance = this;
             InitData();
             StartCoroutine(LevelEntryPoint());

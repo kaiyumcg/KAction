@@ -9,7 +9,7 @@ namespace GameplayFramework
     {
         [SerializeField] InteractionMode mode = InteractionMode.Infinite;
         [SerializeField] int maxVolumeInteractionCount = 1, maxCollisionInteractionCount = 1;
-        [SerializeField] UnityEvent onEnter, onHit, onExit, onStopHit;
+        [SerializeField] UnityEvent<ReactorActor, FPhysicsShape, FPhysicsShape> onEnter, onHit, onExit, onStopHit;
 
         Rigidbody rgd;
         Rigidbody2D rgd2D;
@@ -51,6 +51,10 @@ namespace GameplayFramework
 
         protected internal override void OnStart()
         {
+            if (onEnter == null) { onEnter = new UnityEvent<ReactorActor, FPhysicsShape, FPhysicsShape>(); }
+            if (onHit == null) { onHit = new UnityEvent<ReactorActor, FPhysicsShape, FPhysicsShape>(); }
+            if (onExit == null) { onExit = new UnityEvent<ReactorActor, FPhysicsShape, FPhysicsShape>(); }
+            if (onStopHit == null) { onStopHit = new UnityEvent<ReactorActor, FPhysicsShape, FPhysicsShape>(); }
             base.OnStart();
             rgd = ActorLevelModule.Instance.ReactorBodies[this];
             rgd2D = ActorLevelModule.Instance.ReactorBodies2D[this];
@@ -108,14 +112,14 @@ namespace GameplayFramework
             {
                 if (enter)
                 {
-                    onEnter?.Invoke();
+                    onEnter?.Invoke(rival, rivalShape, ownShape);
                     OnEnter?.Invoke(rival, rivalShape, ownShape);
                     OnEnterVolume(rival, rivalShape, ownShape);
                     StartCoroutine(OnEnterVolumeAsync(rival, rivalShape, ownShape));
                 }
                 else
                 {
-                    onExit?.Invoke();
+                    onExit?.Invoke(rival, rivalShape, ownShape);
                     OnExit?.Invoke(rival, rivalShape, ownShape);
                     OnExitVolume(rival, rivalShape, ownShape);
                     StartCoroutine(OnExitVolumeAsync(rival, rivalShape, ownShape));
@@ -186,14 +190,14 @@ namespace GameplayFramework
             {
                 if (isHit)
                 {
-                    onHit?.Invoke();
+                    onHit?.Invoke(rival, rivalShape, ownShape);
                     OnHit?.Invoke(rival, rivalShape, ownShape);
                     OnStartHitActor(rival, rivalShape, ownShape);
                     StartCoroutine(OnStartHitActorAsync(rival, rivalShape, ownShape));
                 }
                 else
                 {
-                    onStopHit?.Invoke();
+                    onStopHit?.Invoke(rival, rivalShape, ownShape);
                     OnStopHit?.Invoke(rival, rivalShape, ownShape);
                     OnStopHitActor(rival, rivalShape, ownShape);
                     StartCoroutine(OnStopHitActorAsync(rival, rivalShape, ownShape));

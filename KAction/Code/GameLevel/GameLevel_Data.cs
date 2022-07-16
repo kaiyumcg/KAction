@@ -32,13 +32,16 @@ namespace GameplayFramework
         [HideInInspector] internal List<LogDataVerbose> gameplayLogs_verbose;
         [HideInInspector] internal List<LogDataOptimal> gameplayLogs_optimal;
 
-        bool lvGameplayStarted = false, lvGameplayEnded = false, isPlayingCutScene = false, isPaused = false, stopped = false;
+        bool lvGameplayStarted = false, lvGameplayEnded = false, isPlayingCutScene = false, isPaused = false, stopped = false, invalidLevelStart = false;
         void InitData()
         {
-            lvGameplayStarted = lvGameplayEnded = isPlayingCutScene = isPaused = stopped = false;
+            lvGameplayStarted = lvGameplayEnded = isPlayingCutScene = isPaused = stopped = invalidLevelStart = false;
             gameplayLogs_min = null;
             gameplayLogs_verbose = null;
             gameplayLogs_optimal = null;
+            if (onLevelStart == null) { onLevelStart = new UnityEngine.Events.UnityEvent(); }
+            if (onLevelGameplayStart == null) { onLevelGameplayStart = new UnityEngine.Events.UnityEvent(); }
+            if (onLevelGameplayEnd == null) { onLevelGameplayEnd = new UnityEngine.Events.UnityEvent(); }
         }
         static GameLevel instance = null;
     }

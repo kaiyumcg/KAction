@@ -27,6 +27,8 @@ namespace GameplayFramework
             if (onInitializedAGameService == null) { onInitializedAGameService = new UnityEvent<int, int, GameService>(); }
         }
 
+        internal static bool Healthy { get { return instance != null; } }
+
         private void Awake()
         {
             var curSceneName = SceneManager.GetActiveScene().name;
@@ -175,7 +177,7 @@ namespace GameplayFramework
             for (int i = 0; i < services.Count; i++)
             {
                 var svc = services[i];
-                if (svc.IsRunning == false) { continue; }
+                if (svc.isRunning == false) { continue; }
                 svc.OnTick();
             }
         }

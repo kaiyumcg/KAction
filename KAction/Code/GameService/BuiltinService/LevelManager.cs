@@ -20,6 +20,10 @@ namespace GameplayFramework
         public int NextLevelNumberInBuildSetting { get { return nextRealLevelNum; } }
         public UnityEvent<int> OnStartUnityLevel, OnReloadUnityLevel, OnCompleteUnityLevel;
 
+        internal static Scene editorModeOpenedScene = default;
+        internal static int editorModeFlagSet = -1;//todo if this is non zero, then we directly load the 'editorModeOpenedScene' from boot scene
+        //todo do not forget to reset the flag again.
+
         protected internal override void OnInit()
         {
             base.OnInit();

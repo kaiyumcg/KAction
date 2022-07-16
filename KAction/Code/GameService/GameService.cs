@@ -3,11 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//all events in game service, game service manager, game level, level module, actor level module and actor should be null checked and then 'new'ed.
-//Singleton removal--some class's singleton should only be internal-check it
-//if user loads a game level without boot scene(for testing in editor), then editor conditional compilation will
-//                  ---redirect into boot scene, set to load scene as the one user were in, and then loads it.
-
 namespace GameplayFramework
 {
     public abstract class GameService : MonoBehaviour
@@ -17,7 +12,7 @@ namespace GameplayFramework
         [SerializeField, HideInInspector] float delayAmount = 2f;
         [SerializeField, HideInInspector] ActionOnLog whenError = ActionOnLog.DoNothing,
             whenException = ActionOnLog.DoNothing, whenCodeFailure = ActionOnLog.DoNothing;
-        bool isRunning = true;
+        internal bool isRunning = true;
         protected internal abstract void OnTick();
         protected internal virtual void OnInit() { }
         protected internal virtual IEnumerator OnInitAsync() 
