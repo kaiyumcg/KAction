@@ -104,6 +104,7 @@ namespace GameplayFramework
             Debug.LogError(msg);
             AddLogToGameLevel(msg, LogType.Error);
             GameServiceManager.DoLogAction(ErrorType.Error);
+            GameLevel.Instance.DoLogAction(ErrorType.Error);
 #endif            
         }
 
@@ -131,6 +132,7 @@ namespace GameplayFramework
             Debug.LogException(exception);
             AddLogToGameLevel(exception.Message, LogType.ExceptionUnity);
             GameServiceManager.DoLogAction(ErrorType.Exception);
+            GameLevel.Instance.DoLogAction(ErrorType.Exception);
 #endif            
         }
 
@@ -143,6 +145,7 @@ namespace GameplayFramework
                 return; 
             }
             GameServiceManager.DoLogAction(ErrorType.Exception);
+            GameLevel.Instance.DoLogAction(ErrorType.Exception);
             throw new GameplayFrameworkException(fType, customMessage);
 #endif            
         }
@@ -158,6 +161,7 @@ namespace GameplayFramework
             Debug.LogException(exception, objectContext);
             AddLogToGameLevel(exception.Message + " on unity object: " + objectContext.name, LogType.ExceptionUnityContexted);
             GameServiceManager.DoLogAction(ErrorType.Exception);
+            GameLevel.Instance.DoLogAction(ErrorType.Exception);
 #endif            
         }
 
@@ -178,6 +182,7 @@ namespace GameplayFramework
                 Debug.LogException(ex);
                 AddLogToGameLevel(ex.Message, LogType.ExceptionCSharp);
                 GameServiceManager.DoLogAction(ErrorType.CodeFailure);
+                GameLevel.Instance.DoLogAction(ErrorType.CodeFailure);
             }
 #else
             OnCheckCode?.Invoke();

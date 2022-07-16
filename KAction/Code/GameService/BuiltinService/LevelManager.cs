@@ -28,7 +28,8 @@ namespace GameplayFramework
             var hasBootScene = firstScene.name == "boot";
             if (hasBootScene == false)
             {
-                PrintError("This game does not have any boot. Can not proceed further. Aborting....You will stuck in this blank scene. " +
+                KLog.ThrowGameplaySDKException(GFType.GameService, 
+                    "This game does not have any boot. Can not proceed further. Aborting....You will stuck in this blank scene. " +
                     "You must create a boot scene from 'Tools/Level Creation' window and add it to build setting window");
                 return;
             }
@@ -36,7 +37,8 @@ namespace GameplayFramework
             var curScene = SceneManager.GetActiveScene();
             if (curScene.name != "boot")
             {
-                PrintError("This service can only be used when started from boot scene. Misused Game service error!");
+                KLog.ThrowGameplaySDKException(GFType.GameService, 
+                    "This service can only be used when started from boot scene. Misused Game service error!");
                 return;
             }
 

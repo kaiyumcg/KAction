@@ -10,6 +10,25 @@ namespace GameplayFramework
 {
     public partial class GameLevel : MonoBehaviour
     {
+        internal void DoLogAction(ErrorType errorType)
+        {
+            ActionOnLog action = ActionOnLog.DoNothing;
+            if (errorType == ErrorType.Exception)
+            {
+                action = whenException;
+            }
+            else if (errorType == ErrorType.Error)
+            {
+                action = whenError;
+            }
+            else if (errorType == ErrorType.CodeFailure)
+            {
+                action = whenCodeFailure;
+            }
+            if (action == ActionOnLog.DoNothing || action == ActionOnLog.Restart) { return; }
+            else if (action == ActionOnLog.Stop) { stopped = true; StopAllCoroutines(); }
+        }
+
         public T GetLevelModule<T>() where T : LevelModule
         {
             T result = null;
@@ -31,7 +50,8 @@ namespace GameplayFramework
         }
 
         public void PauseGame() 
-        { 
+        {
+            if (stopped) { KLog.Print("Can not pause game since the level is stopped due to error or exception or code failure!"); return; }
             if (isPlayingCutScene) 
             {
                 KLog.ThrowGameplaySDKException(GFType.GameLevel, 
@@ -48,6 +68,7 @@ namespace GameplayFramework
 
         public void SetCustomTimeDilation(float factor)
         {
+            if (stopped) { KLog.Print("Can not set time dilation since the level is stopped due to error or exception or code failure!"); return; }
             if (isPlayingCutScene)
             {
                 KLog.ThrowGameplaySDKException(GFType.GameLevel, 
@@ -64,6 +85,7 @@ namespace GameplayFramework
 
         public void ResetTimeDilation()
         {
+            if (stopped) { KLog.Print("Can not reset time dilation since the level is stopped due to error or exception or code failure!"); return; }
             if (isPlayingCutScene)
             {
                 KLog.ThrowGameplaySDKException(GFType.GameLevel, 
@@ -80,6 +102,7 @@ namespace GameplayFramework
 
         public void ResumeGame() 
         {
+            if (stopped) { KLog.Print("Can not set resume game since the level is stopped due to error or exception or code failure!"); return; }
             if (isPlayingCutScene)
             {
                 KLog.ThrowGameplaySDKException(GFType.GameLevel, 
@@ -120,6 +143,7 @@ namespace GameplayFramework
 
         public void EndLevelGameplay(int nextLevelIndex = -1)
         {
+            if (stopped) { KLog.Print("Can not end game since the level is stopped due to error or exception or code failure!"); return; }
             OnLevelGameplayEnd();
             onLevelGameplayEnd?.Invoke();
             onLevelGameplayEndEv?.Invoke();
@@ -164,6 +188,7 @@ namespace GameplayFramework
 
         public void PlayCutScene(PlayableAsset cutScene, PlayableDirector director, IEnumerator scriptCutScene, System.Action OnComplete)
         {
+            if (stopped) { KLog.Print("Can not play cutscene since the level is stopped due to error or exception or code failure!"); return; }
             StartCoroutine(CutScener());
             IEnumerator CutScener()
             {
@@ -268,7 +293,7 @@ namespace GameplayFramework
 
         void Update()
         {
-            if (isPlayingCutScene || lvGameplayStarted == false || lvGameplayEnded || isPaused) { return; }
+            if (isPlayingCutScene || lvGameplayStarted == false || lvGameplayEnded || isPaused || stopped) { return; }
             OnTick();
             for (int i = 0; i < levelModules.Count; i++)
             {
@@ -278,7 +303,7 @@ namespace GameplayFramework
 
         void FixedUpdate()
         {
-            if (isPlayingCutScene || lvGameplayStarted == false || lvGameplayEnded || isPaused) { return; }
+            if (isPlayingCutScene || lvGameplayStarted == false || lvGameplayEnded || isPaused || stopped) { return; }
             OnPhysxTick();
             for (int i = 0; i < levelModules.Count; i++)
             {

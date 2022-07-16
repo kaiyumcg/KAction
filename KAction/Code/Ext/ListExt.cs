@@ -93,5 +93,46 @@ namespace GameplayFramework
             }
             return found;
         }
+
+        public static List<T> RemoveAllNulls<T>(this List<T> lst) where T : class
+        {
+            List<T> result = new List<T>();
+            if (lst != null)
+            {
+                var len = lst.Count;
+                if (len > 0)
+                {
+                    for (int i = 0; i < len; i++)
+                    {
+                        var item = lst[i];
+                        if (item == null) { continue; }
+                        result.Add(item);
+                    }
+                }
+            }
+            return result;
+        }
+
+        public static List<T> RemoveAllIfLogicTrue<T>(this List<T> lst, ListDel1<T> pred) where T : class
+        {
+            List<T> result = new List<T>();
+            if (lst != null)
+            {
+                var len = lst.Count;
+                if (len > 0)
+                {
+                    for (int i = 0; i < len; i++)
+                    {
+                        var item = lst[i];
+                        var isTrue = pred == null ? false : pred(item);
+                        if (isTrue) { continue; }
+                        result.Add(item);
+                    }
+                }
+            }
+            return result;
+        }
+
+        public delegate bool ListDel1<T>(T t);
     }
 }

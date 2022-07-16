@@ -2,10 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//bake field work
-//game level->level module->actor level module: do on log action
-//init data for game service stream
-//remove all findobjects and let the editor tool to do the job
+
+//all events in game service, game service manager, game level, level module, actor level module and actor should be null checked and then 'new'ed.
+//Singleton removal--some class's singleton should only be internal-check it
+//if user loads a game level without boot scene(for testing in editor), then editor conditional compilation will
+//                  ---redirect into boot scene, set to load scene as the one user were in, and then loads it.
 
 namespace GameplayFramework
 {
@@ -16,7 +17,7 @@ namespace GameplayFramework
         [SerializeField, HideInInspector] float delayAmount = 2f;
         [SerializeField, HideInInspector] ActionOnLog whenError = ActionOnLog.DoNothing,
             whenException = ActionOnLog.DoNothing, whenCodeFailure = ActionOnLog.DoNothing;
-
+        bool isRunning = true;
         protected internal abstract void OnTick();
         protected internal virtual void OnInit() { }
         protected internal virtual IEnumerator OnInitAsync() 
@@ -27,14 +28,13 @@ namespace GameplayFramework
             }
             else
             {
-                yield return null;
+                yield break;
             }
         }
         protected virtual void OnRestart() { }
         protected virtual void OnStop() { }
         protected virtual void OnStartManual() { }
         
-        bool isRunning = true;
         public bool IsRunning { get { return isRunning; } internal set { isRunning = value; } }
         internal bool WaitForThisInitialization { get { return waitForThisInitialization; } }
         public string AboutService { get { return serviceAbout; } }

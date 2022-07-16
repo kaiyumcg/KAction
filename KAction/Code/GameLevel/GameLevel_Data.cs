@@ -16,6 +16,9 @@ namespace GameplayFramework
         public void SetEd_levelModules(List<LevelModule> levelModules) { this.levelModules = levelModules; }
         public void SetEd_director(PlayableDirector director) { this.director = director; }
 #endif
+        [SerializeField, HideInInspector]
+        ActionOnLog whenError = ActionOnLog.DoNothing,
+            whenException = ActionOnLog.DoNothing, whenCodeFailure = ActionOnLog.DoNothing;
 
         [Header("Level Start and End Setting")]
         [SerializeField] bool customLogicForLevelCompletion = false;
@@ -29,10 +32,10 @@ namespace GameplayFramework
         [HideInInspector] internal List<LogDataVerbose> gameplayLogs_verbose;
         [HideInInspector] internal List<LogDataOptimal> gameplayLogs_optimal;
 
-        bool lvGameplayStarted = false, lvGameplayEnded = false, isPlayingCutScene = false, isPaused = false;
+        bool lvGameplayStarted = false, lvGameplayEnded = false, isPlayingCutScene = false, isPaused = false, stopped = false;
         void InitData()
         {
-            lvGameplayStarted = lvGameplayEnded = isPlayingCutScene = isPaused = false;
+            lvGameplayStarted = lvGameplayEnded = isPlayingCutScene = isPaused = stopped = false;
             gameplayLogs_min = null;
             gameplayLogs_verbose = null;
             gameplayLogs_optimal = null;
