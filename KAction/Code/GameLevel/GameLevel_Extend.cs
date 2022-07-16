@@ -12,7 +12,6 @@ namespace GameplayFramework
 
         protected internal virtual void OnLoadNextLevel() { }
         protected internal virtual void OnReloadLevel() { }
-        protected internal virtual void OnStartLoadingNextLevel(AsyncOperation asyncOpHandle) { }//streaming thingy
 
         protected virtual void OnTick() { }
         protected virtual void OnPhysxTick() { }

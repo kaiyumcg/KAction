@@ -205,6 +205,24 @@ namespace GameplayFramework
             return result;
         }
 
+        internal static void DoLogAction(ErrorType errorType)
+        {
+            if (instance != null && instance.services != null)
+            {
+                var services = instance.services;
+                var len = services.Count;
+                if (len > 0 && instance.isListDirty == false)
+                {
+                    for (int i = 0; i < services.Count; i++)
+                    {
+                        var svc = services[i];
+                        if (svc == null) { continue; }
+                        svc.DoLogAction(errorType);
+                    }
+                }
+            }
+        }
+
         public static T AddService<T>() where T : GameService
         {
             T spawnedService = null;

@@ -7,7 +7,9 @@ namespace GameplayFramework
     public sealed class ActorLevelModule : LevelModule
     {
         /// <summary>
-        /// these are baked into by baking tools upon save operation of a level, during build process and upon play mode
+        /// these are baked into by baking tools upon save operation of a level, during build process and upon play mode.
+        /// in case of actor component or gameplay component or actor reparenting or cloning actors for first time or destroying them,
+        /// these data might change. Audit and think!
         /// </summary>
         [SerializeField] internal List<Actor> rootActors;
         [SerializeField, HideInInspector] internal List<Actor> actors;
@@ -25,18 +27,20 @@ namespace GameplayFramework
         [SerializeField, HideInInspector] FOrderedDictionary<FPhysicsShape, Collider2D> shapes2D_RV;
 
 #if UNITY_EDITOR
-        public void Set_reactorBodies(FOrderedDictionary<ReactorActor, Rigidbody> reactorBodies) { this.reactorBodies = reactorBodies; }
-        public void Set_reactorBodies2D(FOrderedDictionary<ReactorActor, Rigidbody2D> reactorBodies2D) { this.reactorBodies2D = reactorBodies2D; }
-        public void Set_actorColliders(FOrderedDictionary<Collider, Actor> actorColliders) { this.actorColliders = actorColliders; }
-        public void Set_reactorColliders(FOrderedDictionary<Collider, ReactorActor> reactorColliders) { this.reactorColliders = reactorColliders; }
-        public void Set_actorColliders2D(FOrderedDictionary<Collider2D, Actor> actorColliders2D) { this.actorColliders2D = actorColliders2D; }
-        public void Set_reactorColliders2D(FOrderedDictionary<Collider2D, ReactorActor> reactorColliders2D) { this.reactorColliders2D = reactorColliders2D; }
-        public void Set_actorShapes(FOrderedDictionary<FPhysicsShape, Actor> actorShapes) { this.actorShapes = actorShapes; }
-        public void Set_reactorShapes(FOrderedDictionary<FPhysicsShape, ReactorActor> reactorShapes) { this.reactorShapes = reactorShapes; }
-        public void Set_shapes(FOrderedDictionary<Collider, FPhysicsShape> shapes) { this.shapes = shapes; }
-        public void Set_shapes2D(FOrderedDictionary<Collider2D, FPhysicsShape> shapes2D) { this.shapes2D = shapes2D; }
-        public void Set_shapes_RV(FOrderedDictionary<FPhysicsShape, Collider> shapes_RV) { this.shapes_RV = shapes_RV; }
-        public void Set_shapes2D_RV(FOrderedDictionary<FPhysicsShape, Collider2D> shapes2D_RV) { this.shapes2D_RV = shapes2D_RV; }
+        public void SetEd_rootActors(List<Actor> rootActors) { this.rootActors = rootActors; }
+        public void SetEd_actors(List<Actor> actors) { this.actors = actors; }
+        public void SetEd_reactorBodies(FOrderedDictionary<ReactorActor, Rigidbody> reactorBodies) { this.reactorBodies = reactorBodies; }
+        public void SetEd_reactorBodies2D(FOrderedDictionary<ReactorActor, Rigidbody2D> reactorBodies2D) { this.reactorBodies2D = reactorBodies2D; }
+        public void SetEd_actorColliders(FOrderedDictionary<Collider, Actor> actorColliders) { this.actorColliders = actorColliders; }
+        public void SetEd_reactorColliders(FOrderedDictionary<Collider, ReactorActor> reactorColliders) { this.reactorColliders = reactorColliders; }
+        public void SetEd_actorColliders2D(FOrderedDictionary<Collider2D, Actor> actorColliders2D) { this.actorColliders2D = actorColliders2D; }
+        public void SetEd_reactorColliders2D(FOrderedDictionary<Collider2D, ReactorActor> reactorColliders2D) { this.reactorColliders2D = reactorColliders2D; }
+        public void SetEd_actorShapes(FOrderedDictionary<FPhysicsShape, Actor> actorShapes) { this.actorShapes = actorShapes; }
+        public void SetEd_reactorShapes(FOrderedDictionary<FPhysicsShape, ReactorActor> reactorShapes) { this.reactorShapes = reactorShapes; }
+        public void SetEd_shapes(FOrderedDictionary<Collider, FPhysicsShape> shapes) { this.shapes = shapes; }
+        public void SetEd_shapes2D(FOrderedDictionary<Collider2D, FPhysicsShape> shapes2D) { this.shapes2D = shapes2D; }
+        public void SetEd_shapes_RV(FOrderedDictionary<FPhysicsShape, Collider> shapes_RV) { this.shapes_RV = shapes_RV; }
+        public void SetEd_shapes2D_RV(FOrderedDictionary<FPhysicsShape, Collider2D> shapes2D_RV) { this.shapes2D_RV = shapes2D_RV; }
 #endif
 
         internal bool actorListDirty = false, rootActorListDirty = false;
@@ -64,7 +68,8 @@ namespace GameplayFramework
             instance = this;
             if (rootActorListDirty)
             {
-                KLog.PrintError("Root actor list can never be dirty at Init() of Actor Level Module! BUG!!");
+                KLog.ThrowGameplaySDKException(GFType.ActorModule, 
+                    "Root actor list can never be dirty at Init() of Actor Level Module! BUG!!");
             }
             for (int i = 0; i < rootActors.Count; i++)
             {

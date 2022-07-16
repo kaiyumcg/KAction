@@ -6,23 +6,22 @@ namespace GameplayFramework
 {
     public abstract class LevelModule : MonoBehaviour
     {
+        /// <summary>
+        /// baked into by editor tool
+        /// </summary>
+        [SerializeField, HideInInspector] GameLevel level;
+#if UNITY_EDITOR
+        public void SetEd_level(GameLevel level) { this.level = level; }
+#endif
         protected internal virtual void OnInit() { }
-        protected internal virtual IEnumerator OnInitAsync() { yield return null; }
         protected internal abstract void OnTick();
         protected internal abstract void OnPhysxTick();
-
-        //below are yet to be called from GameLevel. TODO. NOT yet implemented
         protected internal virtual void OnPause() { }
         protected internal virtual void OnResume() { }
-        protected internal virtual void OnSlowDown(float slowDown) { }//todo time reverse?
+        protected internal virtual void OnCustomTimeDilation(float slowDown) { }//todo time reverse?
+        protected internal virtual void OnResetTimeDilation() { }
         protected internal virtual void OnStartGameplay() { }
         protected internal virtual void OnEndGameplay() { }
-        //what else need to be called from GameLevel? TODO
-
-        //todo what other methods are relevent for level? UE?
-
-        GameLevel level;
-        internal void SetLevelManager(GameLevel level) { this.level = level; }
         protected GameLevel Level { get { return level; } }
     }
 }

@@ -21,8 +21,7 @@ Data layer:
 	rests only in memory and not in device storage. 
 	A bunch events corresponding to that when the data changes.
 
-Level Prep upon build/play mode--this make sure no null list(actor, components, child actors etc)
-							   --proper child/components etc
+//error detection--exception, warning, error etc on various places conditionally in debug mode
 
 Update ActorLevelModule's dictionary maps and other data w.r.t. add actor components/remove actor component/child-parent relation change of actor-child actor/
 																/clone-free actor prefab
@@ -37,7 +36,7 @@ Update ActorLevelModule's dictionary maps and other data w.r.t. add actor compon
 //On every save, invoke editor tool's method to inject dependencies
 //dictionary for mapping reactor actor things should be serialized and baked prior to avoid slow loading of levels
 //editor tools for on/off conditional compilation flags
-		they are: _DEBUG_MODE, Turn_Off_RefEqual_Optmization,  
+		they are: _DEBUG_MODE, Turn_Off_RefEqual_Optmization, USE_CLOUD_LOG, 
 
 
 //Legacy todos

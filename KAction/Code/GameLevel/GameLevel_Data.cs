@@ -10,12 +10,15 @@ namespace GameplayFramework
         /// <summary>
         /// These are baked into by editor tools
         /// </summary>
-        [SerializeField] internal List<LevelModule> levelModules = new List<LevelModule>();
-        [SerializeField, HideInInspector] internal PlayableDirector director;
+        [SerializeField] List<LevelModule> levelModules = new List<LevelModule>();
+        [SerializeField, HideInInspector] PlayableDirector director;
+#if UNITY_EDITOR
+        public void SetEd_levelModules(List<LevelModule> levelModules) { this.levelModules = levelModules; }
+        public void SetEd_director(PlayableDirector director) { this.director = director; }
+#endif
 
         [Header("Level Start and End Setting")]
         [SerializeField] bool customLogicForLevelCompletion = false;
-        //[SerializeField] bool useStartCutScene = false, useEndCutScene = false;
         [SerializeField] PlayableAsset startCutScene = null, endCutScene = null;
 
         [Header("Klog Config for this level")]
@@ -27,6 +30,13 @@ namespace GameplayFramework
         [HideInInspector] internal List<LogDataOptimal> gameplayLogs_optimal;
 
         bool lvGameplayStarted = false, lvGameplayEnded = false, isPlayingCutScene = false, isPaused = false;
+        void InitData()
+        {
+            lvGameplayStarted = lvGameplayEnded = isPlayingCutScene = isPaused = false;
+            gameplayLogs_min = null;
+            gameplayLogs_verbose = null;
+            gameplayLogs_optimal = null;
+        }
         static GameLevel instance = null;
     }
 }

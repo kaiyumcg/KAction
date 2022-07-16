@@ -17,7 +17,10 @@ namespace GameplayFramework
             if (size == LogDataSize.Minimal) { targetString = GetLogString(minLogs); }
             else if (size == LogDataSize.Optimal) { targetString = GetLogString(optimalLogs); }
             else if (size == LogDataSize.Verbose) { targetString = GetLogString(verboseLogs); }
-            CloudLogUploadManager.StartUploadLogs(targetString, API_EndPoint);
+            if (string.IsNullOrEmpty(targetString) == false && string.IsNullOrWhiteSpace(targetString))
+            {
+                CloudLogUploadManager.StartUploadLogs(targetString, API_EndPoint);
+            }
         }
 
         static string GetLogString(List<LogDataMinimal> logs)

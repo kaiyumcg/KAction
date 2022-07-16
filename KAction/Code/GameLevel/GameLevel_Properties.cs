@@ -19,15 +19,6 @@ namespace GameplayFramework
         {
             get
             {
-#if UNITY_EDITOR
-                if (Application.isPlaying == false)
-                {
-                    if (instance == null)
-                    {
-                        instance = FindObjectOfType<GameLevel>();
-                    }
-                }
-#endif
                 return instance;
             }
         }

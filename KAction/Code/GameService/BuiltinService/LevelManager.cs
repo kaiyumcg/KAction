@@ -111,7 +111,7 @@ namespace GameplayFramework
             SceneManager.LoadScene(targetSceneID);
         }
 
-        public void LoadLevelFromBuildIndex(int buildIndex)
+        public void LoadLevelByIndex(int buildIndex)
         {
             var ln = buildIndex + 1;
             var next_ln = ln + 1;
@@ -152,7 +152,7 @@ namespace GameplayFramework
 
             if (found)
             {
-                LoadLevelFromBuildIndex(foundScene.buildIndex);
+                LoadLevelByIndex(foundScene.buildIndex);
             }
         }
 

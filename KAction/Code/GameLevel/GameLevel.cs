@@ -34,22 +34,64 @@ namespace GameplayFramework
         { 
             if (isPlayingCutScene) 
             {
-                KLog.PrintError("You can not pause the game while cutscene is playing. Wait for it to finish. Ignored!");
+                KLog.ThrowGameplaySDKException(GFType.GameLevel, 
+                    "You can not pause the game while cutscene is playing. Wait for it to finish. Ignored!");
                 return; 
             } 
             isPaused = true;
             ActorUtil.PauseAllActors();
+            for (int i = 0; i < levelModules.Count; i++)
+            {
+                levelModules[i].OnPause();
+            }
+        }
+
+        public void SetCustomTimeDilation(float factor)
+        {
+            if (isPlayingCutScene)
+            {
+                KLog.ThrowGameplaySDKException(GFType.GameLevel, 
+                    "You can not set time dilation while cutscene is playing. Wait for it to finish. Ignored!");
+                return;
+            }
+            isPaused = true;
+            ActorUtil.SetCustomTimeForAllActors(factor);
+            for (int i = 0; i < levelModules.Count; i++)
+            {
+                levelModules[i].OnCustomTimeDilation(factor);
+            }
+        }
+
+        public void ResetTimeDilation()
+        {
+            if (isPlayingCutScene)
+            {
+                KLog.ThrowGameplaySDKException(GFType.GameLevel, 
+                    "You can not reset time dilation while cutscene is playing. Wait for it to finish. Ignored!");
+                return;
+            }
+            isPaused = true;
+            ActorUtil.SetCustomTimeForAllActors(1.0f);
+            for (int i = 0; i < levelModules.Count; i++)
+            {
+                levelModules[i].OnResetTimeDilation();
+            }
         }
 
         public void ResumeGame() 
         {
             if (isPlayingCutScene)
             {
-                KLog.PrintError("You can not resume a paused game while cutscene is playing. Wait for it to finish. Ignored!");
+                KLog.ThrowGameplaySDKException(GFType.GameLevel, 
+                    "You can not resume a paused game while cutscene is playing. Wait for it to finish. Ignored!");
                 return;
             }
             isPaused = false;
             ActorUtil.ResumeAllActors();
+            for (int i = 0; i < levelModules.Count; i++)
+            {
+                levelModules[i].OnResume();
+            }
         }
 
         private void OnDisable()
@@ -64,7 +106,8 @@ namespace GameplayFramework
             if (string.IsNullOrEmpty(endPoint) || string.IsNullOrWhiteSpace(endPoint) ||
                 endPoint.Contains("https://") == false)
             {
-                Debug.LogError("Log Upload to Cloud is enabled but the end point is not defined properly. " +
+                KLog.ThrowGameplaySDKException(GFType.GameLevel, 
+                    "Log Upload to Cloud is enabled but the end point is not defined properly. " +
                     "End point must not be null or empty or whitespace and must be valid URL. Define a valid endpoint in inspector.");
             }
             CloudLogUploader.UploadLog(gameplayLogs_min, gameplayLogs_optimal,
@@ -75,12 +118,22 @@ namespace GameplayFramework
 #endif
         }
 
-        public void EndLevelGameplay(string nextLevelName = "")
+        public void EndLevelGameplay(int nextLevelIndex = -1)
         {
             OnLevelGameplayEnd();
             onLevelGameplayEnd?.Invoke();
             onLevelGameplayEndEv?.Invoke();
             lvGameplayEnded = true;
+            for (int i = 0; i < levelModules.Count; i++)
+            {
+                var sys = levelModules[i];
+                if (sys == null)
+                {
+                    KLog.ThrowGameplaySDKException(GFType.GameLevel, "By design there can not be any null module. Module initialization error.");
+                }
+                sys.OnEndGameplay();
+            }
+
             StartCoroutine(Ender());
             IEnumerator Ender()
             {
@@ -91,21 +144,20 @@ namespace GameplayFramework
                     {
                         PlayCutScene(endCutScene, director, null, null);
                     }
-
-                    UploadLogsIfReq();
-                    OnLoadNextLevel();
                     var svc = GameServiceManager.GetService<LevelManager>();
                     if (svc != null)
                     {
-                        if (string.IsNullOrEmpty(nextLevelName))
+                        if (nextLevelIndex < 0)
                         {
                             svc.LoadNextLevel();
                         }
                         else
                         {
-                            svc.LoadLevelFromBuildIndex(nextLevelName);
+                            svc.LoadLevelByIndex(nextLevelIndex);
                         }
                     }
+                    UploadLogsIfReq();
+                    OnLoadNextLevel();
                 }
             }
         }
@@ -136,10 +188,11 @@ namespace GameplayFramework
         private void Awake()
         {
             instance = this;
-            StartCoroutine(EntryPoint());
+            InitData();
+            StartCoroutine(LevelEntryPoint());
         }
         
-        IEnumerator EntryPoint()
+        IEnumerator LevelEntryPoint()
         {
             if (instance == null)
             {
@@ -167,11 +220,9 @@ namespace GameplayFramework
                     var sys = levelModules[i];
                     if (sys == null)
                     {
-                        throw new System.Exception("By design there can not be any null module. Module initialization error.");
+                        KLog.ThrowGameplaySDKException(GFType.GameLevel, "By design there can not be any null module. Module initialization error.");
                     }
-                    sys.SetLevelManager(this);
                     sys.OnInit();
-                    StartCoroutine(sys.OnInitAsync());
                 }
             }
 
@@ -191,6 +242,16 @@ namespace GameplayFramework
             lvGameplayStarted = true;
             isPlayingCutScene = false;
 
+            for (int i = 0; i < levelModules.Count; i++)
+            {
+                var sys = levelModules[i];
+                if (sys == null)
+                {
+                    KLog.ThrowGameplaySDKException(GFType.GameLevel, "By design there can not be any null module. Module initialization error.");
+                }
+                sys.OnStartGameplay();
+            }
+
             if (customLogicForLevelCompletion)
             {
                 while (true)
@@ -208,21 +269,21 @@ namespace GameplayFramework
         void Update()
         {
             if (isPlayingCutScene || lvGameplayStarted == false || lvGameplayEnded || isPaused) { return; }
+            OnTick();
             for (int i = 0; i < levelModules.Count; i++)
             {
                 levelModules[i].OnTick();
             }
-            OnTick();
         }
 
         void FixedUpdate()
         {
             if (isPlayingCutScene || lvGameplayStarted == false || lvGameplayEnded || isPaused) { return; }
+            OnPhysxTick();
             for (int i = 0; i < levelModules.Count; i++)
             {
                 levelModules[i].OnPhysxTick();
             }
-            OnPhysxTick();
         }
     }
 }

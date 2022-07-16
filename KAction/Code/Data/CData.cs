@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace GameplayFramework
 {
+    public enum ErrorType { Exception = 0, Error = 1, CodeFailure = 2 }
+    public enum ActionOnLog { DoNothing = 0, Stop = 1, Restart = 2 }
     [Serializable]
     public class ActorDataSet : FOrderedDictionary<string, ActorData> { }
 

@@ -48,11 +48,13 @@ Controller is a C# class derived from a common interface.
 Editor tool support is necessary 
 		---to easily create boot scene with addressable support.
 		---to create game level.
+		---to create overridden game level script and attach it and delete old one, all at one click.
 		---to create actor script.
 		---to create gameplay component script.
 		---to bake data into 'GameLevel', 'ActorLevelModule' and 'Actor' upon Save operation, Play mode enter and Build process
 		---to smart inspector operation(custom editor)
 		---to set necessary conditional compilation flags through project setting window
+		---to ensure there is no invalid data or list anywhere in gamelevel or boot level
 
 
 A game creator's guide:
