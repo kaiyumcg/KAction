@@ -56,8 +56,8 @@ namespace GameplayFramework
             if (onExit == null) { onExit = new UnityEvent<ReactorActor, FPhysicsShape, FPhysicsShape>(); }
             if (onStopHit == null) { onStopHit = new UnityEvent<ReactorActor, FPhysicsShape, FPhysicsShape>(); }
             base.OnStart();
-            rgd = ActorLevelModule.Instance.ReactorBodies[this];
-            rgd2D = ActorLevelModule.Instance.ReactorBodies2D[this];
+            rgd = ActorLevelModule.instance.ReactorBodies[this];
+            rgd2D = ActorLevelModule.instance.ReactorBodies2D[this];
         }
 
         bool CheckValidityAgainstMode(int intCount, int maxCount)

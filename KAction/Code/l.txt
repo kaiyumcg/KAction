@@ -1,3 +1,5 @@
+//actor pooling on level module patial class
+
 Visibility and Toggle:
 	Show or Hide renderers
 	SetActive GameObjects

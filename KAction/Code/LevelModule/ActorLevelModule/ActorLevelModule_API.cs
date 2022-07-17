@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace GameplayFramework
 {
-    /// <summary>
-    /// A bunch of methods upon Actors and Root Actors in a game level.
-    /// </summary>
-    public static partial class ActorUtil
+    public sealed partial class ActorLevelModule : LevelModule
     {
+        public static T GetOrCloneActor<T>(T prefab) where T : Actor { }
+        public static void FreeActor<T>(T clonedActor) where T : Actor { _FreeActor<T>(clonedActor); }
+
         #region Pause-Resume
         public static void PauseRootActors() { _PauseAllActors(true); }
         public static void ResumeRootActors() { _ResumeAllActors(true); }
@@ -35,44 +35,44 @@ namespace GameplayFramework
         #endregion
 
         #region GetActorClassedByTag
-        public static T GetRootActorByTagClassed<T>(GameplayTag tag, bool useRefOptimization = false) where T : Actor 
-        { 
-            return _GetActorByTagClassed<T>(true, tag, useRefOptimization); 
+        public static T GetRootActorByTagClassed<T>(GameplayTag tag, bool useRefOptimization = false) where T : Actor
+        {
+            return _GetActorByTagClassed<T>(true, tag, useRefOptimization);
         }
 
-        public static List<T> GetRootActorsByTagClassed<T>(GameplayTag tag, bool useRefOptimization = false) where T : Actor 
-        { 
-            return _GetActorsByTagClassed<T>(true, tag, useRefOptimization); 
+        public static List<T> GetRootActorsByTagClassed<T>(GameplayTag tag, bool useRefOptimization = false) where T : Actor
+        {
+            return _GetActorsByTagClassed<T>(true, tag, useRefOptimization);
         }
 
-        public static T GetRootActorByTagsClassed<T>(bool useRefOptimization = false, params GameplayTag[] a_tags) where T : Actor 
-        { 
-            return _GetActorByTagsClassed<T>(true, useRefOptimization, a_tags); 
+        public static T GetRootActorByTagsClassed<T>(bool useRefOptimization = false, params GameplayTag[] a_tags) where T : Actor
+        {
+            return _GetActorByTagsClassed<T>(true, useRefOptimization, a_tags);
         }
 
-        public static List<T> GetRootActorsByTagsClassed<T>(bool useRefOptimization = false, params GameplayTag[] a_tags) where T : Actor 
-        { 
-            return _GetActorsByTagsClassed<T>(true, useRefOptimization, a_tags); 
+        public static List<T> GetRootActorsByTagsClassed<T>(bool useRefOptimization = false, params GameplayTag[] a_tags) where T : Actor
+        {
+            return _GetActorsByTagsClassed<T>(true, useRefOptimization, a_tags);
         }
 
-        public static T GetActorByTagClassed<T>(GameplayTag tag, bool useRefOptimization = false) where T : Actor 
-        { 
-            return _GetActorByTagClassed<T>(false, tag, useRefOptimization); 
+        public static T GetActorByTagClassed<T>(GameplayTag tag, bool useRefOptimization = false) where T : Actor
+        {
+            return _GetActorByTagClassed<T>(false, tag, useRefOptimization);
         }
 
-        public static List<T> GetActorsByTagClassed<T>(GameplayTag tag, bool useRefOptimization = false) where T : Actor 
-        { 
-            return _GetActorsByTagClassed<T>(false, tag, useRefOptimization); 
+        public static List<T> GetActorsByTagClassed<T>(GameplayTag tag, bool useRefOptimization = false) where T : Actor
+        {
+            return _GetActorsByTagClassed<T>(false, tag, useRefOptimization);
         }
 
-        public static T GetActorByTagsClassed<T>(bool useRefOptimization = false, params GameplayTag[] a_tags) where T : Actor 
-        { 
-            return _GetActorByTagsClassed<T>(false, useRefOptimization, a_tags); 
+        public static T GetActorByTagsClassed<T>(bool useRefOptimization = false, params GameplayTag[] a_tags) where T : Actor
+        {
+            return _GetActorByTagsClassed<T>(false, useRefOptimization, a_tags);
         }
 
-        public static List<T> GetActorsByTagsClassed<T>(bool useRefOptimization = false, params GameplayTag[] a_tags) where T : Actor 
-        { 
-            return _GetActorsByTagsClassed<T>(false, useRefOptimization, a_tags); 
+        public static List<T> GetActorsByTagsClassed<T>(bool useRefOptimization = false, params GameplayTag[] a_tags) where T : Actor
+        {
+            return _GetActorsByTagsClassed<T>(false, useRefOptimization, a_tags);
         }
         #endregion
 

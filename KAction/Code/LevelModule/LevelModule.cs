@@ -15,7 +15,7 @@ namespace GameplayFramework
 #endif
         protected internal virtual void OnInit() { }
         protected internal abstract void OnTick();
-        protected internal abstract void OnPhysxTick();
+        protected internal abstract void OnPhysicsTick();
         protected internal virtual void OnPause() { }
         protected internal virtual void OnResume() { }
         protected internal virtual void OnCustomTimeDilation(float slowDown) { }//todo time reverse?

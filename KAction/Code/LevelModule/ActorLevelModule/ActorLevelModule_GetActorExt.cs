@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GameplayFramework
 {
-    public static partial class ActorUtil
+    public sealed partial class ActorLevelModule : LevelModule
     {
         static T _GetActorClassed<T>(bool isRoot) where T : Actor
         {

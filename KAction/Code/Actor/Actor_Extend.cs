@@ -23,7 +23,6 @@ namespace GameplayFramework
 
         protected internal virtual IEnumerator OnStartAsync() { yield break; }
 
-        protected internal virtual void OnStartOnce() { }
         protected internal virtual void OnStart() { }
         protected internal virtual void OnCleanupActor() { }
 #if UNITY_EDITOR

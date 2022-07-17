@@ -7,6 +7,23 @@ namespace GameplayFramework
 {
     public enum ErrorType { Exception = 0, Error = 1, CodeFailure = 2 }
     public enum ActionOnLog { DoNothing = 0, Stop = 1, Restart = 2 }
+
+    [Serializable]
+    public class PooledActor
+    {
+        [SerializeField] Actor prefab;
+        [SerializeField] int preloadCount = 10;
+        public Actor Prefab { get { return prefab; } }
+        public int PreloadCount { get { return preloadCount; } }
+    }
+
+    public class ClonedActor
+    {
+        internal Actor sourcePrefab;
+        internal Actor clonedActor;
+        internal bool free;
+    }
+
     [Serializable]
     public class ActorDataSet : FOrderedDictionary<string, ActorData> { }
 

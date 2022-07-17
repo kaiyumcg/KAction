@@ -1,18 +1,21 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace GameplayFramework
 {
-    public sealed class ActorLevelModule : LevelModule
+    public sealed partial class ActorLevelModule : LevelModule
     {
         /// <summary>
         /// these are baked into by baking tools upon save operation of a level, during build process and upon play mode.
         /// in case of actor component or gameplay component or actor reparenting or cloning actors for first time or destroying them,
         /// these data might change. Audit and think!
         /// </summary>
-        [SerializeField] internal List<Actor> rootActors;
-        [SerializeField, HideInInspector] internal List<Actor> actors;
+        [SerializeField] List<Actor> rootActors;
+        [SerializeField, HideInInspector] List<Actor> actors;
+        [SerializeField] List<PooledActor> pooledItems;
+        [NonSerialized, HideInInspector] List<ClonedActor> clonedData;
         [SerializeField, HideInInspector] FOrderedDictionary<ReactorActor, Rigidbody> reactorBodies;
         [SerializeField, HideInInspector] FOrderedDictionary<ReactorActor, Rigidbody2D> reactorBodies2D;
         [SerializeField, HideInInspector] FOrderedDictionary<Collider, Actor> actorColliders;
@@ -43,12 +46,10 @@ namespace GameplayFramework
         public void SetEd_shapes2D_RV(FOrderedDictionary<FPhysicsShape, Collider2D> shapes2D_RV) { this.shapes2D_RV = shapes2D_RV; }
 #endif
 
-        internal bool actorListDirty = false, rootActorListDirty = false;
-
+        bool actorListDirty = false, rootActorListDirty = false;
         internal static float RawDelta, RawFixedDelta;
 
         internal static ActorLevelModule instance;
-        public static ActorLevelModule Instance { get { return instance; } }
         internal FOrderedDictionary<ReactorActor, Rigidbody> ReactorBodies { get { return reactorBodies; } }
         internal FOrderedDictionary<ReactorActor, Rigidbody2D> ReactorBodies2D { get { return reactorBodies2D; } }
         internal FOrderedDictionary<Collider, Actor> ActorColliders { get { return actorColliders; } }
@@ -64,16 +65,12 @@ namespace GameplayFramework
 
         protected internal override void OnInit()
         {
+            actorListDirty = rootActorListDirty = false;
             base.OnInit();
             instance = this;
-            if (rootActorListDirty)
-            {
-                KLog.ThrowGameplaySDKException(GFType.ActorModule, 
-                    "Root actor list can never be dirty at Init() of Actor Level Module! BUG!!");
-            }
             for (int i = 0; i < rootActors.Count; i++)
             {
-                rootActors[i].AwakeActor();
+                rootActors[i].StartActor();
             }
         }
 
@@ -88,7 +85,7 @@ namespace GameplayFramework
             }
         }
 
-        protected internal override void OnPhysxTick()
+        protected internal override void OnPhysicsTick()
         {
             if (rootActorListDirty) { return; }
             for (int i = 0; i < rootActors.Count; i++)
@@ -97,14 +94,13 @@ namespace GameplayFramework
             }
         }
 
-        public T GetOrCloneActor<T>(T prefab) where T : Actor
+        internal void OnDestroyActorCompletely(Actor actor)
         {
-            return null;
-        }
-
-        public void FreeActor<T>(T clonedActor) where T : Actor
-        {
-            
+            //dictionary and map data patch todo
+            //dictionary access ta dirty flag dia control todo
+            //pooled list e ei actor prefab or cloned ta jetay ase oi entry delete dirty flag dia todo
+            //ei actor er related child actor list patch todo
+            //ei actor global root actor and total actor list patch todo
         }
     }
 }

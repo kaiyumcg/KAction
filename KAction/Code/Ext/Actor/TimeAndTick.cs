@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GameplayFramework
 {
-    public static partial class ActorAPI
+    public static partial class ActorExt
     {
         static Coroutine _Wait(Actor actor, float amountInScaledTime, System.Action OnComplete)
         {

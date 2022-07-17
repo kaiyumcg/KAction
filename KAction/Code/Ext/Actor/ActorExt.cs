@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GameplayFramework
 {
-    public static partial class ActorAPI
+    public static partial class ActorExt
     {
         public static Coroutine Wait(this Actor actor, float amountInScaledTime, System.Action OnComplete) 
         {
@@ -47,7 +47,7 @@ namespace GameplayFramework
 
         public static void Born(this Actor actor) { _Born(actor); }
         public static void Reborn(this Actor actor) { _Reborn(actor); }
-        public static void Murder(this Actor actor) { _Murder(actor); }
+        public static void Murder(this Actor actor, bool obliterate = false) { _Murder(actor, obliterate); }
         public static void Damage(this Actor actor, float damage) { _Damage(actor, damage); }
         public static void DamageFromDirection(this Actor actor, float damage, Vector3 direction) { _DamageFromDirection(actor, damage, direction); }
         public static void AddHealth(this Actor actor, float health) { _AddHealth(actor, health); }

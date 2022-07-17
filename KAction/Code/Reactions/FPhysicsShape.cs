@@ -102,7 +102,7 @@ namespace GameplayFramework
         void GetActors(Collider rivalCollider, out ReactorActor thisActor, out ReactorActor rivalActor,
             out FPhysicsShape rivalPhysicalShape)
         {
-            var actLvMod = ActorLevelModule.Instance;
+            var actLvMod = ActorLevelModule.instance;
 #if GAMEPLAY_SDK_DEBUG_MODE
             PreCheckPhysics(actLvMod, rivalCollider);
 #endif
@@ -123,7 +123,7 @@ namespace GameplayFramework
         void GetActors(Collider2D rivalCollider, out ReactorActor thisActor, out ReactorActor rivalActor,
             out FPhysicsShape rivalPhysicalShape)
         {
-            var actLvMod = ActorLevelModule.Instance;
+            var actLvMod = ActorLevelModule.instance;
 #if GAMEPLAY_SDK_DEBUG_MODE
             PreCheckPhysics(actLvMod, rivalCollider);
 #endif
@@ -144,7 +144,7 @@ namespace GameplayFramework
         void GetActors(Collision rivalCollision, out ReactorActor thisActor, out ReactorActor rivalActor,
             out FPhysicsShape rivalPhysicalShape)
         {
-            var actLvMod = ActorLevelModule.Instance;
+            var actLvMod = ActorLevelModule.instance;
 #if GAMEPLAY_SDK_DEBUG_MODE
             PreCheckPhysics(actLvMod, rivalCollision.collider);
 #endif
@@ -165,7 +165,7 @@ namespace GameplayFramework
         void GetActors(Collision2D rivalCollision, out ReactorActor thisActor, out ReactorActor rivalActor,
             out FPhysicsShape rivalPhysicalShape)
         {
-            var actLvMod = ActorLevelModule.Instance;
+            var actLvMod = ActorLevelModule.instance;
 #if GAMEPLAY_SDK_DEBUG_MODE
             PreCheckPhysics(actLvMod, rivalCollision.collider);
 #endif
@@ -233,7 +233,7 @@ namespace GameplayFramework
         internal void OnVolumeEnter(Collider rival)
         {
 #if GAMEPLAY_SUPPORT_NOSTANDARD_COLS
-            var actLvMod = ActorLevelModule.Instance;
+            var actLvMod = ActorLevelModule.instance;
             if (actLvMod.ReactorColliders.ContainsKey(rival) == false || actLvMod.Shapes.ContainsKey(rival) == false) { return; }
 #endif
             ReactorActor thisActor; ReactorActor rivalActor; FPhysicsShape rivalShape;
@@ -245,7 +245,7 @@ namespace GameplayFramework
         internal void OnVolumeExit(Collider rival)
         {
 #if GAMEPLAY_SUPPORT_NOSTANDARD_COLS
-            var actLvMod = ActorLevelModule.Instance;
+            var actLvMod = ActorLevelModule.instance;
             if (actLvMod.ReactorColliders.ContainsKey(rival) == false || actLvMod.Shapes.ContainsKey(rival) == false) { return; }
 #endif
             ReactorActor thisActor; ReactorActor rivalActor; FPhysicsShape rivalShape;
@@ -257,7 +257,7 @@ namespace GameplayFramework
         internal void OnCollisionStart(Collision rival)
         {
 #if GAMEPLAY_SUPPORT_NOSTANDARD_COLS
-            var actLvMod = ActorLevelModule.Instance;
+            var actLvMod = ActorLevelModule.instance;
             if (actLvMod.ReactorColliders.ContainsKey(rival.collider) == false || actLvMod.Shapes.ContainsKey(rival.collider) == false) { return; }
 #endif
             ReactorActor thisActor; ReactorActor rivalActor; FPhysicsShape rivalShape;
@@ -269,7 +269,7 @@ namespace GameplayFramework
         internal void OnCollisionStop(Collision rival)
         {
 #if GAMEPLAY_SUPPORT_NOSTANDARD_COLS
-            var actLvMod = ActorLevelModule.Instance;
+            var actLvMod = ActorLevelModule.instance;
             if (actLvMod.ReactorColliders.ContainsKey(rival.collider) == false || actLvMod.Shapes.ContainsKey(rival.collider) == false) { return; }
 #endif
             ReactorActor thisActor; ReactorActor rivalActor; FPhysicsShape rivalShape;
@@ -281,7 +281,7 @@ namespace GameplayFramework
         internal void OnVolumeEnter2D(Collider2D rival)
         {
 #if GAMEPLAY_SUPPORT_NOSTANDARD_COLS
-            var actLvMod = ActorLevelModule.Instance;
+            var actLvMod = ActorLevelModule.instance;
             if (actLvMod.ReactorColliders2D.ContainsKey(rival) == false || actLvMod.Shapes2D.ContainsKey(rival) == false) { return; }
 #endif
             ReactorActor thisActor; ReactorActor rivalActor; FPhysicsShape rivalShape;
@@ -293,7 +293,7 @@ namespace GameplayFramework
         internal void OnVolumeExit2D(Collider2D rival)
         {
 #if GAMEPLAY_SUPPORT_NOSTANDARD_COLS
-            var actLvMod = ActorLevelModule.Instance;
+            var actLvMod = ActorLevelModule.instance;
             if (actLvMod.ReactorColliders2D.ContainsKey(rival) == false || actLvMod.Shapes2D.ContainsKey(rival) == false) { return; }
 #endif
             ReactorActor thisActor; ReactorActor rivalActor; FPhysicsShape rivalShape;
@@ -305,7 +305,7 @@ namespace GameplayFramework
         internal void OnCollisionStart2D(Collision2D rival)
         {
 #if GAMEPLAY_SUPPORT_NOSTANDARD_COLS
-            var actLvMod = ActorLevelModule.Instance;
+            var actLvMod = ActorLevelModule.instance;
             if (actLvMod.ReactorColliders2D.ContainsKey(rival.collider) == false || actLvMod.Shapes2D.ContainsKey(rival.collider) == false) { return; }
 #endif
             ReactorActor thisActor; ReactorActor rivalActor; FPhysicsShape rivalShape;
@@ -317,7 +317,7 @@ namespace GameplayFramework
         internal void OnCollisionStop2D(Collision2D rival)
         {
 #if GAMEPLAY_SUPPORT_NOSTANDARD_COLS
-            var actLvMod = ActorLevelModule.Instance;
+            var actLvMod = ActorLevelModule.instance;
             if (actLvMod.ReactorColliders2D.ContainsKey(rival.collider) == false || actLvMod.Shapes2D.ContainsKey(rival.collider) == false) { return; }
 #endif
             ReactorActor thisActor; ReactorActor rivalActor; FPhysicsShape rivalShape;

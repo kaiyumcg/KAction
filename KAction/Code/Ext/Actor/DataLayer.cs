@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GameplayFramework
 {
-    public static partial class ActorAPI
+    public static partial class ActorExt
     {
         
     }

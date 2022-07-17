@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace GameplayFramework
 {
-    public static partial class ActorAPI
+    public static partial class ActorExt
     {
         static void _Reborn(Actor actor)
         {
@@ -28,13 +28,13 @@ namespace GameplayFramework
             actor.StartCoroutine(actor.OnStartAsync());
         }
 
-        static void _Murder(Actor actor)
+        static void _Murder(Actor actor, bool obliterate)
         {
             if (actor.isDead || actor.deathStarted || !actor.canRecieveDamage || !actor.gameplayRun) { return; }
-            _DeathProc(actor);
+            _DeathProc(actor, obliterate);
         }
 
-        static void _DeathProc(Actor actor)
+        static void _DeathProc(Actor actor, bool destroyCompletely)
         {
             actor.deathStarted = true;
             actor.life = 0.0f;
@@ -51,6 +51,16 @@ namespace GameplayFramework
                 actor.OnDeath();
                 actor.isDead = true;
                 actor._GameObject.SetActive(false);
+
+                if (destroyCompletely)
+                {
+                    ActorLevelModule.instance.OnDestroyActorCompletely(actor);
+                    GameObject.Destroy(actor._GameObject);
+                }
+                else
+                {
+                    ActorLevelModule.FreeActor(actor);
+                }
             }
         }
 
@@ -65,7 +75,7 @@ namespace GameplayFramework
             actor.damageParticle.Spawn(actor._Transform);
             if (actor.life <= 0.0f)
             {
-                _DeathProc(actor);
+                _DeathProc(actor, false);
             }
         }
 
@@ -80,7 +90,7 @@ namespace GameplayFramework
             actor.damageParticle.Spawn(actor._Transform);
             if (actor.life <= 0.0f)
             {
-                _DeathProc(actor);
+                _DeathProc(actor, false);
             }
         }
 

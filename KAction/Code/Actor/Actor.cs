@@ -7,17 +7,21 @@ namespace GameplayFramework
 {
     public abstract partial class Actor : MonoBehaviour
     {
-        internal void AwakeActor()
+        internal void StartActor()
         {
             InitData();
             this.Born();
-            OnStartOnce();
-            for (int i = 0; i < gameplayComponents.Count; i++)
-            {
-                gameplayComponents[i].StartComponentOnce();
-            }
             level.OnLevelGameplayStartEv += StartGameplay;
             level.onLevelGameplayEndEv += EndGameplay;
+        }
+
+        internal void PoolCreationTimeFree(Actor actor)
+        {
+            actor.StopAllCoroutines();
+            actor.deathStarted = true;
+            actor.life = 0.0f;
+            actor.isDead = true;
+            actor._GameObject.SetActive(false);
         }
 
         void StartGameplay() { gameplayRun = true; }

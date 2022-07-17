@@ -59,7 +59,7 @@ namespace GameplayFramework
                 return; 
             } 
             isPaused = true;
-            ActorUtil.PauseAllActors();
+            ActorLevelModule.PauseAllActors();
             for (int i = 0; i < levelModules.Count; i++)
             {
                 levelModules[i].OnPause();
@@ -76,7 +76,7 @@ namespace GameplayFramework
                 return;
             }
             isPaused = true;
-            ActorUtil.SetCustomTimeForAllActors(factor);
+            ActorLevelModule.SetCustomTimeForAllActors(factor);
             for (int i = 0; i < levelModules.Count; i++)
             {
                 levelModules[i].OnCustomTimeDilation(factor);
@@ -93,7 +93,7 @@ namespace GameplayFramework
                 return;
             }
             isPaused = true;
-            ActorUtil.SetCustomTimeForAllActors(1.0f);
+            ActorLevelModule.SetCustomTimeForAllActors(1.0f);
             for (int i = 0; i < levelModules.Count; i++)
             {
                 levelModules[i].OnResetTimeDilation();
@@ -110,7 +110,7 @@ namespace GameplayFramework
                 return;
             }
             isPaused = false;
-            ActorUtil.ResumeAllActors();
+            ActorLevelModule.ResumeAllActors();
             for (int i = 0; i < levelModules.Count; i++)
             {
                 levelModules[i].OnResume();
@@ -312,14 +312,16 @@ namespace GameplayFramework
             }
         }
 
+#if !GF_DISABLE_PHYSICS
         void FixedUpdate()
         {
             if (isPlayingCutScene || lvGameplayStarted == false || lvGameplayEnded || isPaused || stopped) { return; }
             OnPhysxTick();
             for (int i = 0; i < levelModules.Count; i++)
             {
-                levelModules[i].OnPhysxTick();
+                levelModules[i].OnPhysicsTick();
             }
         }
+#endif
     }
 }
