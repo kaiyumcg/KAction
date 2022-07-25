@@ -25,7 +25,11 @@ namespace GameplayFramework
     }
 
     [Serializable]
-    public class ActorDataSet : FOrderedDictionary<string, ActorData> { }
+    public class ActorDataSet : FOrderedDictionary<string, ActorData> 
+    {
+        //todo methods for read/write device IO
+        //todo so that the door was opened and now it will also be opened
+    }
 
     [System.Serializable]
     public abstract class ActorData

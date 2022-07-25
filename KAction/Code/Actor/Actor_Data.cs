@@ -10,21 +10,21 @@ namespace GameplayFramework
         /// <summary>
         /// Preloaded data by editor tools
         /// </summary>
-        [SerializeField, HideInInspector] internal Transform _transform;
-        [SerializeField, HideInInspector] internal GameObject _gameobject;
-        [SerializeField, HideInInspector] internal bool isRoot = true;
-        [SerializeField, HideInInspector] internal GameLevel level;
-        [SerializeField] internal List<GameplayComponent> gameplayComponents;
-        [SerializeField] internal List<Actor> childActors;
-        [SerializeField, HideInInspector] internal Actor owner = null;
+        [SerializeField, HideInInspector] Transform _transform;
+        [SerializeField, HideInInspector] GameObject _gameobject;
+        [SerializeField, HideInInspector] bool isRoot = true;
+        [SerializeField, HideInInspector] GameLevel level;
+        [SerializeField] List<GameplayComponent> gameplayComponents;
+        [SerializeField] List<Actor> childActors;
+        [SerializeField, HideInInspector] Actor owner = null;
 
         /// <summary>
         /// Actor Options for editor inspector
         /// </summary>
         [SerializeField] ActorType mType = ActorType.Player;
-        [SerializeField] internal float life = 100f, timeScale = 1.0f;
-        [SerializeField] internal List<GameplayTag> tags = null;
-        [SerializeField] internal bool pauseResumeAffectsChildActors = true;
+        [SerializeField] float life = 100f, timeScale = 1.0f;
+        [SerializeField] List<GameplayTag> tags = null;
+        [SerializeField] bool pauseResumeAffectsChildActors = true;
         [SerializeField] bool timeDilationAffectsChildActors = true;
 
         /// <summary>
