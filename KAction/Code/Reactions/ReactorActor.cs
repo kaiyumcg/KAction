@@ -7,7 +7,6 @@ namespace GameplayFramework
 {
     public abstract class ReactorActor : Actor
     {
-        [SerializeField] InteractionMode mode = InteractionMode.Infinite;
         [SerializeField] int maxVolumeInteractionCount = 1, maxCollisionInteractionCount = 1;
         [SerializeField] UnityEvent<ReactorActor, FPhysicsShape, FPhysicsShape> onEnter, onHit, onExit, onStopHit;
 
@@ -60,18 +59,10 @@ namespace GameplayFramework
             rgd2D = ActorLevelModule.instance.ReactorBodies2D[this];
         }
 
-        bool CheckValidityAgainstMode(int intCount, int maxCount)
-        {
-            if (mode == InteractionMode.Infinite) { return true; }
-            else if (mode == InteractionMode.MultipleTime) { return intCount < maxCount; }
-            else { return intCount == 0; }
-        }
-
         internal void ProcessVolume(Collider rivalCollider3D, Collider2D rivalCollider2D, 
             ReactorActor rivalActor, bool enter, FPhysicsShape rivalShape, FPhysicsShape ownShape)
         {
-            if (IsDead || HasDeathBeenStarted || SetInteractionValidity(rivalActor, rivalShape, ownShape) == false
-                || CheckValidityAgainstMode(tCount, maxVolumeInteractionCount) == false) { return; }
+            if (IsDead || HasDeathBeenStarted || SetInteractionValidity(rivalActor, rivalShape, ownShape) == false) { return; }
             tCount++;
             if (ReferenceEquals(rivalCollider3D, null))
             {
@@ -147,8 +138,7 @@ namespace GameplayFramework
         internal void ProcessSolid(Collision rivalCollision3D, Collision2D rivalCollision2D, 
             ReactorActor rivalActor, bool isHit, FPhysicsShape rivalShape, FPhysicsShape ownShape)
         {
-            if (IsDead || HasDeathBeenStarted || SetInteractionValidity(rivalActor, rivalShape, ownShape) == false
-                || CheckValidityAgainstMode(cCount, maxCollisionInteractionCount) == false) { return; }
+            if (IsDead || HasDeathBeenStarted || SetInteractionValidity(rivalActor, rivalShape, ownShape) == false) { return; }
             cCount++;
             if (ReferenceEquals(rivalCollision3D, null))
             {

@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace GameplayFramework
 {
-    public static partial class ActorExt
+    public abstract partial class Actor : MonoBehaviour
     {
-        static Coroutine _Wait(Actor actor, float amountInScaledTime, System.Action OnComplete)
+        public Coroutine Wait(float amountInScaledTime, System.Action OnComplete)
         {
-            return actor.StartCoroutine(Waiter(amountInScaledTime, OnComplete));
+            return StartCoroutine(Waiter(amountInScaledTime, OnComplete));
             IEnumerator Waiter(float amount_wt, System.Action OnComplete)
             {
                 yield return new WaitForSeconds(amount_wt);
@@ -16,9 +16,8 @@ namespace GameplayFramework
             }
         }
 
-        static void _SetTickForGameplayComponents(Actor actor, bool tick)
+        public void SetTickForGameplayComponents(bool tick)
         {
-            var gameplayComponents = actor.gameplayComponents;
             if (gameplayComponents != null && gameplayComponents.Count > 0)
             {
                 for (int i = 0; i < gameplayComponents.Count; i++)
@@ -30,10 +29,9 @@ namespace GameplayFramework
             }
         }
 
-        static void _SetTick(Actor actor, bool tick)
+        public void SetTick(bool tick)
         {
-            var childActors = actor.childActors;
-            _SetTickForGameplayComponents(actor, tick);
+            SetTickForGameplayComponents(tick);
             for (int i = 0; i < childActors.Count; i++)
             {
                 var chActor = childActors[i];

@@ -7,24 +7,77 @@ namespace GameplayFramework
 {
     public abstract partial class Actor : MonoBehaviour
     {
-        [SerializeField] UnityEvent onStartOrSpawn = null;
-        [SerializeField] internal UnityEvent onPause = null, onResume = null, onStartDeath = null, onDeath = null, onReborn = null;
-        [SerializeField] internal UnityEvent<float> onDamage = null, onGainHealth = null;
-        [SerializeField] internal UnityEvent<float, Vector3> onDirectionalDamage = null, onDirectionalGainHealth = null;
+        [SerializeField] UnityEvent<string, ActorData> onChangeActorData = null;
+        [SerializeField] UnityEvent<float> onDamage = null, onGainHealth = null;
+        [SerializeField] UnityEvent<float, Vector3> onDirectionalDamage = null, onDirectionalGainHealth = null;
+        [SerializeField] UnityEvent onStartDeath = null, onDeath = null, onPause = null, onResume = null;
 
-        public event OnDoAnything2 OnChangeActorData;
+        public event OnDoAnything2 OnChangeActorDataEv;
         public event OnDoAnything<float> OnDamageEv, OnGainHealthEv;
         public event OnDoAnything<float, Vector3> OnDirectionalDamageEv, OnDirectionalGainHealthEv;
-        public event OnDoAnything OnDeathEv, OnStartDeathEv, OnRebornEv, OnPauseEv, OnResumeEv, OnStartOrSpawnEv;
+        public event OnDoAnything OnStartDeathEv, OnDeathEv, OnPauseEv, OnResumeEv;
 
-        internal void OnDamageEv_Invoke(float damage) { OnDamageEv?.Invoke(damage); }
-        internal void OnGainHealthEv_Invoke(float healthGained) { OnGainHealthEv?.Invoke(healthGained); }
-        internal void OnDirectionalDamageEv_Invoke(float damage, Vector3 direction) { OnDirectionalDamageEv?.Invoke(damage, direction); }
-        internal void OnDirectionalGainHealthEv_Invoke(float healthGained, Vector3 direction) { OnDirectionalGainHealthEv?.Invoke(healthGained, direction); }
-        internal void OnDeathEv_Invoke() { OnDeathEv?.Invoke(); }
-        internal void OnStartDeathEv_Invoke() { OnStartDeathEv?.Invoke(); }
-        internal void OnRebornEv_Invoke() { OnRebornEv?.Invoke(); }
-        internal void OnPauseEv_Invoke() { OnPauseEv?.Invoke(); }
-        internal void OnResumeEv_Invoke() { OnResumeEv?.Invoke(); }
+        internal void Call_OnChangeActorData(string key, ActorData data) 
+        { 
+            OnChangeActorDataEv?.Invoke(key, data);
+            onChangeActorData?.Invoke(key, data);
+            OnChangeDataLayer(key, data);
+        }
+
+        internal void Call_OnDamage(float damage) 
+        { 
+            OnDamageEv?.Invoke(damage);
+            onDamage?.Invoke(damage);
+            OnDamage(damage);
+        }
+
+        internal void Call_OnGainHealth(float healthGained) 
+        { 
+            OnGainHealthEv?.Invoke(healthGained);
+            onGainHealth?.Invoke(healthGained);
+            OnGainHealth(healthGained);
+        }
+
+        internal void Call_DirectionalDamage(float damage, Vector3 direction) 
+        { 
+            OnDirectionalDamageEv?.Invoke(damage, direction);
+            onDirectionalDamage?.Invoke(damage, direction);
+            OnDirectionalDamage(damage, direction);
+        }
+
+        internal void Call_OnDirectionalGainHealth(float healthGained, Vector3 direction) 
+        { 
+            OnDirectionalGainHealthEv?.Invoke(healthGained, direction);
+            onDirectionalGainHealth?.Invoke(healthGained, direction);
+            OnDirectionalGainHealth(healthGained, direction);
+        }
+
+        internal void Call_OnStartDeath()
+        {
+            OnStartDeathEv?.Invoke();
+            onStartDeath?.Invoke();
+            OnStartDeath();
+        }
+
+        internal void Call_OnDeath() 
+        { 
+            OnDeathEv?.Invoke();
+            onDeath?.Invoke();
+            OnDeath();
+        }
+
+        internal void Call_OnPause() 
+        { 
+            OnPauseEv?.Invoke();
+            onPause?.Invoke();
+            OnPause();
+        }
+
+        internal void Call_OnResume() 
+        { 
+            OnResumeEv?.Invoke();
+            onResume?.Invoke();
+            OnResume();
+        }
     }
 }

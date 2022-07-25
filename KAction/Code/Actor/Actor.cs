@@ -7,21 +7,26 @@ namespace GameplayFramework
 {
     public abstract partial class Actor : MonoBehaviour
     {
+        //todo data layer
+        //todo visibility
+
+        //todo remap data for component add or actor parent-child relation change
+        //todo change parent child relationship on actors
         internal void StartActor()
         {
             InitData();
-            this.Born();
+            _Born(true);
             level.OnLevelGameplayStartEv += StartGameplay;
             level.onLevelGameplayEndEv += EndGameplay;
         }
 
-        internal void PoolCreationTimeFree(Actor actor)
+        internal void PoolCreationTimeFree()
         {
-            actor.StopAllCoroutines();
-            actor.deathStarted = true;
-            actor.life = 0.0f;
-            actor.isDead = true;
-            actor._GameObject.SetActive(false);
+            StopAllCoroutines();
+            deathStarted = true;
+            life = 0.0f;
+            isDead = true;
+            gameObject.SetActive(false);
         }
 
         void StartGameplay() { gameplayRun = true; }
@@ -29,20 +34,13 @@ namespace GameplayFramework
 
         void OnEnable()
         {
-            OnAppearActor();
+            isDead = deathStarted = isActorPaused = false;
+            life = initialLife;
+            timeScale = initialTimeScale;
             for (int i = 0; i < gameplayComponents.Count; i++)
             {
                 gameplayComponents[i].OnAppearActor();
             }
-        }
-
-        protected virtual void OnAppearActor()
-        {
-            isDead = deathStarted = isActorPaused = false;
-            life = initialLife;
-            timeScale = initialTimeScale;
-            onStartOrSpawn?.Invoke();
-            OnStartOrSpawnEv?.Invoke();
         }
 
         void OnDisable()

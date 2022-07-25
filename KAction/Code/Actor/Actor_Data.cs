@@ -26,8 +26,6 @@ namespace GameplayFramework
         [SerializeField] internal List<GameplayTag> tags = null;
         [SerializeField] internal bool pauseResumeAffectsChildActors = true;
         [SerializeField] bool timeDilationAffectsChildActors = true;
-        [SerializeField] internal ParticleSpawnDesc deathParticle = null, damageParticle = null,
-           gainHealthParticle = null, rebornParticle = null;
 
         /// <summary>
         /// Transient data for runtime
@@ -46,23 +44,23 @@ namespace GameplayFramework
         void InitData()
         {
             dataTable = new ActorDataSet();
+
             isJumping = isHelixing = isTurning = isMoving = isThursting = isSwirling = isPoping = isSpringReleasing =
-            isSummoning = isShaking = isStillHanging = isSwinging = isBrownianDoing = isRubberBandFollowing =
+            isSummoning = isShaking = isStillHanging = isSwinging = isBrownianDoing = isRubberBandFollowing = false;
+
             componentListDirty = childActorListDirty = canRecieveDamage = canGainHealth = healthOverflow = 
             gameplayRun =  isActorPaused = isDead =  deathStarted = false;
             initialLife = life; initialTimeScale = timeScale; canTick = true;
 
-            if (onStartOrSpawn == null) { onStartOrSpawn = new UnityEvent(); }
-            if (onPause == null) { onPause = new UnityEvent(); }
-            if (onResume == null) { onResume = new UnityEvent(); }
-            if (onStartDeath == null) { onStartDeath = new UnityEvent(); }
-            if (onDeath == null) { onDeath = new UnityEvent(); }
-            if (onReborn == null) { onReborn = new UnityEvent(); }
+            if (onChangeActorData == null) { onChangeActorData = new UnityEvent<string, ActorData>(); }
             if (onDamage == null) { onDamage = new UnityEvent<float>(); }
             if (onGainHealth == null) { onGainHealth = new UnityEvent<float>(); }
             if (onDirectionalDamage == null) { onDirectionalDamage = new UnityEvent<float, Vector3>(); }
             if (onDirectionalGainHealth == null) { onDirectionalGainHealth = new UnityEvent<float, Vector3>(); }
-
+            if (onStartDeath == null) { onStartDeath = new UnityEvent(); }
+            if (onDeath == null) { onDeath = new UnityEvent(); }
+            if (onPause == null) { onPause = new UnityEvent(); }
+            if (onResume == null) { onResume = new UnityEvent(); }
         }
     }
 }

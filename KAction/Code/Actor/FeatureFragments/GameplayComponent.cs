@@ -4,13 +4,11 @@ using UnityEngine;
 
 namespace GameplayFramework
 {
-    public static partial class ActorExt
+    public abstract partial class Actor : MonoBehaviour
     {
-        static T _GetGameplayComponent<T>(Actor actor) where T : GameplayComponent
+        public T GetGameplayComponent<T>() where T : GameplayComponent
         {
             T result = null;
-            var gameplayComponents = actor.gameplayComponents;
-            var componentListDirty = actor.componentListDirty;
             if (gameplayComponents != null && componentListDirty == false)
             {
                 var len = gameplayComponents.Count;
@@ -30,11 +28,9 @@ namespace GameplayFramework
             return result;
         }
 
-        static List<T> _GetGameplayComponents<T>(Actor actor) where T : GameplayComponent
+        public List<T> GetGameplayComponents<T>() where T : GameplayComponent
         {
             List<T> results = new List<T>();
-            var gameplayComponents = actor.gameplayComponents;
-            var componentListDirty = actor.componentListDirty;
             if (gameplayComponents != null && componentListDirty == false)
             {
                 var len = gameplayComponents.Count;
@@ -53,11 +49,9 @@ namespace GameplayFramework
             return results;
         }
 
-        static T _GetGameplayComponentByTag<T>(Actor actor, GameplayTag tag, bool useRefOptimization = false) where T : GameplayComponent
+        public T GetGameplayComponentByTag<T>(GameplayTag tag, bool useRefOptimization = false) where T : GameplayComponent
         {
             T result = null;
-            var gameplayComponents = actor.gameplayComponents;
-            var componentListDirty = actor.componentListDirty;
             if (gameplayComponents != null && componentListDirty == false)
             {
                 var len = gameplayComponents.Count;
@@ -78,11 +72,9 @@ namespace GameplayFramework
             return result;
         }
 
-        static List<T> _GetGameplayComponentsByTag<T>(Actor actor, GameplayTag tag, bool useRefOptimization = false) where T : GameplayComponent
+        public List<T> GetGameplayComponentsByTag<T>(GameplayTag tag, bool useRefOptimization = false) where T : GameplayComponent
         {
             List<T> results = new List<T>();
-            var gameplayComponents = actor.gameplayComponents;
-            var componentListDirty = actor.componentListDirty;
             if (gameplayComponents != null && componentListDirty == false)
             {
                 var len = gameplayComponents.Count;
@@ -102,10 +94,10 @@ namespace GameplayFramework
             return results;
         }
 
-        static T _AddActorComponent<T>(Actor actor) where T : GameplayComponent
+        public T AddActorComponent<T>() where T : GameplayComponent
         {
-            actor.componentListDirty = true;
-            var ownerObject = actor._Transform;
+            componentListDirty = true;
+            var ownerObject = _Transform;
             var holderObject = new GameObject("_GEN_" + typeof(T));
             var holderTr = holderObject.transform;
             holderTr.SetParent(ownerObject);
@@ -114,22 +106,22 @@ namespace GameplayFramework
             holderTr.localScale = Vector3.one;
             T t = holderObject.AddComponent<T>();
             t.isDynamic = true;
-            actor.gameplayComponents.Add(t);
-            actor.componentListDirty = false;
+            gameplayComponents.Add(t);
+            componentListDirty = false;
             return t;
         }
 
-        static void _RemoveActorComponent<T>(Actor actor, T t) where T : GameplayComponent
+        public void RemoveActorComponent<T>(T t) where T : GameplayComponent
         {
             if (t.isDynamic == false)
             {
                 KLog.PrintError("Only Actor Component can be removed!");
                 return;
             }
-            actor.componentListDirty = true;
-            if (actor.gameplayComponents.Contains(t)) { actor.gameplayComponents.Remove(t); }
+            componentListDirty = true;
+            if (gameplayComponents.Contains(t)) { gameplayComponents.Remove(t); }
             Actor.Destroy(t.gameObject);
-            actor.componentListDirty = false;
+            componentListDirty = false;
         }
     }
 }

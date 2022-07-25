@@ -6,8 +6,7 @@ namespace GameplayFramework
 {
     public sealed partial class ActorLevelModule : LevelModule
     {
-        public static T GetOrCloneActor<T>(T prefab) where T : Actor { }
-        public static void FreeActor<T>(T clonedActor) where T : Actor { _FreeActor<T>(clonedActor); }
+        public static T GetOrCloneActor<T>(T prefab) where T : Actor { throw new System.NotImplementedException(); }
 
         #region Pause-Resume
         public static void PauseRootActors() { _PauseAllActors(true); }

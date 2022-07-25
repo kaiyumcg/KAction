@@ -85,7 +85,7 @@ namespace GameplayFramework
             return result;
         }
 
-        static void _FreeActor<T>(T clonedActor) where T : Actor
+        internal static void _FreeActor<T>(T clonedActor) where T : Actor
         {
             //a call to this automatically includes it into pool
             //on death finally, it is called
@@ -93,7 +93,7 @@ namespace GameplayFramework
             //rather it will finally unity destroy the actor
 
             var tr = clonedActor._transform;
-            tr.SetParent(instance.transform, true)//transform ta cache kora keno na? LevelModule e etao bake data te include
+            //tr.SetParent(instance.transform, true)//transform ta cache kora keno na? LevelModule e etao bake data te include
                 //then actor e baked data list?
                 //dynamic weapon add/remove e 'ActorLevelModule.OnDestroyActorCompletely(Actor actor)' type jinis korte hobe
                 //dynamic component add e ki korte hobe same jinis?

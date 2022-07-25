@@ -94,7 +94,7 @@ namespace GameplayFramework
             }
         }
 
-        internal void OnDestroyActorCompletely(Actor actor)
+        internal void OnDestroyCallUnity(Actor actor)
         {
             //dictionary and map data patch todo
             //dictionary access ta dirty flag dia control todo
