@@ -29,11 +29,11 @@ namespace GameplayFramework
         GameLevel gameMan;
         bool addedController = false;
 
-        protected internal override void OnCleanupActor()
+        protected internal override void OnEndActor()
         {
             if (gameMan.HasLevelGameplayBeenStarted == false || gameMan.HasLevelGameplayBeenEnded)
             {
-                base.OnCleanupActor();
+                base.OnEndActor();
             }
             else
             {
@@ -46,7 +46,7 @@ namespace GameplayFramework
                 {
                     gameMan.OnLevelGameplayStartEv -= StartController;
                 }
-                base.OnCleanupActor();
+                base.OnEndActor();
             }
         }
 
@@ -58,10 +58,10 @@ namespace GameplayFramework
             }
         }
 
-        protected internal override void OnStart()
+        protected internal override void OnStartActor()
         {
             if (onUpdateScore == null) { onUpdateScore = new UnityEvent<int>(); }
-            base.OnStart();
+            base.OnStartActor();
             if (useDeviceStorageForScore)
             {
                 /*

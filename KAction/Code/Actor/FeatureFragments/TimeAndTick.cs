@@ -18,20 +18,20 @@ namespace GameplayFramework
 
         public void SetTickForGameplayComponents(bool tick)
         {
-            if (gameplayComponents != null && gameplayComponents.Count > 0)
+            if (componentListDirty) { return; }
+            for (int i = 0; i < gameplayComponents.Count; i++)
             {
-                for (int i = 0; i < gameplayComponents.Count; i++)
-                {
-                    var comp = gameplayComponents[i];
-                    if (comp == null) { continue; }
-                    comp.canTick = tick;
-                }
+                var comp = gameplayComponents[i];
+                if (comp == null) { continue; }
+                comp.canTick = tick;
             }
         }
 
         public void SetTick(bool tick)
         {
+            canTick = tick;
             SetTickForGameplayComponents(tick);
+            if (childActorListDirty) { return; }
             for (int i = 0; i < childActors.Count; i++)
             {
                 var chActor = childActors[i];

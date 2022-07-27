@@ -11,6 +11,9 @@ namespace GameplayFramework
         public GameObject _GameObject { get { return _gameobject; } }
 
         public bool CanTick { get { return canTick; } set { canTick = value; } }
+        public bool CanRecieveDamage { get { return canRecieveDamage; } set { canRecieveDamage = value; } }
+        public bool CanGainHealth { get { return canGainHealth; } set { canGainHealth = value; } }
+        public bool HealthOverflow { get { return healthOverflow; } set { healthOverflow = value; } }
         public float FullLife { get { return initialLife; } }
         public float NormalizedLife { get { return life / initialLife; } }
         public float CurrentLife { get { return life; } }
@@ -27,16 +30,12 @@ namespace GameplayFramework
             set
             {
                 timeScale = value;
-                if (timeDilationAffectsChildActors)
+                if (timeDilationAffectsChildActors && childActorListDirty == false)
                 {
-                    if (childActorListDirty == false)
+                    for (int i = 0; i < childActors.Count; i++)
                     {
-                        for (int i = 0; i < childActors.Count; i++)
-                        {
-                            var ch = childActors[i];
-                            if (ch == null) { continue; }
-                            ch.TimeScale = value;
-                        }
+                        var ch = childActors[i];
+                        ch.TimeScale = value;
                     }
                 }
             }

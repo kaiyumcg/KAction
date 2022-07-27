@@ -70,7 +70,7 @@ namespace GameplayFramework
             instance = this;
             for (int i = 0; i < rootActors.Count; i++)
             {
-                rootActors[i].StartActor();
+                rootActors[i].StartActorLifeCycle(firstTimePool : false);
             }
         }
 
@@ -94,7 +94,23 @@ namespace GameplayFramework
             }
         }
 
-        internal void OnDestroyCallUnity(Actor actor)
+        //todo when busy, the actor's root is null, otherwise child of this module for better scene organization
+        internal void MarkBusy<T>(T actorInScene) where T : Actor
+        {
+            //set this instance from the data list as NOT-free
+        }
+
+        internal void MarkFree<T>(T actorInScene) where T : Actor
+        {
+            //set this instance from the data list as NOT-free
+        }
+
+        public void RemoveFreeActors()
+        {
+            
+        }
+
+        internal void OnDestroyActorInstance<T>(T actor) where T : Actor
         {
             //dictionary and map data patch todo
             //dictionary access ta dirty flag dia control todo

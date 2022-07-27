@@ -1,6 +1,3 @@
-#define GAMEPLAY_SDK_DEBUG_MODE
-#define GAMEPLAY_SUPPORT_NOSTANDARD_COLS
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +16,7 @@ namespace GameplayFramework
         bool IsValid(ReactorActor rival, ReactorActor thisActor)
         {
             var valid = true;
-#if GAMEPLAY_SDK_DEBUG_MODE
+#if GF_DEBUG
             if (thisActor == null) { valid = false; }
             if (rival == null) { valid = false; }
             if (rival != null && rival == thisActor) { valid = false; }
@@ -29,7 +26,7 @@ namespace GameplayFramework
             return valid;
         }
 
-#if GAMEPLAY_SDK_DEBUG_MODE
+#if GF_DEBUG
         void PreCheckPhysics(ActorLevelModule actorModule, Collider rivalCollider)
         {
             if (actorModule == null)
@@ -103,14 +100,14 @@ namespace GameplayFramework
             out FPhysicsShape rivalPhysicalShape)
         {
             var actLvMod = ActorLevelModule.instance;
-#if GAMEPLAY_SDK_DEBUG_MODE
+#if GF_DEBUG
             PreCheckPhysics(actLvMod, rivalCollider);
 #endif
             thisActor = actLvMod.ReactorShapes[this];
             rivalActor = actLvMod.ReactorColliders[rivalCollider];
             rivalPhysicalShape = actLvMod.Shapes[rivalCollider];
 
-#if GAMEPLAY_SDK_DEBUG_MODE
+#if GF_DEBUG
             ReactorSanityCheck(thisActor, this);
             ReactorSanityCheck(rivalActor, rivalCollider);
             ShapeSanityCheck(rivalPhysicalShape, rivalCollider);
@@ -124,14 +121,14 @@ namespace GameplayFramework
             out FPhysicsShape rivalPhysicalShape)
         {
             var actLvMod = ActorLevelModule.instance;
-#if GAMEPLAY_SDK_DEBUG_MODE
+#if GF_DEBUG
             PreCheckPhysics(actLvMod, rivalCollider);
 #endif
             thisActor = actLvMod.ReactorShapes[this];
             rivalActor = actLvMod.ReactorColliders2D[rivalCollider];
             rivalPhysicalShape = actLvMod.Shapes2D[rivalCollider];
 
-#if GAMEPLAY_SDK_DEBUG_MODE
+#if GF_DEBUG
             ReactorSanityCheck(thisActor, this);
             ReactorSanityCheck(rivalActor, rivalCollider);
             ShapeSanityCheck(rivalPhysicalShape, rivalCollider);
@@ -145,14 +142,14 @@ namespace GameplayFramework
             out FPhysicsShape rivalPhysicalShape)
         {
             var actLvMod = ActorLevelModule.instance;
-#if GAMEPLAY_SDK_DEBUG_MODE
+#if GF_DEBUG
             PreCheckPhysics(actLvMod, rivalCollision.collider);
 #endif
             thisActor = actLvMod.ReactorShapes[this];
             rivalActor = actLvMod.ReactorColliders[rivalCollision.collider];
             rivalPhysicalShape = actLvMod.Shapes[rivalCollision.collider];
 
-#if GAMEPLAY_SDK_DEBUG_MODE
+#if GF_DEBUG
             ReactorSanityCheck(thisActor, this);
             ReactorSanityCheck(rivalActor, rivalCollision.collider);
             ShapeSanityCheck(rivalPhysicalShape, rivalCollision.collider);
@@ -166,14 +163,14 @@ namespace GameplayFramework
             out FPhysicsShape rivalPhysicalShape)
         {
             var actLvMod = ActorLevelModule.instance;
-#if GAMEPLAY_SDK_DEBUG_MODE
+#if GF_DEBUG
             PreCheckPhysics(actLvMod, rivalCollision.collider);
 #endif
             thisActor = actLvMod.ReactorShapes[this];
             rivalActor = actLvMod.ReactorColliders2D[rivalCollision.collider];
             rivalPhysicalShape = actLvMod.Shapes2D[rivalCollision.collider];
 
-#if GAMEPLAY_SDK_DEBUG_MODE
+#if GF_DEBUG
             ReactorSanityCheck(thisActor, this);
             ReactorSanityCheck(rivalActor, rivalCollision.collider);
             ShapeSanityCheck(rivalPhysicalShape, rivalCollision.collider);
@@ -183,7 +180,7 @@ namespace GameplayFramework
 #endif
         }
 
-#if GAMEPLAY_SDK_DEBUG_MODE
+#if GF_DEBUG
         void ReactorSanityCheck(ReactorActor ractor, Collider2D col2D)
         {
             if (ractor == null)

@@ -97,7 +97,7 @@ namespace GameplayFramework
         public T AddActorComponent<T>() where T : GameplayComponent
         {
             componentListDirty = true;
-            var ownerObject = _Transform;
+            var ownerObject = _transform;
             var holderObject = new GameObject("_GEN_" + typeof(T));
             var holderTr = holderObject.transform;
             holderTr.SetParent(ownerObject);

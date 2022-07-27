@@ -38,7 +38,7 @@ Update ActorLevelModule's dictionary maps and other data w.r.t. add actor compon
 //On every save, invoke editor tool's method to inject dependencies
 //dictionary for mapping reactor actor things should be serialized and baked prior to avoid slow loading of levels
 //editor tools for on/off conditional compilation flags
-		they are: _DEBUG_MODE, Turn_Off_RefEqual_Optmization, USE_CLOUD_LOG, 
+		they are: Turn_Off_RefEqual_Optmization, USE_CLOUD_LOG, GF_DEBUG, GAMEPLAY_SUPPORT_NOSTANDARD_COLS
 
 
 //Legacy todos

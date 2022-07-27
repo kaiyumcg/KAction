@@ -7,53 +7,89 @@ namespace GameplayFramework
 {
     public abstract partial class Actor : MonoBehaviour
     {
+        //todo already actor level module's clone method sets the free flag accordingly, should it do it again?
+        //todo what will be the lifecycle of actors already builtin in the scene vs those that are cloned by ActorLevelModule
+        //vs those that are reborn. How the child actors will be affected by these operations?
+        //todo clone by type of actor. i.e. Clone<T>()
+        //todo lifecycle check
         //todo data layer
         //todo visibility
 
-        //todo remap data for component add or actor parent-child relation change
-        //todo change parent child relationship on actors
-        internal void StartActor()
+        //todo component add/remove
+        //todo change parent-child of actor and set owner
+        //todo patch map data for actor stream scripts(Actor, GameplayComponent, Level Module, Game Level etc)
+
+        internal void StartActorLifeCycle(bool firstTimePool, bool shouldMarkBusy)
         {
             InitData();
-            _Born(true);
-            level.OnLevelGameplayStartEv += StartGameplay;
-            level.onLevelGameplayEndEv += EndGameplay;
+            if (shouldMarkBusy)
+            {
+                ActorLevelModule.instance.MarkBusy(this);
+            }
+            StopAllCoroutines();
+            _gameobject.SetActive(true);
+            isDead = deathStarted = isActorPaused = false;
+            life = initialLife;
+            timeScale = initialTimeScale;
+            if (firstTimePool == false)
+            {
+                OnStartActor();
+                for (int i = 0; i < gameplayComponents.Count; i++)
+                {
+                    gameplayComponents[i].OnStartActor();
+                }
+            }
+            
+            for (int i = 0; i < childActors.Count; i++)
+            {
+                childActors[i].StartActorLifeCycle(firstTimePool, shouldMarkBusy);
+            }
+
+            if (firstTimePool == false)
+            {
+                level.OnLevelGameplayStartEv += StartGameplay;
+                level.onLevelGameplayEndEv += EndGameplay;
+            }
         }
 
-        internal void PoolCreationTimeFree()
+        internal void EndActorLifeCycle(bool gameObjectDestroy, bool firstTimePool)
         {
             StopAllCoroutines();
             deathStarted = true;
             life = 0.0f;
             isDead = true;
-            gameObject.SetActive(false);
+            _gameobject.SetActive(false);
+            if (firstTimePool == false)
+            {
+                for (int i = 0; i < gameplayComponents.Count; i++)
+                {
+                    gameplayComponents[i].OnEndActor();
+                }
+            }
+            
+            for (int i = 0; i < childActors.Count; i++)
+            {
+                childActors[i].EndActorLifeCycle(gameObjectDestroy, firstTimePool);
+            }
+
+            if(firstTimePool == false)
+            {
+                Call_OnDeath();
+                OnEndActor();
+                level.OnLevelGameplayStartEv -= StartGameplay;
+                level.onLevelGameplayEndEv -= EndGameplay;
+            }
+
+            ActorLevelModule.instance.MarkFree(this);
+            if (gameObjectDestroy && firstTimePool == false)
+            {
+                ActorLevelModule.instance.OnDestroyActorInstance(this);
+                GameObject.Destroy(_gameobject);
+            }
         }
 
         void StartGameplay() { gameplayRun = true; }
         void EndGameplay() { gameplayRun = false; }
-
-        void OnEnable()
-        {
-            isDead = deathStarted = isActorPaused = false;
-            life = initialLife;
-            timeScale = initialTimeScale;
-            for (int i = 0; i < gameplayComponents.Count; i++)
-            {
-                gameplayComponents[i].OnAppearActor();
-            }
-        }
-
-        void OnDisable()
-        {
-            for (int i = 0; i < gameplayComponents.Count; i++)
-            {
-                gameplayComponents[i].OnCleanupComponent();
-            }
-            OnCleanupActor();
-            StopAllCoroutines();
-            level.OnLevelGameplayStartEv -= StartGameplay;
-            level.onLevelGameplayEndEv -= EndGameplay;
-        }
 
         internal void Tick(float dt_from_unity, float fixedDt_from_unity)
         {
@@ -91,14 +127,22 @@ namespace GameplayFramework
                     {
                         for (int i = 0; i < gameplayComponents.Count; i++)
                         {
-                            gameplayComponents[i].UpdateComponentPhysics(dt, fdt);
+                            var comp = gameplayComponents[i];
+                            if (comp.canTick)
+                            {
+                                comp.UpdateComponentPhysics(dt, fdt);
+                            }
                         }
                     }
                     else
                     {
                         for (int i = 0; i < gameplayComponents.Count; i++)
                         {
-                            gameplayComponents[i].UpdateComponent(dt, fdt);
+                            var comp = gameplayComponents[i];
+                            if (comp.canTick)
+                            {
+                                comp.UpdateComponent(dt, fdt);
+                            }
                         }
                     }
                 }

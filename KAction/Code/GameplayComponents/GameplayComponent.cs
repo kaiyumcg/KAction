@@ -6,13 +6,13 @@ namespace GameplayFramework
 {
     public abstract class GameplayComponent : MonoBehaviour
     {
-        protected internal virtual void OnAppearActor() { }
+        protected internal virtual void OnStartActor() { }
         protected internal virtual void UpdateComponent(float dt, float fixedDt) { }
         protected internal virtual void UpdateComponentPhysics(float dt, float fixedDt) { }
 #if UNITY_EDITOR
         protected virtual void OnEditorUpdate() { }
 #endif
-        protected internal virtual void OnCleanupComponent() { }
+        protected internal virtual void OnEndActor() { }
 
         protected internal virtual void OnEnterActorVolume(ReactorActor rival, FPhysicsShape rivalShape, FPhysicsShape ownShape) { }
         protected internal virtual IEnumerator OnEnterActorVolumeAsync(ReactorActor rival, FPhysicsShape rivalShape, FPhysicsShape ownShape) { yield return null; }

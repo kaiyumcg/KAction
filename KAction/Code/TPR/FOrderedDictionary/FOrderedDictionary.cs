@@ -136,7 +136,7 @@ namespace GameplayFramework
 
         void SetData(Key key, Value value, bool useOptimization = false)
         {
-#if _DEBUG_MODE
+#if GF_DEBUG
             bool success = false;
 #endif
             if (DSUtil.IsNull(key, isKeyValueType, useOptimization) == false && content != null && content.Count > 0)
@@ -146,7 +146,7 @@ namespace GameplayFramework
                     if (DSUtil.IsEqual(content[i]._Key, key, isKeyValueType, useOptimization))
                     {
                         content[i]._Value = value;
-#if _DEBUG_MODE
+#if GF_DEBUG
                         success = true;
 #endif
                         break;
@@ -154,7 +154,7 @@ namespace GameplayFramework
                 }
             }
 
-#if _DEBUG_MODE
+#if GF_DEBUG
             if (success == false)
             {
                 KLog.PrintWarning("You were trying to set value against a key in the dictionary but the key is not present! Default value will be returned.");
@@ -168,7 +168,7 @@ namespace GameplayFramework
             if (DSUtil.IsNull(key, isKeyValueType, useOptimization) == false)
             {
                 bool success = TryGetValue(key, out result, useOptimization);
-#if _DEBUG_MODE
+#if GF_DEBUG
                 if (success == false)
                 {
                     KLog.PrintWarning("You were trying to get value against a key in the dictionary but the key is not present! Default value will be returned.");

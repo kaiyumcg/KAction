@@ -6,7 +6,83 @@ namespace GameplayFramework
 {
     public sealed partial class ActorLevelModule : LevelModule
     {
-        static T _GetOrCloneActor<T>(T prefab, bool overrideTransform, bool overrideLocal, bool useEularForRotation,
+        public static T Spawn<T>(T prefab) where T : Actor
+        {
+            return _GetOrCloneActor<T>(prefab, modifyTransform: false, false, false,
+                Vector3.zero, Vector3.zero, Quaternion.identity, Vector3.zero);
+        }
+
+        public static T SpawnAtTransform<T>(T prefab, Vector3 position, Quaternion rotation, Vector3 localScale, bool local = false)
+            where T : Actor
+        {
+            return _GetOrCloneActor<T>(prefab, modifyTransform: true, local, useEularForRotation: false, 
+                position, Vector3.zero, rotation, localScale);
+        }
+
+        public static T SpawnAtTransform<T>(T prefab, Vector3 position, Vector3 rotation, Vector3 localScale, bool local = false)
+            where T : Actor
+        {
+            return _GetOrCloneActor<T>(prefab, modifyTransform: true, local, useEularForRotation: false, 
+                position, rotation, Quaternion.identity, localScale);
+        }
+
+        public static T SpawnByType<T>() where T : Actor
+        {
+            var pr = _GetOne<T>();
+            return pr == null ? null : _GetOrCloneActor<T>(pr, modifyTransform: false, false, false,
+                Vector3.zero, Vector3.zero, Quaternion.identity, Vector3.zero);
+        }
+
+        public static T SpawnByTypeAtTransform<T>(Vector3 position, Quaternion rotation, Vector3 localScale, bool local = false)
+            where T : Actor
+        {
+            var pr = _GetOne<T>();
+            return pr == null ? null : _GetOrCloneActor<T>(pr, modifyTransform: true, local, useEularForRotation: false, 
+                position, Vector3.zero, rotation, localScale);
+        }
+
+        public static T SpawnByTypeAtTransform<T>(Vector3 position, Vector3 rotation, Vector3 localScale, bool local = false)
+            where T : Actor
+        {
+            var pr = _GetOne<T>();
+            return pr == null ? null : _GetOrCloneActor<T>(pr, modifyTransform: true, local, useEularForRotation: false, 
+                position, rotation, Quaternion.identity, localScale);
+        }
+
+        static T _GetOne<T>() where T : Actor
+        {
+            T prefab = null;
+            var clonedList = instance.clonedData;
+            if (clonedList != null)
+            {
+                var len = clonedList.Count;
+                if (len > 0)
+                {
+                    for (int i = 0; i < len; i++)
+                    {
+                        var c = clonedList[i];
+                        if (c == null) { continue; }
+                        if (c.sourcePrefab.GetType() == typeof(T))
+                        {
+                            prefab = (T)c.sourcePrefab;
+                            break;
+                        }
+                    }
+                }
+            }
+#if GF_DEBUG
+            if (prefab == null)
+            {
+                KLog.ThrowGameplaySDKException(GFType.ActorModule,
+                    "Could not get a actor by type from the pool list. " +
+                    "It is most likely you have not added any such typed prefab into the pool list of actor level module. " +
+                    "Since debug mode is turned on, you are getting this exception.");
+            }
+#endif
+            return prefab;
+        }
+
+        static T _GetOrCloneActor<T>(T prefab, bool modifyTransform, bool localSpace, bool useEularForRotation,
             Vector3 overridePosition, Vector3 overrideRotationEular, 
             Quaternion overrideRotation, Vector3 overrideScale) where T : Actor
         {
@@ -25,6 +101,7 @@ namespace GameplayFramework
                         if (c == null || c.free == false) { continue; }
                         if (c.sourcePrefab == prefab)
                         {
+                            prefab = (T)c.sourcePrefab;
                             freeItemAvailable = true;
                             freeActorObject = c;
                             freeActor = (T)c.clonedActor;
@@ -33,6 +110,16 @@ namespace GameplayFramework
                     }
                 }
             }
+
+#if GF_DEBUG
+            if (instance.actors.Contains(prefab))
+            {
+                KLog.ThrowGameplaySDKException(GFType.ActorModule,
+                    "You are trying to clone or get from pool list an actor that already exists in the scene! " +
+                    "This is not supported by design. You should always clone or get from pool actors that are prefab instead. " +
+                    "Since debug mode is turned on, you are getting this exception.");
+            }
+#endif
 
             if (!freeItemAvailable)
             {
@@ -45,15 +132,15 @@ namespace GameplayFramework
 
             T result = freeActor;
             freeActorObject.free = false;
-            freeActorObject.clonedActor._gameobject.SetActive(true);
-            var tr = freeActorObject.clonedActor._transform;
+            freeActorObject.clonedActor._GameObject.SetActive(true);
+            var tr = freeActorObject.clonedActor._Transform;
             tr.SetParent(null, true);
-            if (overrideTransform)
+            if (modifyTransform)
             {
-                if (overrideLocal) { tr.localPosition = overridePosition; }
+                if (localSpace) { tr.localPosition = overridePosition; }
                 else { tr.position = overridePosition; }
 
-                if (overrideLocal)
+                if (localSpace)
                 {
                     if (useEularForRotation)
                     {
@@ -77,28 +164,8 @@ namespace GameplayFramework
                 }
                 tr.localScale = overrideScale;
             }
-            freeActorObject.clonedActor.StopAllCoroutines();
-            freeActorObject.clonedActor.StartActor();
-
-            //pooled item list ta onusare reload korte hobe--ei time e Actor::PoolCreationTimeFree(Actor actor) ei method ta call korte hobe
-            //jekhane jekhane actor list and related dictionary-map data ase, segulo patch kora
+            freeActorObject.clonedActor.StartActorLifeCycle(firstTimePool : false);
             return result;
-        }
-
-        internal static void _FreeActor<T>(T clonedActor) where T : Actor
-        {
-            //a call to this automatically includes it into pool
-            //on death finally, it is called
-            //if death is called with obliterate flag then it is not included into pool
-            //rather it will finally unity destroy the actor
-
-            var tr = clonedActor._transform;
-            //tr.SetParent(instance.transform, true)//transform ta cache kora keno na? LevelModule e etao bake data te include
-                //then actor e baked data list?
-                //dynamic weapon add/remove e 'ActorLevelModule.OnDestroyActorCompletely(Actor actor)' type jinis korte hobe
-                //dynamic component add e ki korte hobe same jinis?
-
-                
         }
     }
 }

@@ -38,9 +38,9 @@ namespace GameplayFramework
 
         protected virtual bool SetInteractionValidity(ReactorActor rival, FPhysicsShape rivalShape, FPhysicsShape ownShape) { return false; }
 
-        protected internal override void OnCleanupActor()
+        protected internal override void OnEndActor()
         {
-            base.OnCleanupActor();
+            base.OnEndActor();
             tCount = cCount = 0;
             intTrigs = new List<Collider>();
             intCols = new List<Collision>();
@@ -48,13 +48,13 @@ namespace GameplayFramework
             intCol2Ds = new List<Collision2D>();
         }
 
-        protected internal override void OnStart()
+        protected internal override void OnStartActor()
         {
             if (onEnter == null) { onEnter = new UnityEvent<ReactorActor, FPhysicsShape, FPhysicsShape>(); }
             if (onHit == null) { onHit = new UnityEvent<ReactorActor, FPhysicsShape, FPhysicsShape>(); }
             if (onExit == null) { onExit = new UnityEvent<ReactorActor, FPhysicsShape, FPhysicsShape>(); }
             if (onStopHit == null) { onStopHit = new UnityEvent<ReactorActor, FPhysicsShape, FPhysicsShape>(); }
-            base.OnStart();
+            base.OnStartActor();
             rgd = ActorLevelModule.instance.ReactorBodies[this];
             rgd2D = ActorLevelModule.instance.ReactorBodies2D[this];
         }
