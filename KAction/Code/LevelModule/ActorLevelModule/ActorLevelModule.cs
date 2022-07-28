@@ -7,44 +7,30 @@ namespace GameplayFramework
 {
     public sealed partial class ActorLevelModule : LevelModule
     {
+        #region BakeFields
         /// <summary>
         /// these are baked into by baking tools upon save operation of a level, during build process and upon play mode.
         /// in case of actor component or gameplay component or actor reparenting or cloning actors for first time or destroying them,
         /// these data might change. Audit and think!
         /// </summary>
-        [SerializeField] List<Actor> rootActors;
-        [SerializeField, HideInInspector] List<Actor> actors;
+        [SerializeField] List<Actor> rootActors;//actor add/remove || child-parent relation change
         [SerializeField] List<PooledActor> pooledItems;
-        [NonSerialized, HideInInspector] List<ClonedActor> clonedData;
-        [SerializeField, HideInInspector] FOrderedDictionary<ReactorActor, Rigidbody> reactorBodies;
-        [SerializeField, HideInInspector] FOrderedDictionary<ReactorActor, Rigidbody2D> reactorBodies2D;
-        [SerializeField, HideInInspector] FOrderedDictionary<Collider, Actor> actorColliders;
-        [SerializeField, HideInInspector] FOrderedDictionary<Collider, ReactorActor> reactorColliders;
-        [SerializeField, HideInInspector] FOrderedDictionary<Collider2D, Actor> actorColliders2D;
-        [SerializeField, HideInInspector] FOrderedDictionary<Collider2D, ReactorActor> reactorColliders2D;
-        [SerializeField, HideInInspector] FOrderedDictionary<FPhysicsShape, Actor> actorShapes;
-        [SerializeField, HideInInspector] FOrderedDictionary<FPhysicsShape, ReactorActor> reactorShapes;
-        [SerializeField, HideInInspector] FOrderedDictionary<Collider, FPhysicsShape> shapes;
-        [SerializeField, HideInInspector] FOrderedDictionary<Collider2D, FPhysicsShape> shapes2D;
-        [SerializeField, HideInInspector] FOrderedDictionary<FPhysicsShape, Collider> shapes_RV;
-        [SerializeField, HideInInspector] FOrderedDictionary<FPhysicsShape, Collider2D> shapes2D_RV;
 
-#if UNITY_EDITOR
-        public void SetEd_rootActors(List<Actor> rootActors) { this.rootActors = rootActors; }
-        public void SetEd_actors(List<Actor> actors) { this.actors = actors; }
-        public void SetEd_reactorBodies(FOrderedDictionary<ReactorActor, Rigidbody> reactorBodies) { this.reactorBodies = reactorBodies; }
-        public void SetEd_reactorBodies2D(FOrderedDictionary<ReactorActor, Rigidbody2D> reactorBodies2D) { this.reactorBodies2D = reactorBodies2D; }
-        public void SetEd_actorColliders(FOrderedDictionary<Collider, Actor> actorColliders) { this.actorColliders = actorColliders; }
-        public void SetEd_reactorColliders(FOrderedDictionary<Collider, ReactorActor> reactorColliders) { this.reactorColliders = reactorColliders; }
-        public void SetEd_actorColliders2D(FOrderedDictionary<Collider2D, Actor> actorColliders2D) { this.actorColliders2D = actorColliders2D; }
-        public void SetEd_reactorColliders2D(FOrderedDictionary<Collider2D, ReactorActor> reactorColliders2D) { this.reactorColliders2D = reactorColliders2D; }
-        public void SetEd_actorShapes(FOrderedDictionary<FPhysicsShape, Actor> actorShapes) { this.actorShapes = actorShapes; }
-        public void SetEd_reactorShapes(FOrderedDictionary<FPhysicsShape, ReactorActor> reactorShapes) { this.reactorShapes = reactorShapes; }
-        public void SetEd_shapes(FOrderedDictionary<Collider, FPhysicsShape> shapes) { this.shapes = shapes; }
-        public void SetEd_shapes2D(FOrderedDictionary<Collider2D, FPhysicsShape> shapes2D) { this.shapes2D = shapes2D; }
-        public void SetEd_shapes_RV(FOrderedDictionary<FPhysicsShape, Collider> shapes_RV) { this.shapes_RV = shapes_RV; }
-        public void SetEd_shapes2D_RV(FOrderedDictionary<FPhysicsShape, Collider2D> shapes2D_RV) { this.shapes2D_RV = shapes2D_RV; }
-#endif
+        [SerializeField, HideInInspector] List<Actor> actors;//actor add/remove
+        [NonSerialized, HideInInspector] List<ClonedActor> clonedData;//actor remove
+        [SerializeField, HideInInspector] FOrderedDictionary<ReactorActor, Rigidbody> reactorBodies;//reactor actor add/remove
+        [SerializeField, HideInInspector] FOrderedDictionary<ReactorActor, Rigidbody2D> reactorBodies2D;//reactor actor add/remove
+        [SerializeField, HideInInspector] FOrderedDictionary<Collider, Actor> actorColliders;//reactor actor add/remove
+        [SerializeField, HideInInspector] FOrderedDictionary<Collider, ReactorActor> reactorColliders;//reactor actor add/remove
+        [SerializeField, HideInInspector] FOrderedDictionary<Collider2D, Actor> actorColliders2D;//reactor actor add/remove
+        [SerializeField, HideInInspector] FOrderedDictionary<Collider2D, ReactorActor> reactorColliders2D;//reactor actor add/remove
+        [SerializeField, HideInInspector] FOrderedDictionary<FPhysicsShape, Actor> actorShapes;//reactor actor add/remove
+        [SerializeField, HideInInspector] FOrderedDictionary<FPhysicsShape, ReactorActor> reactorShapes;//reactor actor add/remove
+        [SerializeField, HideInInspector] FOrderedDictionary<Collider, FPhysicsShape> shapes;//reactor actor add/remove
+        [SerializeField, HideInInspector] FOrderedDictionary<Collider2D, FPhysicsShape> shapes2D;//reactor actor add/remove
+        [SerializeField, HideInInspector] FOrderedDictionary<FPhysicsShape, Collider> shapes_RV;//reactor actor add/remove
+        [SerializeField, HideInInspector] FOrderedDictionary<FPhysicsShape, Collider2D> shapes2D_RV;//reactor actor add/remove
+        #endregion
 
         bool actorListDirty = false, rootActorListDirty = false;
         internal static float RawDelta, RawFixedDelta;
@@ -68,9 +54,37 @@ namespace GameplayFramework
             actorListDirty = rootActorListDirty = false;
             base.OnInit();
             instance = this;
+            var tr = transform;
+            if (pooledItems != null && pooledItems.Count > 0)
+            {
+                for (int i = 0; i < pooledItems.Count; i++)
+                {
+                    var pitem = pooledItems[i];
+                    if (pitem == null) { continue; }
+                    LoadActorPrefabForPool(pitem.Prefab, pitem.PreloadCount);
+                }
+            }
+
             for (int i = 0; i < rootActors.Count; i++)
             {
-                rootActors[i].StartActorLifeCycle(firstTimePool : false);
+                rootActors[i].StartActorLifeCycle(firstTimePool: false, shouldMarkBusy: false);
+            }
+
+            void LoadActorPrefabForPool(Actor prefab, int count)
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    var clonedGameobject = Instantiate(prefab.gameObject) as GameObject;
+                    clonedGameobject.transform.SetParent(tr, true);
+
+                    var clonedActor = clonedGameobject.GetComponent<Actor>();
+                    clonedActor.StartActorLifeCycle(firstTimePool: true, shouldMarkBusy: false);
+                    clonedActor.EndActorLifeCycle(firstTimePool: true, gameObjectDestroy: false);
+
+                    var clonedActorData = new ClonedActor { clonedActor = clonedActor, free = false, sourcePrefab = prefab };
+                    if (clonedData == null) { clonedData = new List<ClonedActor>(); }
+                    clonedData.Add(clonedActorData);
+                }
             }
         }
 
@@ -97,26 +111,53 @@ namespace GameplayFramework
         //todo when busy, the actor's root is null, otherwise child of this module for better scene organization
         internal void MarkBusy<T>(T actorInScene) where T : Actor
         {
-            //set this instance from the data list as NOT-free
+            //set in pool as NOT-free
         }
 
         internal void MarkFree<T>(T actorInScene) where T : Actor
         {
-            //set this instance from the data list as NOT-free
+            //set in pool as free
         }
 
-        public void RemoveFreeActors()
+        public static void RemoveFreeActors()
         {
-            
+            instance.actorListDirty = true;
+            instance.rootActorListDirty = true;
+            var lst = instance.clonedData;
+            var toRemove = new List<ClonedActor>();
+            if (lst != null && lst.Count > 0)
+            {
+                for(int i = 0;i < lst.Count ;i++)
+                {
+                    var item = lst[i];
+                    if (item == null || item.free == false) { continue; }
+                    toRemove.Add(item);
+                }
+            }
+
+            for (int i = 0; i < toRemove.Count; i++)
+            {
+                var item = toRemove[i];
+                if (lst != null)
+                {
+                    lst.Remove(item);
+                }
+                instance.OnDestroyActorInstance(item.clonedActor);//is it necessary to do it for each of them?
+                Destroy(item.clonedActor.gameObject);
+            }
+
+            //remove all free entry from "instance.clonedData"
+
+            //destroy those actor gameobjects
+            instance.actorListDirty = false;
+            instance.rootActorListDirty = false;
         }
 
         internal void OnDestroyActorInstance<T>(T actor) where T : Actor
         {
-            //dictionary and map data patch todo
-            //dictionary access ta dirty flag dia control todo
-            //pooled list e ei actor prefab or cloned ta jetay ase oi entry delete dirty flag dia todo
-            //ei actor er related child actor list patch todo
-            //ei actor global root actor and total actor list patch todo
+            
         }
+
+        
     }
 }

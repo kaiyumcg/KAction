@@ -126,8 +126,8 @@ namespace GameplayFramework
                 var cloned = Instantiate(prefab.gameObject) as GameObject;
                 freeActor = cloned.GetComponent<T>();
                 freeActorObject = new ClonedActor { clonedActor = freeActor, free = false, sourcePrefab = prefab };
-                if (clonedList == null) { clonedList = new List<ClonedActor>(); }
-                clonedList.Add(freeActorObject);
+                if (instance.clonedData == null) { instance.clonedData = new List<ClonedActor>(); }
+                instance.clonedData.Add(freeActorObject);
             }
 
             T result = freeActor;
@@ -164,7 +164,7 @@ namespace GameplayFramework
                 }
                 tr.localScale = overrideScale;
             }
-            freeActorObject.clonedActor.StartActorLifeCycle(firstTimePool : false);
+            freeActorObject.clonedActor.StartActorLifeCycle(firstTimePool : false, shouldMarkBusy : false);
             return result;
         }
     }

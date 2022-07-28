@@ -4,76 +4,76 @@ using UnityEngine;
 
 namespace GameplayFramework
 {
-    public static class ActorForceExt
+    public abstract partial class Actor : MonoBehaviour
     {
-        public static void Jump(this Actor actor, Vector3 direction, float height, OnDoAnything OnComplete = null, bool acceleration = true)
+        public void Jump(Vector3 direction, float height, OnDoAnything OnComplete = null, bool acceleration = true)
         {
             throw new System.NotImplementedException();
         }
 
-        public static void Helix(this Actor actor, Vector3 direction, float height, float within, OnDoAnything OnComplete = null, bool revertBack = true)
+        public void Helix(Vector3 direction, float height, float within, OnDoAnything OnComplete = null, bool revertBack = true)
         {
             throw new System.NotImplementedException();
         }
 
-        public static void TurnTo(this Actor actor, Actor to, float within, OnDoAnything OnComplete = null, ActorForceEase ease = ActorForceEase.Linear)
+        public void TurnTo(Actor to, float within, OnDoAnything OnComplete = null, ActorForceEase ease = ActorForceEase.Linear)
         {
             throw new System.NotImplementedException();
         }
 
-        public static void MoveTo(this Actor actor, Actor to, float within, OnDoAnything OnComplete = null, ActorForceEase ease = ActorForceEase.Linear)
+        public void MoveTo(Actor to, float within, OnDoAnything OnComplete = null, ActorForceEase ease = ActorForceEase.Linear)
         {
             throw new System.NotImplementedException();
         }
 
-        public static void TurnTo(this Actor actor, Vector3 to, float within, OnDoAnything OnComplete = null, ActorForceEase ease = ActorForceEase.Linear)
+        public void TurnTo(Vector3 to, float within, OnDoAnything OnComplete = null, ActorForceEase ease = ActorForceEase.Linear)
         {
             throw new System.NotImplementedException();
         }
 
-        public static void MoveTo(this Actor actor, Vector3 to, float within, OnDoAnything OnComplete = null, ActorForceEase ease = ActorForceEase.Linear)
+        public void MoveTo(Vector3 to, float within, OnDoAnything OnComplete = null, ActorForceEase ease = ActorForceEase.Linear)
         {
             throw new System.NotImplementedException();
         }
 
-        public static void Thurst(this Actor actor, Vector3 direction, float initialBackwardTime, float restTime, OnDoAnything OnComplete = null)
+        public void Thurst(Vector3 direction, float initialBackwardTime, float restTime, OnDoAnything OnComplete = null)
         {
             throw new System.NotImplementedException();
         }
 
-        public static void Swirl(this Actor actor, Vector3 singularityPosition, float centerTime, float upwardFactor, OnDoAnything OnComplete = null)
+        public void Swirl(Vector3 singularityPosition, float centerTime, float upwardFactor, OnDoAnything OnComplete = null)
         {
             throw new System.NotImplementedException();
         }
 
-        public static void Pop(this Actor actor, float popTime, float rubberness, OnDoAnything OnComplete = null)
+        public void Pop(float popTime, float rubberness, OnDoAnything OnComplete = null)
         {
             throw new System.NotImplementedException();
         }
 
-        public static void SpringRelease(this Actor actor, Vector3 direction, float force, OnDoAnything OnComplete = null)
+        public void SpringRelease(Vector3 direction, float force, OnDoAnything OnComplete = null)
         {
             throw new System.NotImplementedException();
         }
 
-        public static void Summon(this Actor actor, Vector3 direction, Vector3 position, float force, OnDoAnything OnComplete = null)
+        public void Summon(Vector3 direction, Vector3 position, float force, OnDoAnything OnComplete = null)
         {
             throw new System.NotImplementedException();
         }
 
-        public static void Summon(this Actor actor, Vector3 position, float force, OnDoAnything OnComplete = null)
+        public void Summon(Vector3 position, float force, OnDoAnything OnComplete = null)
         {
             throw new System.NotImplementedException();
         }
 
-        public static void Shake(this Actor actor, float shakeDuration, float decreasePoint, OnDoAnything OnComplete = null, bool is2D = false)
+        public void Shake(float shakeDuration, float decreasePoint, OnDoAnything OnComplete = null, bool is2D = false)
         {
-            if (actor.isShaking)
+            if (isShaking)
             {
                 return;
             }
-            actor.isShaking = true;
-            actor.StartCoroutine(shakeGameObjectCOR(actor._Transform, shakeDuration, decreasePoint, is2D));
+            isShaking = true;
+            StartCoroutine(shakeGameObjectCOR(_transform, shakeDuration, decreasePoint, is2D));
 
             IEnumerator shakeGameObjectCOR(Transform objTransform, float totalShakeDuration, float decreasePoint, bool objectIs2D = false)
             {
@@ -155,37 +155,37 @@ namespace GameplayFramework
                 }
                 objTransform.position = defaultPos; //Reset to original postion
                 objTransform.rotation = defaultRot;//Reset to original rotation
-                actor.isShaking = false; //So that we can call this function next time
+                isShaking = false; //So that we can call this function next time
                 OnComplete?.Invoke();
             }
         }
 
-        public static void HangStill(this Actor actor, Vector3 origin, float randomness, Vector3 direction)
+        public void HangStill(Vector3 origin, float randomness, Vector3 direction)
         {
             throw new System.NotImplementedException();
         }
 
-        public static void HangStill(this Actor actor, Vector3 origin, float randomness)
+        public void HangStill(Vector3 origin, float randomness)
         {
             throw new System.NotImplementedException();
         }
 
-        public static void Swing(this Actor actor, Vector3 originPosition, Vector3 centerPosition, Vector3 direction, float angleInDegree, OnDoAnything OnComplete = null)
+        public void Swing(Vector3 originPosition, Vector3 centerPosition, Vector3 direction, float angleInDegree, OnDoAnything OnComplete = null)
         {
             throw new System.NotImplementedException();
         }
 
-        public static void Brownian(this Actor actor, float force, float spread, Vector3 plane)
+        public void Brownian(float force, float spread, Vector3 plane)
         {
             throw new System.NotImplementedException();
         }
 
-        public static void Brownian(this Actor actor, float force, float spread)
+        public void Brownian(float force, float spread)
         {
             throw new System.NotImplementedException();
         }
 
-        public static void RubberBandFollow(this Actor actor, Actor to, float followSpeed, float rubberness)
+        public void RubberBandFollow(Actor to, float followSpeed, float rubberness)
         {
             throw new System.NotImplementedException();
         }

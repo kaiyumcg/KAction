@@ -7,17 +7,18 @@ namespace GameplayFramework
 {
     public abstract partial class Actor : MonoBehaviour
     {
-        //todo already actor level module's clone method sets the free flag accordingly, should it do it again?
-        //todo what will be the lifecycle of actors already builtin in the scene vs those that are cloned by ActorLevelModule
-        //vs those that are reborn. How the child actors will be affected by these operations?
-        //todo clone by type of actor. i.e. Clone<T>()
-        //todo lifecycle check
+        //todo when actor or level module or actor level module or game level 's data should be patched in runtime? check it
+        //and which and which data?
+
+        //todo change parent-child of actor and set owner
+        //todo patch map data for actor stream scripts(Actor, GameplayComponent, Level Module, Game Level etc)
+
+
         //todo data layer
         //todo visibility
 
-        //todo component add/remove
-        //todo change parent-child of actor and set owner
-        //todo patch map data for actor stream scripts(Actor, GameplayComponent, Level Module, Game Level etc)
+        //todo editor tool to check prefab validity, referenced prefab must reside in asset folder and not in the scene
+        //also editor tool make sure all scene actor and prefab actors have valid up to date baked data(on prebuild or on pre-post-compile etc?)
 
         internal void StartActorLifeCycle(bool firstTimePool, bool shouldMarkBusy)
         {
@@ -52,7 +53,7 @@ namespace GameplayFramework
             }
         }
 
-        internal void EndActorLifeCycle(bool gameObjectDestroy, bool firstTimePool)
+        internal void EndActorLifeCycle(bool firstTimePool, bool gameObjectDestroy)
         {
             StopAllCoroutines();
             deathStarted = true;
@@ -69,7 +70,7 @@ namespace GameplayFramework
             
             for (int i = 0; i < childActors.Count; i++)
             {
-                childActors[i].EndActorLifeCycle(gameObjectDestroy, firstTimePool);
+                childActors[i].EndActorLifeCycle(firstTimePool : firstTimePool, gameObjectDestroy : gameObjectDestroy);
             }
 
             if(firstTimePool == false)

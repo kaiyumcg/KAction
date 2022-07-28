@@ -10,7 +10,7 @@ namespace GameplayFramework
         public void Reborn() 
         {
             if (!isDead || !gameplayRun || deathStarted) { return; }
-            StartActorLifeCycle(firstTimePool : false);
+            StartActorLifeCycle(firstTimePool : false, shouldMarkBusy : true);
         }
 
         public void Murder(bool obliterate = false, bool asyncDeathScriptSupport = true, bool childDeathOneAfterAnother = false, OnDoAnything OnComplete = null)
@@ -53,7 +53,7 @@ namespace GameplayFramework
                 }
 
                 OnComplete?.Invoke();
-                EndActorLifeCycle(destroyCompletely, firstTimePool: false);
+                EndActorLifeCycle(firstTimePool: false, gameObjectDestroy : destroyCompletely);
             }
         }
 

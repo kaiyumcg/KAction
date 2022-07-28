@@ -29,7 +29,7 @@ namespace GameplayFramework
         GameLevel gameMan;
         bool addedController = false;
 
-        protected internal override void OnEndActor()
+        protected override void OnEndActor()
         {
             if (gameMan.HasLevelGameplayBeenStarted == false || gameMan.HasLevelGameplayBeenEnded)
             {
@@ -58,7 +58,7 @@ namespace GameplayFramework
             }
         }
 
-        protected internal override void OnStartActor()
+        protected override void OnStartActor()
         {
             if (onUpdateScore == null) { onUpdateScore = new UnityEvent<int>(); }
             base.OnStartActor();

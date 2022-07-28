@@ -106,6 +106,7 @@ namespace GameplayFramework
             holderTr.localScale = Vector3.one;
             T t = holderObject.AddComponent<T>();
             t.isDynamic = true;
+            t.dynamicFlag = new NullChecker();
             gameplayComponents.Add(t);
             componentListDirty = false;
             return t;
@@ -113,11 +114,13 @@ namespace GameplayFramework
 
         public void RemoveActorComponent<T>(T t) where T : GameplayComponent
         {
-            if (t.isDynamic == false)
+#if GF_DEBUG
+            if (t.isDynamic == false && t.dynamicFlag == null)
             {
                 KLog.PrintError("Only Actor Component can be removed!");
                 return;
             }
+#endif
             componentListDirty = true;
             if (gameplayComponents.Contains(t)) { gameplayComponents.Remove(t); }
             Actor.Destroy(t.gameObject);

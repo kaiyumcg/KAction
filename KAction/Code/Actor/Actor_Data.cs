@@ -7,23 +7,26 @@ namespace GameplayFramework
 {
     public abstract partial class Actor : MonoBehaviour
     {
+        #region BakeFields
         /// <summary>
         /// Preloaded data by editor tools
         /// </summary>
-        [SerializeField] List<GameplayComponent> gameplayComponents;
+        [SerializeField] protected internal List<GameplayComponent> gameplayComponents;
         [SerializeField, HideInInspector] Transform _transform;
         [SerializeField, HideInInspector] GameObject _gameobject;
-        [SerializeField, HideInInspector] bool isRoot = true;
+        [SerializeField, HideInInspector] bool isRoot = true;//child-parent relation change
         [SerializeField, HideInInspector] GameLevel level;
-        [SerializeField, HideInInspector] List<Actor> childActors;
-        [SerializeField, HideInInspector] Actor owner = null;
+        [SerializeField, HideInInspector] List<Actor> childActors;//child-parent relation change
+        [SerializeField, HideInInspector] Actor owner = null;//child-parent relation change
+        #endregion
 
         /// <summary>
         /// Actor Options for editor inspector
         /// </summary>
         [SerializeField] ActorType mType = ActorType.Player;
-        [SerializeField] float life = 100f, timeScale = 1.0f;
-        [SerializeField] List<GameplayTag> tags = null;
+        [SerializeField] float life = 100f;
+        [SerializeField] internal float timeScale = 1.0f;
+        [SerializeField] internal List<GameplayTag> tags = null;
 
         /// <summary>
         /// Property data
@@ -39,8 +42,9 @@ namespace GameplayFramework
             isThursting = false, isSwirling = false, isPoping = false, isSpringReleasing = false,
             isSummoning = false, isShaking = false, isStillHanging = false, isSwinging = false,
             isBrownianDoing = false, isRubberBandFollowing = false;
+        protected internal bool componentListDirty = false;
 
-        bool componentListDirty = false, childActorListDirty = false, gameplayRun = false, 
+        bool childActorListDirty = false, gameplayRun = false, 
             isActorPaused = false, deathStarted = false, isDead = false;
         float prePausedTimeScale = 1.0f, initialLife = 100.0f, initialTimeScale = 1.0f;
         NullChecker nuller = null;

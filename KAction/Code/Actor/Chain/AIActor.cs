@@ -16,7 +16,7 @@ namespace GameplayFramework
         GameLevel gameMan;
         bool addedController = false;
 
-        protected internal override void OnEndActor()
+        protected override void OnEndActor()
         {
             if (gameMan.HasLevelGameplayBeenStarted == false || gameMan.HasLevelGameplayBeenEnded)
             {
@@ -44,7 +44,7 @@ namespace GameplayFramework
             }
         }
 
-        protected internal override void OnStartActor()
+        protected override void OnStartActor()
         {
             base.OnStartActor();
             gameMan = FindObjectOfType<GameLevel>();

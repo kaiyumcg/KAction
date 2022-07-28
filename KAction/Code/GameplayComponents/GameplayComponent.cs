@@ -25,6 +25,7 @@ namespace GameplayFramework
         protected internal virtual IEnumerator OnStopActorHitAsync(ReactorActor rival, FPhysicsShape rivalShape, FPhysicsShape ownShape) { yield return null; }
         [SerializeField] internal GameplayTag componentTag;
         [System.NonSerialized, HideInInspector] internal bool isDynamic = false, canTick = true;
+        [System.NonSerialized, HideInInspector] internal NullChecker dynamicFlag = null;
         public bool CanTick { get { return canTick; } set { canTick = value; } }
 
         internal void SetOwner(Actor actor)
