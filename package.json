@@ -17,6 +17,8 @@
 	"com.kaiyum.neuron": "https://github.com/kaiyumcg/Neuron.git",
 	"com.kaiyum.uif": "https://github.com/kaiyumcg/UIF.git",
 	"com.kaiyum.uitween": "https://github.com/kaiyumcg/UITween.git",
-	"com.kaiyum.vortex": "https://github.com/kaiyumcg/Vortex.git#dev_rumman"
+	"com.kaiyum.vortex": "https://github.com/kaiyumcg/Vortex.git#dev_rumman",
+	"com.kaiyum.ksavedatamanager": "https://github.com/kaiyumcg/KSaveDataManager.git",
+	"com.kaiyum.kdata": "https://github.com/kaiyumcg/KData.git"
   }
 }
