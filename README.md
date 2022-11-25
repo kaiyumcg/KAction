@@ -3,3 +3,10 @@ Gameplay framework inspired by UE4's actor/gameplay components for building acti
 
 Current documentation: https://docs.google.com/document/d/1vWu8L6ZGR5pWB9yHHOiJob_mIBthxz6s-_bF1yar2fI/edit?usp=sharing
 A sample project that uses this framework: https://github.com/kaiyumcg/asteroid-game
+
+
+#### Installation:
+* Add an entry in your manifest.json as follows:
+```C#
+"com.kaiyum.kaction": "https://github.com/kaiyumcg/KAction.git"
+```
