@@ -2,11 +2,11 @@
     "name": "KAction",
     "rootNamespace": "",
     "references": [
-        "SaveDataMan",
         "Textus.SerializeReferenceUI",
         "DOTween.Modules",
         "XNode",
-        "UnityExt"
+        "UnityExt",
+        "KSaveDataManager"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
