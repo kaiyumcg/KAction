@@ -44,7 +44,7 @@ namespace GameplayFramework
             {
                 var lData = new LogDataOptimal
                 {
-                    isServer = GameLevel.Instance.IsServer(),
+                    isServer = false, //GameLevel.Instance.IsServer(),
                     logType = logType,
                     message = msg,
                     stackTrace = Environment.StackTrace
@@ -58,7 +58,7 @@ namespace GameplayFramework
                 {
                     frameCount = Time.frameCount,
                     gameTime = Time.time,
-                    isServer = GameLevel.Instance.IsServer(),
+                    isServer = false, //GameLevel.Instance.IsServer(),
                     levelClassName = GameLevel.Instance.GetType().Name,
                     logType = logType,
                     message = msg,

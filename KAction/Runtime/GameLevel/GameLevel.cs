@@ -304,11 +304,13 @@ namespace GameplayFramework
 
         void Update()
         {
+            delta = Time.deltaTime;
+            fixedDelta = Time.fixedDeltaTime;
             if (isPlayingCutScene || lvGameplayStarted == false || lvGameplayEnded || isPaused || stopped) { return; }
-            OnTick();
+            OnTick(delta);
             for (int i = 0; i < levelModules.Count; i++)
             {
-                levelModules[i].OnTick();
+                levelModules[i].OnTick(delta);
             }
         }
 
@@ -316,12 +318,25 @@ namespace GameplayFramework
         void FixedUpdate()
         {
             if (isPlayingCutScene || lvGameplayStarted == false || lvGameplayEnded || isPaused || stopped) { return; }
-            OnPhysxTick();
+            OnPhysxTick(Time.deltaTime, Time.fixedDeltaTime);
             for (int i = 0; i < levelModules.Count; i++)
             {
-                levelModules[i].OnPhysicsTick();
+                levelModules[i].OnPhysicsTick(Time.deltaTime, Time.fixedDeltaTime);
             }
         }
 #endif
+
+#if !GF_DISABLE_END_FRAME_WORK
+        void LateUpdate()
+        {
+            if (isPlayingCutScene || lvGameplayStarted == false || lvGameplayEnded || isPaused || stopped) { return; }
+            OnEndFrameTick(Time.deltaTime);
+            for (int i = 0; i < levelModules.Count; i++)
+            {
+                levelModules[i].OnPhysicsTick(Time.deltaTime, Time.fixedDeltaTime);
+            }
+        }
+#endif
+
     }
 }

@@ -6,7 +6,7 @@
         "Textus.SerializeReferenceUI",
         "DOTween.Modules",
         "XNode",
-        "XNodeEditor"
+        "UnityExt"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

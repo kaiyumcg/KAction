@@ -6,15 +6,6 @@ namespace GameplayFramework
 {
     public partial class GameLevel : MonoBehaviour
     {
-        internal bool IsServer()
-        {
-#if KML_SUPPORT
-            return false;//todo IsHost() or IsServer() from netcode for gameobject
-#else
-            return false; 
-#endif
-        }
-
         public static GameLevel Instance
         {
             get

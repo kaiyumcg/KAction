@@ -14,8 +14,9 @@ namespace GameplayFramework
         public void SetEd_level(GameLevel level) { this.level = level; }
 #endif
         protected internal virtual void OnInit() { }
-        protected internal abstract void OnTick();
-        protected internal abstract void OnPhysicsTick();
+        protected internal abstract void OnTick(float delta);
+        protected internal abstract void OnPhysicsTick(float delta, float physxDelta);
+        protected internal virtual void OnEndFrameTick(float delta) { }
         protected internal virtual void OnPause() { }
         protected internal virtual void OnResume() { }
         protected internal virtual void OnCustomTimeDilation(float slowDown) { }//todo time reverse?

@@ -88,7 +88,7 @@ namespace GameplayFramework
             }
         }
 
-        protected internal override void OnTick()
+        protected internal override void OnTick(float delta)
         {
             if (rootActorListDirty) { return; }
             RawDelta = Time.deltaTime;
@@ -99,7 +99,7 @@ namespace GameplayFramework
             }
         }
 
-        protected internal override void OnPhysicsTick()
+        protected internal override void OnPhysicsTick(float delta, float physxDelta)
         {
             if (rootActorListDirty) { return; }
             for (int i = 0; i < rootActors.Count; i++)
