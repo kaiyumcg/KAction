@@ -19,6 +19,11 @@
 	"com.kaiyum.uitween": "https://github.com/kaiyumcg/UITween.git",
 	"com.kaiyum.vortex": "https://github.com/kaiyumcg/Vortex.git#dev_rumman",
 	"com.kaiyum.ksavedatamanager": "https://github.com/kaiyumcg/KSaveDataManager.git",
-	"com.kaiyum.kdata": "https://github.com/kaiyumcg/KData.git"
+	"com.kaiyum.kdata": "https://github.com/kaiyumcg/KData.git",
+	"com.kaiyum.ktaskgraph": "https://github.com/kaiyumcg/KTaskGraph.git",
+	"com.kaiyum.ktween": "https://github.com/kaiyumcg/KTween.git",
+	"com.kaiyum.ktaskmanager": "https://github.com/kaiyumcg/KTaskManager.git",
+	"com.kaiyum.ktagsystem": "https://github.com/kaiyumcg/KTagSystem.git",
+	"com.kaiyum.kpoolmanager": "https://github.com/kaiyumcg/KPoolManager.git"
   }
 }
