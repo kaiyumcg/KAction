@@ -8,7 +8,7 @@ A sample project that uses this framework: https://github.com/kaiyumcg/asteroid-
 #### Installation:
 * Add the entries in your manifest.json as follows:
 ```C#
-  "com.unity.playablegraph-visualizer": "https://github.com/kaiyumcg/graph-visualizer.git",
+        "com.unity.playablegraph-visualizer": "https://github.com/kaiyumcg/graph-visualizer.git",
 	"com.kaiyum.pathcreator": "https://github.com/kaiyumcg/Path-Creator.git",
 	"com.github.siccity.xnode": "https://github.com/siccity/xNode.git",
 	"com.kaiyum.attributeext" : "https://github.com/kaiyumcg/attributeext.git",
