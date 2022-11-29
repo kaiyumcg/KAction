@@ -1,6 +1,6 @@
 {
   "name": "com.kaiyum.kaction",
-  "author": "Md Al Kaiyum (Rumman)",
+  "author": "Md Al Kaiyum",
   "displayName": "KAction",
   "version": "1.0.0",
   "unity": "2018.3",
@@ -12,7 +12,6 @@
   "dependencies": {
 	"com.github.siccity.xnode": "https://github.com/siccity/xNode.git",
 	"com.kaiyum.unityext": "https://github.com/kaiyumcg/UnityExt.git",
-	"com.textus-games.serialized-reference-ui": "https://github.com/kaiyumcg/UnitySerializedReferenceUI.git",
 	"com.kaiyum.adrenaline": "https://github.com/kaiyumcg/Adrenaline.git",
 	"com.kaiyum.neuron": "https://github.com/kaiyumcg/Neuron.git",
 	"com.kaiyum.uif": "https://github.com/kaiyumcg/UIF.git",
