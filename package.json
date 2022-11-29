@@ -9,20 +9,24 @@
   "keywords": [
     "Gameplay framework"
   ],
-  "dependencies": {
-	"com.github.siccity.xnode": "https://github.com/siccity/xNode.git",
-	"com.kaiyum.unityext": "https://github.com/kaiyumcg/UnityExt.git",
-	"com.kaiyum.adrenaline": "https://github.com/kaiyumcg/Adrenaline.git",
-	"com.kaiyum.neuron": "https://github.com/kaiyumcg/Neuron.git",
-	"com.kaiyum.uif": "https://github.com/kaiyumcg/UIF.git",
-	"com.kaiyum.uitween": "https://github.com/kaiyumcg/UITween.git",
-	"com.kaiyum.vortex": "https://github.com/kaiyumcg/Vortex.git#dev_rumman",
-	"com.kaiyum.ksavedatamanager": "https://github.com/kaiyumcg/KSaveDataManager.git",
-	"com.kaiyum.kdata": "https://github.com/kaiyumcg/KData.git",
-	"com.kaiyum.ktaskgraph": "https://github.com/kaiyumcg/KTaskGraph.git",
-	"com.kaiyum.ktween": "https://github.com/kaiyumcg/KTween.git",
-	"com.kaiyum.ktaskmanager": "https://github.com/kaiyumcg/KTaskManager.git",
-	"com.kaiyum.ktagsystem": "https://github.com/kaiyumcg/KTagSystem.git",
-	"com.kaiyum.kpoolmanager": "https://github.com/kaiyumcg/KPoolManager.git"
-  }
+	"dependencies": {
+		"com.kaiyum.attributeext": "https://github.com/kaiyumcg/AttributeExt.git",
+		"com.kaiyum.unityext": "https://github.com/kaiyumcg/UnityExt.git",
+		"com.kaiyum.pathcreator": "https://github.com/kaiyumcg/Path-Creator.git",
+		"com.kaiyum.editorutil": "https://github.com/kaiyumcg/EditorUtil.git",
+		"com.github.siccity.xnode": "https://github.com/siccity/xNode.git",
+		"com.unity.playablegraph-visualizer": "https://github.com/kaiyumcg/graph-visualizer.git",
+		"com.kaiyum.adrenaline": "https://github.com/kaiyumcg/Adrenaline.git",
+		"com.kaiyum.kdata": "https://github.com/kaiyumcg/KData.git",
+		"com.kaiyum.kpoolmanager": "https://github.com/kaiyumcg/KPoolManager.git",
+		"com.kaiyum.ksavedatamanager": "https://github.com/kaiyumcg/KSaveDataManager.git",
+		"com.kaiyum.ktagsystem": "https://github.com/kaiyumcg/KTagSystem.git",
+		"com.kaiyum.ktaskgraph": "https://github.com/kaiyumcg/KTaskGraph.git",
+		"com.kaiyum.ktaskmanager": "https://github.com/kaiyumcg/KTaskManager.git",
+		"com.kaiyum.ktween": "https://github.com/kaiyumcg/KTween.git",
+		"com.kaiyum.neuron": "https://github.com/kaiyumcg/Neuron.git",
+		"com.kaiyum.uif": "https://github.com/kaiyumcg/UIF.git",
+		"com.kaiyum.uitween": "https://github.com/kaiyumcg/UITween.git",
+		"com.kaiyum.vortex": "https://github.com/kaiyumcg/Vortex.git#dev_rumman"
+	}
 }

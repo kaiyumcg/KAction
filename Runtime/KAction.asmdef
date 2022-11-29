@@ -2,9 +2,10 @@
     "name": "KAction",
     "rootNamespace": "",
     "references": [
-        "XNode",
-        "Adrenaline",
         "AttributeExt",
+        "UnityExt",
+        "PathCreator",
+        "Adrenaline",
         "KData",
         "KPoolManager",
         "KSaveDataManager",
@@ -13,11 +14,10 @@
         "KTaskManager",
         "KTween",
         "Neuron",
-        "PathCreator",
         "UIF",
         "UITween",
-        "UnityExt",
-        "Vortex"
+        "Vortex",
+        "XNode"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -2,9 +2,10 @@
     "name": "KActionEditor",
     "rootNamespace": "",
     "references": [
+        "KAction",
+        "EditorUtil",
         "XNode",
-        "XNodeEditor",
-        "KAction"
+        "XNodeEditor"
     ],
     "includePlatforms": [
         "Editor"
