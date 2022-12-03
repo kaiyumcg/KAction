@@ -2,7 +2,7 @@
 	"name": "com.kaiyum.kaction",
 	"displayName": "KAction",
 	"version": "1.0.0",
-	"unity": "2020.3.20f1",
+	"unity": "2020.3",
 	"description": "Gameplay framework to build games using unity engine.",
 	"licence": "MIT",
 	"category": "Unity",
