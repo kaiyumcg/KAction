@@ -14,7 +14,7 @@
 		"url": "https://github.com/kaiyumcg"
 	},
 	"dependencies": {
-		"com.kaiyum.attributeext": "https://github.com/kaiyumcg/AttributeExt.git",
+		"com.kaiyum.attributeext2": "https://github.com/kaiyumcg/NaughtyAttributes",
 		"com.kaiyum.unityext": "https://github.com/kaiyumcg/UnityExt.git",
 		"com.kaiyum.pathcreator": "https://github.com/kaiyumcg/Path-Creator.git",
 		"com.kaiyum.editorutil": "https://github.com/kaiyumcg/EditorUtil.git",

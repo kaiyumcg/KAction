@@ -13,7 +13,7 @@ A sample project that uses this framework: https://github.com/kaiyumcg/asteroid-
 
 Since unity does not support git dependencies, you need the following entries as well:
 ```C#
-"com.kaiyum.attributeext" : "https://github.com/kaiyumcg/AttributeExt.git",
+"com.kaiyum.attributeext2": "https://github.com/kaiyumcg/NaughtyAttributes",
 "com.kaiyum.unityext": "https://github.com/kaiyumcg/UnityExt.git",
 "com.kaiyum.pathcreator": "https://github.com/kaiyumcg/Path-Creator.git",
 "com.kaiyum.editorutil": "https://github.com/kaiyumcg/EditorUtil.git",

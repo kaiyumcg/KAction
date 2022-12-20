@@ -2,7 +2,7 @@
     "name": "KAction",
     "rootNamespace": "",
     "references": [
-        "AttributeExt",
+        "AttributeExt2",
         "UnityExt",
         "PathCreator",
         "Adrenaline",
